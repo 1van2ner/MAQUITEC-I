@@ -1,0 +1,21 @@
+:root {
+  --color-primario: #FFCC00;
+  --color-texto: #212121;
+}
+
+.grid-mision-vision {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background-color: var(--color-primario);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.card h3 {
+  color: var(--color-texto);
+  font-weight: bold;
+}
