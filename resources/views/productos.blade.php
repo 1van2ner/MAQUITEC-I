@@ -199,27 +199,35 @@
         </div>
 
     </section>
-    <footer id="contacto">  
+    <footer id="contacto">
         <div class="footer-grid">
-            <div>
+            <div class="footer-contact">
                 <h3>Contacto</h3>
-                <p>Av. San Agustín SMP, Lima, Perú</p>
-                <p>Teléfono: 963727185 / 987654321</p>
-                <p>Email: info@maquitec.com</p>
+                <address>
+                    <p>Av. San Agustín SMP, Lima, Perú</p>
+                    <p>Tel: <a href="tel:+51963727185">963 727 185</a> &nbsp;|&nbsp; <a href="tel:+51987654321">987 654 321</a></p>
+                    <p>Email: <a href="mailto:info@maquitec.com">info@maquitec.com</a></p>
+                </address>
             </div>
-            <div>
+
+            <div class="footer-links">
                 <h3>Enlaces rápidos</h3>
-                <p><a href="/">Inicio</a></p>
-                <p><a href="/productos">Productos</a></p>
-                <p><a href="/servicios">Servicios</a></p>
+                <ul>
+                    <li><a href="/">Inicio</a></li>
+                    <li><a href="/nosotros">Nosotros</a></li>
+                    <li><a href="/productos">Productos</a></li>
+                    <li><a href="/servicios">Servicios</a></li>
+                </ul>
             </div>
-            <div>
+
+            <div class="footer-social">
                 <h3>Síguenos</h3>
                 <p>Puedes contactarnos en nuestras redes sociales y obtener más información sobre nuestros productos y servicios.</p>
                 <p>IG: @maquitec'i s.a.c.</p>
                 <p>FB: @maquitec'i s.a.c.</p>
             </div>
         </div>
+
         <div class="footer-bottom">© 2026 MAQUITEC I.S.A.C. — Todas las marcas usadas pertenecen a sus respectivos propietarios.</div>
     </footer>
 </body>
