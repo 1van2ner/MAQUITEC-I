@@ -41,7 +41,8 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-av
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 # 10. Habilitar mod_rewrite de Apache para las rutas de Laravel
-RUN a2enmod rewrite
+RUN a2enmod rewrite \
+    && sed -ri 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
 # 11. Exponer el puerto por defecto
 EXPOSE 80
