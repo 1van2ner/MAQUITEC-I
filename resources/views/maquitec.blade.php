@@ -95,6 +95,24 @@
             gap: 28px;
         }
 
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            padding: 6px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--blanco);
+            border-radius: 999px;
+        }
+
         .menu a {
             display: inline-flex;
             align-items: center;
@@ -229,6 +247,32 @@
         }
 
         .hero-cta a:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
+
+        @media (max-width: 900px) {
+            nav { flex-wrap: wrap; gap: 12px; }
+            .menu-toggle { display: inline-flex; }
+            .menu {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                padding-top: 8px;
+            }
+            .menu.open { display: flex; }
+            .menu a { width: 100%; min-width: 0; }
+            .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 640px) {
+            .top-bar { justify-content: center; text-align: center; }
+            .logo { width: 100%; justify-content: space-between; }
+            .cards { grid-template-columns: 1fr; }
+            .hero { min-height: 460px; }
+            .hero-inner { padding: 0 20px; }
+            .seccion { padding: 60px 20px; }
+        }
 
         .seccion {
             padding: 80px 6%;
@@ -521,6 +565,9 @@
             </div>
         </div>
 
+        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
         <div class="menu">
             <a href="/">Inicio</a>
             <a href="/nosotros">Nosotros</a>
@@ -645,6 +692,16 @@
         const partnerTrack = document.querySelector('.partner-track');
         const partnerLeft = document.querySelector('.partner-arrow-left');
         const partnerRight = document.querySelector('.partner-arrow-right');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const menu = document.querySelector('.menu');
+
+        if (menuToggle && menu) {
+            menuToggle.addEventListener('click', function () {
+                const isOpen = menu.classList.toggle('open');
+                menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+            });
+        }
 
         if (partnerTrack && partnerLeft && partnerRight) {
             const getScrollAmount = () => Math.max(220, Math.round(partnerTrack.clientWidth * 0.7));

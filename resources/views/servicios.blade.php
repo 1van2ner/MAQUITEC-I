@@ -18,6 +18,16 @@
         .logo-text strong { font-size: 1.25rem; color: var(--amarillo); letter-spacing: 0.06em; }
         .logo-text span { color: var(--blanco); font-size: 0.95rem; }
         .menu { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            padding: 6px;
+        }
+        .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--blanco); border-radius: 999px; }
         .menu a {
             display: inline-flex;
             align-items: center;
@@ -98,7 +108,16 @@
         .footer-grid h3 { color: var(--amarillo); }
         .footer-grid p, .footer-grid a { color: #ccc; line-height: 1.8; }
         .footer-bottom { margin-top: 24px; text-align: center; color: #777; }
-        @media (max-width: 960px) { .service-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 960px) {
+            nav { flex-wrap: wrap; gap: 12px; }
+            .menu-toggle { display: inline-flex; }
+            .menu { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 10px; padding-top: 8px; }
+            .menu.open { display: flex; }
+            .menu a { width: 100%; min-width: 0; }
+            .service-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 680px) { .top-bar, nav { padding-left: 16px; padding-right: 16px; } .hero { min-height: 380px; } }
     </style>
 </head>
 <body>
@@ -112,6 +131,9 @@
             <img src="img/logo_maquitec.jpg" alt="Logo Maquitec">
             <div class="logo-text"><strong>MAQUITEC I.S.A.C.</strong><span>Soluciones industriales en movimiento</span></div>
         </div>
+        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
         <div class="menu">
             <a href="/">Inicio</a>
             <a href="/nosotros">Nosotros</a>
@@ -170,5 +192,17 @@
 
         <div class="footer-bottom">© 2026 MAQUITEC I.S.A.C. — Todas las marcas usadas pertenecen a sus respectivos propietarios.</div>
     </footer>
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const menu = document.querySelector('.menu');
+
+        if (toggle && menu) {
+            toggle.addEventListener('click', function () {
+                const isOpen = menu.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+            });
+        }
+    </script>
 </body>
 </html>

@@ -49,6 +49,16 @@
         .logo-text span { font-size: 0.95rem; color: var(--blanco); }
 
         .menu { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            padding: 6px;
+        }
+        .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--blanco); border-radius: 999px; }
         .menu a {
             display: inline-flex;
             align-items: center;
@@ -146,8 +156,16 @@
         .footer-grid p, .footer-grid a { color: #bbb; line-height: 1.8; font-size: 0.95rem; }
         .footer-bottom { margin-top: 30px; text-align: center; font-size: 0.9rem; color: #777; }
 
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
-        @media (max-width: 680px) { .top-bar, nav { padding-left: 16px; padding-right: 16px; } .menu { gap: 14px; } }
+        @media (max-width: 900px) {
+            nav { flex-wrap: wrap; gap: 12px; }
+            .menu-toggle { display: inline-flex; }
+            .menu { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 10px; padding-top: 8px; }
+            .menu.open { display: flex; }
+            .menu a { width: 100%; min-width: 0; }
+            .grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 680px) { .top-bar, nav { padding-left: 16px; padding-right: 16px; } .menu { gap: 14px; } .hero { min-height: 380px; } }
     </style>
 </head>
 <body>
@@ -165,6 +183,9 @@
                 <span>Soluciones industriales en movimiento</span>
             </div>
         </div>
+        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
         <div class="menu">
             <a href="/">Inicio</a>
             <a href="/nosotros" class="active">Nosotros</a>
@@ -249,5 +270,17 @@
 
         <div class="footer-bottom">© 2026 MAQUITEC I.S.A.C. — Todas las marcas usadas pertenecen a sus respectivos propietarios.</div>
     </footer>
+    <script>
+        const toggle = document.querySelector('.menu-toggle');
+        const menu = document.querySelector('.menu');
+
+        if (toggle && menu) {
+            toggle.addEventListener('click', function () {
+                const isOpen = menu.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+            });
+        }
+    </script>
 </body>
 </html>
