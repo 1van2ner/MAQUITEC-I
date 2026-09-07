@@ -3,265 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos - MAQUITEC I.S.A.C.</title>
+    <title>Productos y Equipos - MAQUITEC I.S.A.C.</title>
     <style>
-        :root { --amarillo: #FFD700; --negro: #1a1a1a; --blanco: #ffffff; --gris: #f4f4f4; }
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; color: var(--negro); background: var(--gris); }
-        img { display: block; max-width: 100%; }
-        a { color: inherit; text-decoration: none; }
-        .top-bar { background: linear-gradient(90deg, #111111, #222222); color: var(--blanco); padding: 10px 6%; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 0.9rem; }
-        .top-bar span { display: inline-flex; align-items: center; gap: 8px; }
-        .top-bar a { color: var(--amarillo); }
-        nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 6%; background: #111111; border-bottom: 4px solid var(--amarillo); position: sticky; top: 0; z-index: 20; }
-        .logo { display: flex; align-items: center; gap: 16px; }
-        .logo img { width: 84px; height: 84px; object-fit: contain; border-radius: 18px; box-shadow: 0 14px 30px rgba(0,0,0,0.3); }
-        .logo-text strong { font-size: 1.25rem; color: var(--amarillo); letter-spacing: 0.06em; }
-        .logo-text span { color: var(--blanco); font-size: 0.95rem; }
-        .menu { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-        .menu-toggle {
-            display: none;
+        :root {
+            --amarillo: #FFD700;
+            --negro: #111111;
+            --gris-oscuro: #18181b;
+            --gris-claro: #f4f4f4;
+            --blanco: #ffffff;
+            --azul-admin: #2563eb;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gris-claro);
+            color: #27272a;
+            display: flex;
             flex-direction: column;
-            gap: 4px;
-            border: 0;
-            background: transparent;
-            cursor: pointer;
-            padding: 6px;
+            min-height: 100vh;
         }
-        .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--blanco); border-radius: 999px; }
-        .menu a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 110px;
-            padding: 10px 18px;
-            font-weight: 700;
-            color: var(--blanco);
-            background: rgba(255,215,0,0.14);
-            border: 2px solid var(--amarillo);
-            border-radius: 999px;
-            text-decoration: none;
-            transition: color 0.2s ease, transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+
+        /* Contenedor de navegación superior interna */
+        .top-nav-bar {
+            background: var(--blanco);
+            padding: 12px 40px;
+            border-bottom: 1px solid #e4e4e7;
+            font-size: 0.9rem;
+            color: #71717a;
         }
-        .menu a.active, .menu a:hover {
-            color: var(--negro);
-            transform: translateY(-2px);
-            background: var(--amarillo);
-            border-color: #e0b800;
-            box-shadow: 0 14px 30px rgba(0,0,0,0.18);
-        }
-        .menu a:active {
-            transform: translateY(0px) scale(0.98);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.14);
-        }
-        .btn,
-        .cta a,
-        .menu .button-link,
-        .quote-form button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            border-radius: 999px;
-            background: rgba(255,215,0,0.14);
+        .top-nav-bar a {
             color: var(--negro);
             text-decoration: none;
+            font-weight: 600;
+        }
+        .top-nav-bar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Estructura Principal a 2 Columnas */
+        .catalog-container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 900px) {
+            .catalog-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sidebar Izquierdo */
+        .sidebar {
+            background: var(--blanco);
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            height: fit-content;
+            border: 1px solid #e4e4e7;
+        }
+
+        .sidebar h3 {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--negro);
+            margin-top: 0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .category-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .category-item a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: #3f3f46;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .category-item a:hover, .category-item a.active {
+            background: rgba(255, 215, 0, 0.15);
+            color: var(--negro);
             font-weight: 700;
-            border: 2px solid var(--amarillo);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-            box-shadow: 0 10px 22px rgba(0,0,0,0.12);
         }
-        .btn:hover,
-        .cta a:hover,
-        .menu .button-link:hover,
-        .quote-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+
+        .category-count {
+            background: #f4f4f5;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #71717a;
+        }
+
+        .category-item a.active .category-count {
             background: var(--amarillo);
-            border-color: #e0b800;
+            color: var(--negro);
         }
-        .btn:active,
-        .cta a:active,
-        .menu .button-link:active,
-        .quote-form button:active {
-            transform: translateY(0px) scale(0.98);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+
+        /* Contenido Principal / Grilla de Productos */
+        .catalog-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-        .hero { display: grid; place-items: center; min-height: 420px; text-align: center; color: var(--blanco); background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('img/img_maquitec3.jpg') center/cover no-repeat; }
-        .hero h1 { margin: 0; font-size: clamp(2.4rem, 5vw, 3.8rem); letter-spacing: 0.08em; }
-        .hero p { max-width: 720px; margin: 18px auto 0; font-size: 1rem; line-height: 1.8; color: rgba(255,255,255,0.9); }
-        .content { padding: 70px 6%; max-width: 1180px; margin: 0 auto; }
-        .intro { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 40px; }
-        .intro div { flex: 1; min-width: 280px; }
-        .intro h2 { font-size: 2.3rem; margin: 0 0 18px; }
-        .intro p { color: #444; line-height: 1.8; }
-        .product-grid { display: grid; gap: 24px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-        .product-card { background: var(--blanco); border-radius: 22px; overflow: hidden; box-shadow: 0 18px 40px rgba(0,0,0,0.08); }
-        .product-card a { display: block; }
-        .product-card img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.25s ease; }
-        .product-card a:hover img { transform: scale(1.02); }
-        .product-card-content { padding: 24px; }
-        .product-card-content h3 { margin: 0 0 14px; font-size: 1.25rem; }
-        .product-card-content p { margin: 0; color: #555; line-height: 1.7; }
-        .note { margin-top: 18px; color: #333; max-width: 720px; }
-        .cta { margin-top: 40px; display: flex; justify-content: center; }
-        footer { background: var(--negro); color: #ddd; padding: 40px 6%; }
-        .footer-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; max-width: 1180px; margin: 0 auto; }
-        .footer-grid h3 { color: var(--amarillo); }
-        .footer-grid p, .footer-grid a { color: #ccc; line-height: 1.8; }
-        .footer-bottom { margin-top: 24px; text-align: center; color: #777; }
-        @media (max-width: 960px) {
-            nav { flex-wrap: wrap; gap: 12px; }
-            .menu-toggle { display: inline-flex; }
-            .menu { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 10px; padding-top: 8px; }
-            .menu.open { display: flex; }
-            .menu a { width: 100%; min-width: 0; }
-            .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .footer-grid { grid-template-columns: 1fr; }
+
+        .catalog-header-bar {
+            background: var(--blanco);
+            padding: 16px 24px;
+            border-radius: 12px;
+            border: 1px solid #e4e4e7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        @media (max-width: 720px) { .product-grid { grid-template-columns: 1fr; } .hero { min-height: 360px; } .top-bar, nav { padding-left: 16px; padding-right: 16px; } }
+
+        .catalog-header-bar span {
+            font-size: 0.95rem;
+            color: #71717a;
+            font-weight: 600;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        /* Tarjeta de Producto Individual */
+        .product-card {
+            background: var(--blanco);
+            border-radius: 14px;
+            border: 1px solid #e4e4e7;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-color: #d4d4d8;
+        }
+
+        .product-image-container {
+            width: 100%;
+            height: 200px;
+            background: #fafafa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .product-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .product-category-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #71717a;
+            letter-spacing: 0.05em;
+        }
+
+        .product-title {
+            margin: 0;
+            font-size: 1.05rem;
+            color: var(--negro);
+            font-weight: 700;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--negro);
+            margin-top: 4px;
+        }
+
+        .product-action {
+            padding: 0 18px 18px 18px;
+        }
+
+        .btn-cotizar {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--amarillo);
+            color: var(--negro);
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+            box-sizing: border-box;
+        }
+
+        .btn-cotizar:hover {
+            background: #e6c200;
+        }
+
+        .no-products {
+            grid-column: 1 / -1;
+            background: var(--blanco);
+            padding: 50px;
+            text-align: center;
+            border-radius: 12px;
+            border: 1px solid #e4e4e7;
+            color: #71717a;
+            font-size: 1.05rem;
+        }
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <span>Av. San Agustín SMP, Lima, Perú</span>
-        <span>📞 963 727 185 | 955 081 815</span>
-        <span>✉ ventas@maquitec.com</span>
+    @include('footer.top')
+
+    <div class="top-nav-bar">
+        <a href="{{ url('/') }}">Inicio</a> &gt; <span>Productos</span>
     </div>
-    <nav>
-        <div class="logo">
-            <img src="img/logo_maquitec.jpg" alt="Logo Maquitec">
-            <div class="logo-text"><strong>MAQUITEC I.S.A.C.</strong><span>Soluciones industriales en movimiento</span></div>
-        </div>
-        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-        <div class="menu">
-            <a href="/">Inicio</a>
-            <a href="/nosotros">Nosotros</a>
-            <a href="/productos" class="active">Productos</a>
-            <a href="/servicios">Servicios</a>
-        </div>
-    </nav>
-    <section class="hero">
-        <div>
-            <h1>Productos industriales confiables</h1>
-            <p>Encuentra repuestos y accesorios para tus equipos industriales de la mejor calidad.</p>
-        </div>
-    </section>
-    <section class="content">
-        <div class="intro">
-            <div>
-                <h2>Repuestos</h2>
-                <p>En MAQUITEC ofrecemos una amplia gama de repuestos que cubren las necesidades de mantenimiento de tus equipos industriales.</p>
-                <p class="note">Selecciona el producto que deseas cotizar. Cada imagen abre una interfaz separada para enviar tu consulta de manera directa y exclusiva.</p>
-            </div>
-        </div>
-        <div class="product-grid">
-            <article class="product-card">
-                <a href="/productos/cotizar/montacargas" aria-label="Cotizar Montacargas y carretillas"><img src="img/img_maquitec1.jpg" alt="Montacargas y carretillas"></a>
-                <div class="product-card-content"><h3>Montacargas y carretillas</h3><p>Soluciones resistentes para movilizar carga en bodegas, talleres y líneas de producción.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/reposapies" aria-label="Cotizar Reposapiés y equipos de apoyo"><img src="img/img_maquitec2.jpg" alt="Reposapiés y equipos de apoyo"></a>
-                <div class="product-card-content"><h3>Reposapiés y equipos de apoyo</h3><p>Productos que complementan la operación segura y eficiente del personal y la maquinaria.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/componentes" aria-label="Cotizar Componentes y repuestos"><img src="img/img_maquitec3.jpg" alt="Componentes y repuestos"></a>
-                <div class="product-card-content"><h3>Componentes y repuestos</h3><p>Disponemos de piezas clave para mantenimiento y reposición de equipos industriales.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/accesorios" aria-label="Cotizar Accesorios especializados"><img src="img/img_maquitec4.jpg" alt="Accesorios especializados"></a>
-                <div class="product-card-content"><h3>Accesorios especializados</h3><p>Herramientas y accesorios para soluciones a medida de cada cliente.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/accesorios" aria-label="Cotizar Accesorios especializados"><img src="img/img_maquitec4.jpg" alt="Accesorios especializados"></a>
-                <div class="product-card-content"><h3>Accesorios especializados</h3><p>Herramientas y accesorios para soluciones a medida de cada cliente.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/accesorios" aria-label="Cotizar Accesorios especializados"><img src="img/img_maquitec4.jpg" alt="Accesorios especializados"></a>
-                <div class="product-card-content"><h3>Accesorios especializados</h3><p>Herramientas y accesorios para soluciones a medida de cada cliente.</p></div>
-            </article>
-        </div>
 
-        <div class="intro" style="margin-top: 60px;">
-            <div>
-                <h2>Accesorios</h2>
-                <p>En MAQUITEC ofrecemos una amplia gama de accesorios especializados para complementar tus equipos industriales.</p>
-                <p class="note">Selecciona el producto que deseas cotizar. Cada imagen abre una interfaz separada para enviar tu consulta de manera directa y exclusiva.</p>
-            </div>
-        </div>
-        <div class="product-grid">
-            <article class="product-card">
-                <a href="/productos/cotizar/montacargas" aria-label="Cotizar Montacargas y carretillas"><img src="img/img_maquitec1.jpg" alt="Montacargas y carretillas"></a>
-                <div class="product-card-content"><h3>Montacargas y carretillas</h3><p>Soluciones resistentes para movilizar carga en bodegas, talleres y líneas de producción.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/reposapies" aria-label="Cotizar Reposapiés y equipos de apoyo"><img src="img/img_maquitec2.jpg" alt="Reposapiés y equipos de apoyo"></a>
-                <div class="product-card-content"><h3>Reposapiés y equipos de apoyo</h3><p>Productos que complementan la operación segura y eficiente del personal y la maquinaria.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/componentes" aria-label="Cotizar Componentes y repuestos"><img src="img/img_maquitec3.jpg" alt="Componentes y repuestos"></a>
-                <div class="product-card-content"><h3>Componentes y repuestos</h3><p>Disponemos de piezas clave para mantenimiento y reposición de equipos industriales.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/accesorios" aria-label="Cotizar Accesorios especializados"><img src="img/img_maquitec4.jpg" alt="Accesorios especializados"></a>
-                <div class="product-card-content"><h3>Accesorios especializados</h3><p>Herramientas y accesorios para soluciones a medida de cada cliente.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/accesorios" aria-label="Cotizar Accesorios especializados"><img src="img/img_maquitec4.jpg" alt="Accesorios especializados"></a>
-                <div class="product-card-content"><h3>Accesorios especializados</h3><p>Herramientas y accesorios para soluciones a medida de cada cliente.</p></div>
-            </article>
-            <article class="product-card">
-                <a href="/productos/cotizar/accesorios" aria-label="Cotizar Accesorios especializados"><img src="img/img_maquitec4.jpg" alt="Accesorios especializados"></a>
-                <div class="product-card-content"><h3>Accesorios especializados</h3><p>Herramientas y accesorios para soluciones a medida de cada cliente.</p></div>
-            </article>
-        </div>
+    <div class="catalog-container">
+        <!-- BARRA LATERAL (SIDEBAR DE CATEGORÍAS) -->
+        <aside class="sidebar">
+            <h3>🗂️ Categorías</h3>
+            <ul class="category-list">
+                <li class="category-item">
+                    <a href="{{ route('productos.index') }}" class="{{ !request('categoria') ? 'active' : '' }}">
+                        <span>Todos los productos</span>
+                        <span class="category-count">{{ $totalProductos }}</span>
+                    </a>
+                </li>
+                @foreach($categorias as $cat)
+                    <li class="category-item">
+                        <a href="{{ route('productos.index', ['categoria' => $cat->id]) }}" class="{{ request('categoria') == $cat->id ? 'active' : '' }}">
+                            <span>{{ $cat->nombre }}</span>
+                            <span class="category-count">{{ $cat->productos_count }}</span>
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </aside>
 
-    </section>
-    <footer id="contacto">
-        <div class="footer-grid">
-            <div class="footer-contact">
-                <h3>Contacto</h3>
-                <address>
-                    <p>Av. San Agustín SMP, Lima, Perú</p>
-                    <p>Tel: <a href="tel:+51963727185">963 727 185</a> &nbsp;|&nbsp; <a href="tel:+51987654321">987 654 321</a></p>
-                    <p>Email: <a href="mailto:info@maquitec.com">info@maquitec.com</a></p>
-                </address>
+        <!-- CONTENIDO PRINCIPAL (GRILLA DE PRODUCTOS) -->
+        <main class="catalog-content">
+            <div class="catalog-header-bar">
+                <span>
+                    @if($categoriaActual)
+                        Mostrando productos de: <strong>{{ $categoriaActual->nombre }}</strong>
+                    @else
+                        Mostrando todos los productos
+                    @endif
+                    ({{ $productos->count() }} encontrados)
+                </span>
             </div>
 
-            <div class="footer-links">
-                <h3>Enlaces rápidos</h3>
-                <ul>
-                    <li><a href="/">Inicio</a></li>
-                    <li><a href="/nosotros">Nosotros</a></li>
-                    <li><a href="/productos">Productos</a></li>
-                    <li><a href="/servicios">Servicios</a></li>
-                </ul>
+            <div class="products-grid">
+                @forelse($productos as $producto)
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            @if(!empty($producto->imagen) && file_exists(public_path($producto->imagen)))
+                                <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}">
+                            @else
+                                <img src="{{ asset('img/img_maquitec1.jpg') }}" alt="Maquitec Producto">
+                            @endif
+                        </div>
+                        <div class="product-info">
+                            <span class="product-category-tag">{{ $producto->categoria->nombre ?? 'Maquinaria' }}</span>
+                            <h4 class="product-title">{{ $producto->nombre }}</h4>
+                            <div class="product-price">S/ {{ number_format($producto->precio, 2) }}</div>
+                        </div>
+                        <div class="product-action">
+                            <a href="{{ url('/productos/cotizar/' . ($producto->slug ?? 'montacargas')) }}" class="btn-cotizar">Cotizar Producto</a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="no-products">
+                        <p>No hay productos registrados en esta categoría actualmente.</p>
+                    </div>
+                @endforelse
             </div>
+        </main>
+    </div>
 
-            <div class="footer-social">
-                <h3>Síguenos</h3>
-                <p>Puedes contactarnos en nuestras redes sociales y obtener más información sobre nuestros productos y servicios.</p>
-                <p>IG: @maquitec'i s.a.c.</p>
-                <p>FB: @maquitec'i s.a.c.</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">© 2026 MAQUITEC I.S.A.C. — Todas las marcas usadas pertenecen a sus respectivos propietarios.</div>
-    </footer>
-    <script>
-        const toggle = document.querySelector('.menu-toggle');
-        const menu = document.querySelector('.menu');
-
-        if (toggle && menu) {
-            toggle.addEventListener('click', function () {
-                const isOpen = menu.classList.toggle('open');
-                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
-            });
-        }
-    </script>
+    @include('footer.bottom')
 </body>
 </html>

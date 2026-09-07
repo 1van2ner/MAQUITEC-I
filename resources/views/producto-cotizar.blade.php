@@ -121,26 +121,7 @@
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <span>Av. Javier Prado Este 8325, Ate, Lima, Perú</span>
-        <span>📞 974 390 945 | 997 591 068</span>
-        <span>✉ ventas@maquitec.com</span>
-    </div>
-    <nav>
-        <div class="logo">
-            <img src="{{ asset('img/logo_maquitec.jpg') }}" alt="Logo Maquitec">
-            <div class="logo-text"><strong>MAQUITEC I.S.A.C.</strong><span>Soluciones industriales en movimiento</span></div>
-        </div>
-        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-        <div class="menu">
-            <a href="/">Inicio</a>
-            <a href="/nosotros">Nosotros</a>
-            <a href="/productos" class="active">Productos</a>
-            <a href="/servicios">Servicios</a>
-        </div>
-    </nav>
+    @include('footer.top')
     <section class="hero">
         <div>
             <h1>Cotizar {{ $productTitle }}</h1>
@@ -177,50 +158,6 @@
             </div>
         </div>
     </section>
-    <footer id="contacto">
-        <div class="footer-grid">
-            <div class="footer-contact">
-                <h3>Contacto</h3>
-                <address>
-                    <p>Av. San Agustín SMP, Lima, Perú</p>
-                    <p>Tel: <a href="tel:+51963727185">963 727 185</a> &nbsp;|&nbsp; <a href="tel:+51987654321">987 654 321</a></p>
-                    <p>Email: <a href="mailto:info@maquitec.com">info@maquitec.com</a></p>
-                </address>
-            </div>
-
-            <div class="footer-links">
-                <h3>Enlaces rápidos</h3>
-                <ul>
-                    <li><a href="/">Inicio</a></li>
-                    <li><a href="/nosotros">Nosotros</a></li>
-                    <li><a href="/productos">Productos</a></li>
-                    <li><a href="/servicios">Servicios</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-social">
-                <h3>Síguenos</h3>
-                <p>Puedes contactarnos en nuestras redes sociales y obtener más información sobre nuestros productos y servicios.</p>
-                <p>IG: @maquitec'i s.a.c.</p>
-                <p>FB: @maquitec'i s.a.c.</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">© 2026 MAQUITEC I.S.A.C. — Todas las marcas usadas pertenecen a sus respectivos propietarios.</div>
-    </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggle = document.querySelector('.menu-toggle');
-            const menu = document.querySelector('.menu');
-
-            if (toggle && menu) {
-                toggle.addEventListener('click', function () {
-                    const isOpen = menu.classList.toggle('open');
-                    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                    toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
-                });
-            }
-        });
-    </script>
+    @include('footer.bottom')
 </body>
 </html>

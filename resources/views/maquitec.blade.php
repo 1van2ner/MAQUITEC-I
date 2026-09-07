@@ -129,64 +129,13 @@
             box-shadow: 0 10px 22px rgba(0,0,0,0.12);
         }
 
-        .menu a:hover {
+        .menu a:hover,
+        .menu a.active {
             color: var(--negro);
             transform: translateY(-2px);
             background: var(--amarillo);
             border-color: #e0b800;
             box-shadow: 0 14px 30px rgba(0,0,0,0.18);
-        }
-        .menu a:active {
-            transform: translateY(0px) scale(0.98);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.14);
-        }
-
-        .menu .button-link,
-        .btn,
-        .cta a,
-        .hero-cta a,
-        .quote-form button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            border-radius: 999px;
-            background: rgba(255,215,0,0.14);
-            color: var(--negro);
-            text-decoration: none;
-            font-weight: 700;
-            border: 2px solid var(--amarillo);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-            box-shadow: 0 10px 22px rgba(0,0,0,0.12);
-        }
-
-        .menu .button-link:hover,
-        .btn:hover,
-        .cta a:hover,
-        .hero-cta a:hover,
-        .quote-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(0,0,0,0.18);
-            background: var(--amarillo);
-            border-color: #e0b800;
-        }
-        .menu .button-link:active,
-        .btn:active,
-        .cta a:active,
-        .hero-cta a:active,
-        .quote-form button:active {
-            transform: translateY(0px) scale(0.98);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.14);
-        }
-
-        .hero-cta .btn-secondary {
-            border: 1px solid var(--negro);
-            background: var(--blanco);
-            color: var(--negro);
-        }
-
-        .hero-cta .btn-secondary:hover {
-            background: #f8f0b1;
         }
 
         .hero {
@@ -232,47 +181,23 @@
             padding: 14px 28px;
             border-radius: 999px;
             font-weight: 700;
+            text-decoration: none;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .btn-primary {
             background: var(--negro);
             color: var(--amarillo);
+            border: 2px solid var(--negro);
         }
 
         .btn-secondary {
             background: var(--blanco);
-            border: 1px solid var(--negro);
+            border: 2px solid var(--negro);
             color: var(--negro);
         }
 
         .hero-cta a:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
-
-        @media (max-width: 900px) {
-            nav { flex-wrap: wrap; gap: 12px; }
-            .menu-toggle { display: inline-flex; }
-            .menu {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-                padding-top: 8px;
-            }
-            .menu.open { display: flex; }
-            .menu a { width: 100%; min-width: 0; }
-            .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .footer-grid { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 640px) {
-            .top-bar { justify-content: center; text-align: center; }
-            .logo { width: 100%; justify-content: space-between; }
-            .cards { grid-template-columns: 1fr; }
-            .hero { min-height: 460px; }
-            .hero-inner { padding: 0 20px; }
-            .seccion { padding: 60px 20px; }
-        }
 
         .seccion {
             padding: 80px 6%;
@@ -327,6 +252,96 @@
         .card-content strong { font-size: 1.05rem; }
         .card-content p { margin: 0; color: #555; line-height: 1.7; font-size: 0.98rem; }
 
+        /* Estilos de la nueva sección de categorías */
+        .seccion-categorias {
+            padding: 80px 6%;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .seccion-categorias h2 {
+            font-size: 2.4rem;
+            margin: 10px 0;
+            color: var(--negro);
+            letter-spacing: 0.02em;
+        }
+
+        .grid-categorias {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .tarjeta-categoria {
+            background: var(--blanco);
+            border-radius: 20px;
+            padding: 30px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .tarjeta-categoria:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+            border-color: var(--amarillo);
+        }
+
+        .icono-wrapper {
+            width: 64px;
+            height: 64px;
+            background: rgba(255,215,0,0.15);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            margin-bottom: 20px;
+            color: #b89700;
+        }
+
+        .icono-wrapper svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .tarjeta-categoria h3 {
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin: 0 0 8px 0;
+            color: var(--negro);
+            letter-spacing: 0.03em;
+        }
+
+        .tarjeta-categoria p {
+            font-size: 0.88rem;
+            color: #666;
+            margin: 0 0 20px 0;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .badge-productos {
+            background: var(--gris);
+            color: #444;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 999px;
+            display: inline-block;
+            transition: background 0.2s ease;
+        }
+
+        .tarjeta-categoria:hover .badge-productos {
+            background: var(--amarillo);
+            color: var(--negro);
+        }
+
         .section-highlight {
             background: linear-gradient(135deg, rgba(255,215,0,0.14), rgba(255,255,255,0.8));
             padding: 80px 6%;
@@ -336,168 +351,59 @@
             text-align: center;
         }
 
-        .section-highlight .highlight-grid {
-            display: grid;
-            gap: 24px;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            margin-top: 40px;
-        }
-
-        .brands-banner {
-            position: relative;
-            display: grid;
-            gap: 18px;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            margin-top: 40px;
-            align-items: stretch;
-        }
-
-        .brand-card {
-            position: relative;
-            min-height: 240px;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 22px 50px rgba(0,0,0,0.16);
-            background-size: cover;
-            background-position: center;
-        }
-
-        .brand-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.12), rgba(0,0,0,0.55));
-        }
-
-        .brand-card .brand-text {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            padding: 24px;
-            text-align: center;
-            color: var(--blanco);
-            z-index: 1;
-            font-size: clamp(1.6rem, 2vw, 2.3rem);
-            letter-spacing: 0.08em;
-            font-weight: 800;
-        }
-
-        /* Brands label: use same heading styling as other sections (no black pill) */
+        /* Estilo tipo grilla limpia para marcas */
         .brands-label {
-            margin: 36px auto 18px;
-            max-width: 960px;
-            text-align: center;
+            margin: 36px auto 24px;
+            text-align: left;
+            max-width: 1200px;
         }
 
-        .brands-label h2,
         .brands-label h3 {
             margin: 0;
-            font-size: clamp(1.6rem, 2vw, 2.2rem);
-            letter-spacing: 0.06em;
-            color: var(--negro);
-            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 0.08em;
+            color: #555;
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
-        .highlight-card-content {
-            padding: 24px;
+        .brands-grid {
             display: grid;
-            gap: 14px;
-            flex: 1;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 16px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .highlight-card-content h3 {
-            margin: 0;
-            font-size: 1.4rem;
-        }
-
-        .highlight-card-content p {
-            margin: 0;
-            color: #ddd;
-            line-height: 1.8;
-        }
-
-        .partner-slider {
-            position: relative;
-            margin: 48px auto 0; /* increased gap from brands above */
-            max-width: 920px;
-            width: calc(100% - 32px);
-            min-width: 320px;
-        }
-
-        .partner-track {
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: center;
-            gap: 14px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            padding: 0 8px 6px;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            /* hide native scrollbar but keep scroll functionality */
-            -ms-overflow-style: none; /* IE 10+ */
-            scrollbar-width: none; /* Firefox */
-        }
-
-        .partner-track::-webkit-scrollbar { display: none; }
-
-        .partner-logo {
-            flex: 0 0 200px;
-            min-width: 200px;
-            max-width: 200px;
-            height: 100px;
+        .brand-box {
             background: var(--blanco);
-            border-radius: 14px;
-            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            height: 85px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 26px rgba(0,0,0,0.08);
-            scroll-snap-align: center;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
-        .partner-logo img {
-            max-height: 64px;
-            width: auto;
+        .brand-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            border-color: var(--amarillo);
+        }
+
+        .brand-box img {
+            max-height: 50px;
+            max-width: 100%;
             object-fit: contain;
+            filter: grayscale(20%);
+            transition: filter 0.2s ease;
         }
 
-        .partner-arrow {
-            position: absolute;
-            top: 50%;
-            width: 36px;
-            height: 36px;
-            border: 2px solid var(--negro);
-            border-radius: 14px;
-            background: var(--blanco);
-            color: var(--negro);
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            transform: translateY(-50%);
-            box-shadow: 0 14px 30px rgba(0,0,0,0.16);
-            z-index: 3;
-        }
-
-        .partner-arrow:hover {
-            background: #f4f4f4;
-        }
-
-        .partner-arrow-left {
-            left: 4px;
-        }
-
-        .partner-arrow-right {
-            right: 4px;
-        }
-
-        .partner-helper {
-            margin-top: 12px;
-            text-align: center;
-            color: #555;
-            font-size: 0.95rem;
-            letter-spacing: 0.02em;
+        .brand-box:hover img {
+            filter: grayscale(0%);
         }
 
         footer {
@@ -526,60 +432,31 @@
             line-height: 1.8;
         }
 
-        .footer-bottom {
-            margin-top: 40px;
-            text-align: center;
-            color: #777;
-            font-size: 0.9rem;
+        @media (max-width: 1024px) {
+            .grid-categorias { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
 
-        @media (max-width: 1100px) {
-            .cards, .section-highlight .highlight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .partners { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        @media (max-width: 900px) {
+            nav { flex-wrap: wrap; gap: 12px; }
+            .menu-toggle { display: inline-flex; }
+            .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .footer-grid { grid-template-columns: 1fr; }
         }
 
-        @media (max-width: 760px) {
-            .top-bar { text-align: center; }
-            nav { flex-direction: column; align-items: flex-start; padding: 20px 6%; }
-            .menu { width: 100%; justify-content: space-between; }
-            .hero::before, .hero::after { display: none; }
-            .hero { min-height: 420px; padding: 60px 6%; }
-            .cards, .section-highlight .highlight-grid, .partners, .footer-grid { grid-template-columns: 1fr; }
-            .footer-grid { text-align: center; }
+        @media (max-width: 640px) {
+            .cards { grid-template-columns: 1fr; }
+            .grid-categorias { grid-template-columns: 1fr; }
+            .brands-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <span>Av. San Agustin, SMP, Lima, Perú</span>
-        <span>📞 955 081 815 | 963   727 185</span>
-        <span>✉ ventas@maquitec.com</span>
-    </div>
-
-    <nav>
-        <div class="logo">
-            <img src="img/logo_maquitec.jpg" alt="Logo Maquitec">
-            <div class="logo-text">
-                <strong>MAQUITEC I.S.A.C.</strong>
-                <span>Soluciones industriales de movimiento</span>
-            </div>
-        </div>
-
-        <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-        <div class="menu">
-            <a href="/">Inicio</a>
-            <a href="/nosotros">Nosotros</a>
-            <a href="/productos">Productos</a>
-            <a href="/servicios">Servicios</a>
-        </div>
-    </nav>
+    @include('footer.top')
 
     <section class="hero" id="inicio">
         <div class="hero-inner">
             <h1>SOMOS LA SOLUCIÓN INMEDIATA</h1>
-            <p>Equipos y soporte técnico para maquinaria pesada-logistica y soluciones industriales con respaldo de marcas líderes.</p>
+            <p>Equipos y soporte técnico para maquinaria pesada, logística y soluciones industriales con respaldo de marcas líderes.</p>
             <div class="hero-cta">
                 <a href="/productos" class="btn-primary">Conoce nuestros productos</a>
                 <a href="/servicios" class="btn-secondary">Conoce nuestros servicios</a>
@@ -593,137 +470,72 @@
         <p class="lead">Tenemos una selección de equipamiento de calidad, ideal para empresas que necesitan fiabilidad, eficiencia y seguridad en cada operación.</p>
 
         <div class="cards">
-            <article class="card">
-                <img src="img/img_maquitec1.jpg" alt="Producto 1">
-                <div class="card-content">
-                    <strong>Equipo industrial 1</strong>
-                    <p>Máquinas robustas diseñadas para alto desempeño en fábricas y almacenes.</p>
+            @forelse($productosDestacados as $producto)
+                <article class="card">
+                    <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}">
+                    <div class="card-content">
+                        <strong>{{ $producto->nombre }}</strong>
+                        <p>{{ Str::limit($producto->descripcion, 80) }}</p>
+                        <div style="margin-top: auto; font-weight: 700; color: #b89700;">
+                            S/ {{ number_format($producto->precio, 2) }}
+                        </div>
+                    </div>
+                </article>
+            @empty
+                <div style="grid-column: span 4; text-align: center; padding: 40px; color: #666; background: var(--blanco); border-radius: 20px;">
+                    <p>Pronto agregaremos productos destacados a esta sección.</p>
                 </div>
-            </article>
-            <article class="card">
-                <img src="img/img_maquitec2.jpg" alt="Producto 2">
-                <div class="card-content">
-                    <strong>Equipo industrial 2</strong>
-                    <p>Componentes duraderos que aseguran operaciones seguras y sin interrupciones.</p>
-                </div>
-            </article>
-            <article class="card">
-                <img src="img/img_maquitec3.jpg" alt="Producto 3">
-                <div class="card-content">
-                    <strong>Equipo industrial 3</strong>
-                    <p>Soluciones adaptables para diferentes procesos logísticos y de almacenaje.</p>
-                </div>
-            </article>
-            <article class="card">
-                <img src="img/img_maquitec4.jpg" alt="Producto 4">
-                <div class="card-content">
-                    <strong>Equipo industrial 4</strong>
-                    <p>Diseño moderno y fácil mantenimiento para maximizar la productividad.</p>
-                </div>
-            </article>
+            @endforelse
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN DE CATEGORÍAS -->
+    <section class="seccion-categorias">
+        <span style="background: rgba(255,215,0,0.2); color: #857200; padding: 4px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: 700;">¿QUÉ BUSCAS?</span>
+        <h2>Nuestras Categorías</h2>
+        <p style="color: #666; font-size: 1.05rem; margin-top: 10px;">Soluciones tecnológicas y equipos industriales para tu empresa</p>
+
+        <div class="grid-categorias">
+            @foreach($categorias as $categoria)
+                <a href="{{ route('categorias.show', $categoria->id) }}" class="tarjeta-categoria">
+                    <div class="icono-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <h3>{{ strtoupper($categoria->nombre) }}</h3>
+                    <p>{{ $categoria->descripcion ?? 'Equipos y componentes especializados.' }}</p>
+                    <span class="badge-productos">{{ $categoria->productos_count ?? 0 }} productos</span>
+                </a>
+            @endforeach
         </div>
     </section>
 
     <section class="section-highlight" id="servicios">
-        <div class="seccion">
-            <h2>Servicios que brindamos</h2>
-            <p class="lead">Brindamos servicios completos-complementarios para instalación, asesoría y mantenimiento general.</p>
+        <div class="seccion" style="padding-top: 0; padding-bottom: 40px;">
+            <h2>Servicios y Marcas Autorizadas</h2>
+            <p class="lead">Brindamos soporte completo, repuestos y mantenimiento especializado para las mejores marcas del mercado logístico.</p>
         </div>
 
-        <div class="brands-banner">
-            <div class="brand-card" style="background-image: url('img/hangcha.jpg');"></div>
-            <div class="brand-card" style="background-image: url('img/heli.jpg');"></div>
-            <div class="brand-card" style="background-image: url('img/hyundai.jpg');"></div>
+        <div class="brands-label">
+            <h3>Marcas de Montacargas y Equipos Logísticos:</h3>
         </div>
 
-        <div class="brands-label"><h2>Marcas con las que trabajamos</h2></div>
-
-        <div class="partner-slider">
-            <button type="button" class="partner-arrow partner-arrow-left" aria-label="Mover a la izquierda">‹</button>
-            <div class="partner-track">
-                <div class="partner-logo"><img src="img/hyster.jpg" alt="Hyster"></div>
-                <div class="partner-logo"><img src="img/tcm.jpg" alt="TCM"></div>
-                <div class="partner-logo"><img src="img/yale.jpg" alt="Yale"></div>
-                <div class="partner-logo"><img src="img/crown.jpg" alt="Crown"></div>
-                <div class="partner-logo"><img src="img/hyundai.jpg" alt="Hyundai"></div>
-                <div class="partner-logo"><img src="img/hangcha.jpg" alt="Hangcha"></div>
-                <div class="partner-logo"><img src="img/caterpillar.jpg" alt="Caterpillar"></div>
-                <div class="partner-logo"><img src="img/komatsu.jpg" alt="Komatsu"></div>
-                <div class="partner-logo"><img src="img/toyota.jpg" alt="Toyota"></div>
-            </div>
-            <button type="button" class="partner-arrow partner-arrow-right" aria-label="Mover a la derecha">›</button>
+        <!-- Grilla de marcas -->
+        <div class="brands-grid">
+            <div class="brand-box"><img src="img/toyota.jpg" alt="Toyota"></div>
+            <div class="brand-box"><img src="img/komatsu.jpg" alt="Komatsu"></div>
+            <div class="brand-box"><img src="img/hyster.jpg" alt="Hyster"></div>
+            <div class="brand-box"><img src="img/caterpillar.jpg" alt="Caterpillar"></div>
+            <div class="brand-box"><img src="img/yale.jpg" alt="Yale"></div>
+            <div class="brand-box"><img src="img/tcm.jpg" alt="TCM"></div>
+            <div class="brand-box"><img src="img/hyundai.jpg" alt="Hyundai"></div>
+            <div class="brand-box"><img src="img/hangcha.jpg" alt="Hangcha"></div>
+            <div class="brand-box"><img src="img/heli.jpg" alt="Heli"></div>
+            <div class="brand-box"><img src="img/crown.jpg" alt="Crown"></div>
         </div>
-        <div class="partner-helper">Desliza con las flechas o arrastra para ver más marcas</div>
     </section>
 
-    <footer id="contacto">
-        <div class="footer-grid">
-            <div class="footer-contact">
-                <h3>Contacto</h3>
-                <address>
-                    <p>Av. San Agustín SMP, Lima, Perú</p>
-                    <p>Tel: <a href="tel:+51963727185">963 727 185</a> &nbsp;|&nbsp; <a href="tel:+51987654321">987 654 321</a></p>
-                    <p>Email: <a href="mailto:info@maquitec.com">info@maquitec.com</a></p>
-                </address>
-            </div>
-
-            <div class="footer-links">
-                <h3>Enlaces rápidos</h3>
-                <ul>
-                    <li><a href="/">Inicio</a></li>
-                    <li><a href="/nosotros">Nosotros</a></li>
-                    <li><a href="/productos">Productos</a></li>
-                    <li><a href="/servicios">Servicios</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-social">
-                <h3>Síguenos</h3>
-                <p>Puedes contactarnos en nuestras redes sociales y obtener más información sobre nuestros productos y servicios.</p>
-                <p>IG: @maquitec'i s.a.c.</p>
-                <p>FB: @maquitec'i s.a.c.</p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">© 2026 MAQUITEC I.S.A.C. — Todas las marcas usadas pertenecen a sus respectivos propietarios.</div>
-    </footer>
-
-    <script>
-        const partnerTrack = document.querySelector('.partner-track');
-        const partnerLeft = document.querySelector('.partner-arrow-left');
-        const partnerRight = document.querySelector('.partner-arrow-right');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const menu = document.querySelector('.menu');
-
-        if (menuToggle && menu) {
-            menuToggle.addEventListener('click', function () {
-                const isOpen = menu.classList.toggle('open');
-                menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
-            });
-        }
-
-        if (partnerTrack && partnerLeft && partnerRight) {
-            const getScrollAmount = () => Math.max(220, Math.round(partnerTrack.clientWidth * 0.7));
-
-            partnerLeft.addEventListener('click', () => {
-                const amount = getScrollAmount();
-                if (partnerTrack.scrollBy) {
-                    partnerTrack.scrollBy({ left: -amount, behavior: 'smooth' });
-                } else {
-                    partnerTrack.scrollLeft -= amount;
-                }
-            });
-
-            partnerRight.addEventListener('click', () => {
-                const amount = getScrollAmount();
-                if (partnerTrack.scrollBy) {
-                    partnerTrack.scrollBy({ left: amount, behavior: 'smooth' });
-                } else {
-                    partnerTrack.scrollLeft += amount;
-                }
-            });
-        }
-    </script>
+    @include('footer.bottom')
 </body>
-</html> 
+</html>
