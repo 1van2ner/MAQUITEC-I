@@ -4,12 +4,40 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = User::all();
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $search = trim($request->search);
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('rol', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('rol') && $request->rol !== 'todos') {
+            $query->where('rol', $request->rol);
+        }
+
+        if ($request->filled('dia')) {
+            $dia = $request->dia;
+
+            try {
+                $fecha = Carbon::parse($dia)->format('Y-m-d');
+                $query->whereDate('created_at', $fecha);
+            } catch (\Exception $e) {
+                $query->whereRaw('1 = 0');
+            }
+        }
+
+        $usuarios = $query->orderBy('id', 'asc')->get();
+
         return view('admin.usuarios.index', compact('usuarios'));
     }
 
@@ -23,19 +51,13 @@ class UserController extends Controller
     {
         $usuario = User::findOrFail($id);
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $usuario->id,
-            'rol' => 'required|string',
+        $validated = $request->validate([
+            'rol' => 'required|in:Cliente,Administrador',
+            'telefono' => 'nullable|string|max:20',
+            'direccion' => 'nullable|string|max:255',
         ]);
 
-        $usuario->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'rol' => $request->rol,
-            'telefono' => $request->telefono,
-            'direccion' => $request->direccion,
-        ]);
+        $usuario->update($validated);
 
         return redirect()->route('admin.usuarios.index')->with('success', 'Usuario actualizado correctamente.');
     }

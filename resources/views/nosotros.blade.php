@@ -6,216 +6,376 @@
     <title>Nosotros - MAQUITEC I.S.A.C.</title>
     <style>
         :root {
-            --amarillo: #FFD700;
-            --negro: #1a1a1a;
-            --blanco: #ffffff;
-            --gris: #f6f6f6;
+            --amarillo: #f7d547;
+            --amarillo-hover: #e5c338;
+            --amarillo-oscuro: #caaa2b;
+            --texto-claro: #ffffff;
+            --texto-muted: #a1a1aa;
         }
 
         * { box-sizing: border-box; }
-        body { margin: 0; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; color: var(--negro); background: var(--gris); }
+        
+        /* FONDO CON TEXTURA TIPO METAL CEPILLADO OSCURO */
+        body { 
+            margin: 0; 
+            font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; 
+            color: var(--texto-claro); 
+            background-color: #121316;
+            background-image: 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(0, 0, 0, 0.4) 1px, transparent 1px),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.25) 2px, rgba(0, 0, 0, 0.25) 4px);
+            background-size: 100% 100%, 100% 100%, 100% 6px;
+            -webkit-font-smoothing: antialiased; 
+        }
+
         img { display: block; max-width: 100%; }
         a { color: inherit; text-decoration: none; }
 
-        .top-bar {
-            background: linear-gradient(90deg, #111111, #232323);
-            color: var(--blanco);
-            padding: 12px 6%;
+        /* HERO NOSOTROS - TARJETA DESTACADA AMARILLA */
+        .hero-section {
+            padding: 40px 5%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-card {
+            background: #f7d547;
+            width: 100%;
+            max-width: 1280px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px -10px rgba(247, 213, 71, 0.25);
+            border: 1px solid #e5c338;
+            overflow: hidden;
+            position: relative;
+            color: #000000;
+            padding: 60px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 650px;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+            font-weight: 800;
+            color: #000000;
+            line-height: 1.1;
+            margin: 0 0 16px 0;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #27272a;
+            line-height: 1.6;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .hero-image-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image-wrapper img {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        /* SECCIONES GENERALES */
+        .seccion {
+            padding: 80px 5%;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .seccion-header {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 50px auto;
+        }
+
+        .badge-tag {
+            background: rgba(247, 213, 71, 0.1);
+            color: #f7d547;
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-block;
+            margin-bottom: 12px;
+            border: 1px solid rgba(247, 213, 71, 0.25);
+        }
+
+        .seccion h2 {
+            margin: 0;
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+            color: var(--texto-claro);
+            font-weight: 800;
+        }
+
+        .seccion p.lead {
+            margin: 16px 0 0 0;
+            color: var(--texto-muted);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* GRID DE TARJETAS DE VALORES Y PILARES */
+        .grid-pilares {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .tarjeta-pilar {
+            background: #f7d547;
+            border-radius: 16px;
+            padding: 36px 30px;
+            border: 1px solid #e5c338;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            color: #000000;
+        }
+
+        .tarjeta-pilar:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(247, 213, 71, 0.3);
+        }
+
+        .tarjeta-pilar h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #000000;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+        }
+
+        .tarjeta-pilar p {
+            margin: 0;
+            color: #27272a;
+            line-height: 1.6;
+            font-size: 0.98rem;
+            font-weight: 500;
+        }
+
+        /* SECCIÓN MARCAS CON FONDO AMARILLO */
+        .section-highlight {
+            background: #f7d547; 
+            color: #000000; 
+            border-top: 1px solid #e5c338;
+            border-bottom: 1px solid #e5c338;
+            padding: 80px 5%;
+        }
+
+        .section-highlight .badge-tag {
+            background: rgba(0, 0, 0, 0.08);
+            color: #000000;
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .section-highlight h2 {
+            color: #000000;
+        }
+
+        .brands-grid {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            font-size: 0.95rem;
+            justify-content: center;
+            gap: 16px;
+            max-width: 1280px;
+            margin: 0 auto;
         }
-        .top-bar span { display: inline-flex; align-items: center; gap: 8px; }
-        .top-bar a { color: var(--amarillo); }
 
-        nav {
+        .brand-box {
+            background: #ffffff; 
+            border: 1px solid #e5c338;
+            border-radius: 10px;
+            height: 80px;
+            width: 140px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 20px 6%;
-            background: #111111;
-            border-bottom: 4px solid var(--amarillo);
-            position: sticky;
-            top: 0;
-            z-index: 20;
-        }
-
-        .logo { display: flex; align-items: center; gap: 16px; }
-        .logo img { width: 84px; height: 84px; object-fit: contain; border-radius: 18px; box-shadow: 0 12px 28px rgba(0,0,0,0.22); }
-        .logo-text strong { font-size: 1.25rem; color: var(--amarillo); letter-spacing: 0.06em; }
-        .logo-text span { font-size: 0.95rem; color: var(--blanco); }
-
-        .menu { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            border: 0;
-            background: transparent;
-            cursor: pointer;
-            padding: 6px;
-        }
-        .menu-toggle span { display: block; width: 24px; height: 2px; background: var(--blanco); border-radius: 999px; }
-        .menu a {
-            display: inline-flex;
-            align-items: center;
             justify-content: center;
-            min-width: 110px;
-            padding: 10px 18px;
-            font-weight: 700;
-            color: var(--blanco);
-            background: rgba(255,215,0,0.22);
-            border: 2px solid var(--amarillo);
-            border-radius: 999px;
-            text-decoration: none;
-            transition: color 0.2s ease, transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+            padding: 12px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
         }
-        .menu a:hover,
-        .menu a.active {
-            color: var(--negro);
+
+        .brand-box:hover {
             transform: translateY(-2px);
-            background: var(--amarillo);
-            border-color: #e0b800;
-            box-shadow: 0 14px 30px rgba(0,0,0,0.18);
-        }
-        .menu a:active {
-            transform: translateY(0px) scale(0.98);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.14);
-        }
-        .menu .button-link,
-        .btn,
-        .cta a,
-        .hero-cta a,
-        .quote-form button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 24px;
-            border-radius: 999px;
-            background: rgba(255,215,0,0.14);
-            color: var(--negro);
-            text-decoration: none;
-            font-weight: 700;
-            border: 2px solid var(--amarillo);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-            box-shadow: 0 10px 22px rgba(0,0,0,0.12);
-        }
-        .menu .button-link:hover,
-        .btn:hover,
-        .cta a:hover,
-        .hero-cta a:hover,
-        .quote-form button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(0,0,0,0.18);
-            background: var(--amarillo);
-            border-color: #e0b800;
-        }
-        .menu .button-link:active,
-        .btn:active,
-        .cta a:active,
-        .hero-cta a:active,
-        .quote-form button:active {
-            transform: translateY(0px) scale(0.98);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+            border-color: #000000;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
 
-        .hero {
-            position: relative;
-            display: grid;
-            place-items: center;
-            min-height: 420px;
-            text-align: center;
-            color: var(--blanco);
-            background: linear-gradient(180deg, rgba(26,26,26,0.82), rgba(26,26,26,0.82)), url('img/logo_maquitec.jpg') center/cover no-repeat;
+        .brand-box img {
+            max-height: 42px;
+            max-width: 100%;
+            object-fit: contain;
+            transition: transform 0.2s ease;
         }
 
-        .hero h1 { margin: 0; font-size: clamp(2.4rem, 5vw, 3.8rem); letter-spacing: 0.08em; text-transform: uppercase; }
-        .hero p { margin: 18px auto 0; max-width: 680px; color: rgba(255,255,255,0.88); font-size: 1rem; line-height: 1.8; }
+        .brand-box:hover img {
+            transform: scale(1.05);
+        }
 
-        .content { padding: 70px 6%; max-width: 1160px; margin: 0 auto; background: var(--blanco); border-radius: 28px; box-shadow: 0 22px 45px rgba(0,0,0,0.08); }
-        .content h2 { font-size: 2.3rem; margin-bottom: 18px; color: var(--negro); }
-        .content p { color: #4a4a4a; line-height: 1.8; margin-bottom: 18px; }
+        .hero-card {
+            animation: page-enter 750ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        }
 
-        .grid { display: grid; gap: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 40px; }
-        .card { background: #faf6d6; border-radius: 22px; padding: 28px; box-shadow: 0 22px 45px rgba(0,0,0,0.08); }
-        .card h3 { margin-top: 0; font-size: 1.3rem; color: var(--negro); }
-        .card p { margin: 0; color: #555; }
+        .scroll-reveal {
+            opacity: 0;
+            translate: 0 24px;
+            transition: opacity 650ms ease var(--reveal-delay, 0ms), translate 650ms ease var(--reveal-delay, 0ms);
+        }
 
-        .section-highlight { padding: 60px 6%; background: linear-gradient(180deg, rgba(255,215,0,0.16), rgba(255,215,0,0.04)); border-radius: 28px; }
-        .section-highlight h2 { margin-bottom: 26px; color: var(--negro); }
-        .brand-grid { display: grid; gap: 16px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-        .brand-grid img { width: 100%; max-height: 80px; object-fit: contain; background: #fff9d6; border-radius: 16px; padding: 14px; }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            translate: 0 0;
+        }
 
-        footer { background: var(--negro); color: #ccc; padding: 40px 6%; }
-        .footer-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; max-width: 1160px; margin: 0 auto; }
-        .footer-grid h3 { color: var(--amarillo); margin-bottom: 14px; }
-        .footer-grid p, .footer-grid a { color: #bbb; line-height: 1.8; font-size: 0.95rem; }
-        .footer-bottom { margin-top: 30px; text-align: center; font-size: 0.9rem; color: #777; }
+        @keyframes page-enter {
+            from { opacity: 0; transform: translateY(22px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
+        @media (prefers-reduced-motion: reduce) {
+            .hero-card { animation: none; }
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 900px) {
-            nav { flex-wrap: wrap; gap: 12px; }
-            .menu-toggle { display: inline-flex; }
-            .menu { display: none; width: 100%; flex-direction: column; align-items: stretch; gap: 10px; padding-top: 8px; }
-            .menu.open { display: flex; }
-            .menu a { width: 100%; min-width: 0; }
-            .grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
+            .hero-card { flex-direction: column; text-align: center; padding: 40px 24px; }
+            .hero-content { max-width: 100%; }
+            .grid-pilares { grid-template-columns: 1fr; }
         }
-        @media (max-width: 680px) { .top-bar, nav { padding-left: 16px; padding-right: 16px; } .menu { gap: 14px; } .hero { min-height: 380px; } }
+
+        @media (max-width: 680px) {
+            .brand-box { width: 120px; }
+        }
     </style>
 </head>
 <body>
+
     @include('footer.top')
 
-    <section class="hero">
-        <div>
-            <h1>Nosotros</h1>
-            <p>Contamos con especialistas con mas de 15 años de experiencia en el ámbito de la industria, MAQUITEC ofrece equipos, asesoría y soporte técnico para operaciones seguras y eficientes.</p>
+    <!-- HERO NOSOTROS -->
+    <section class="hero-section">
+        <div class="hero-card">
+            <div class="hero-content">
+                <h1>Trayectoria e Innovación en <span>Maquinaria Pesada</span></h1>
+                <p>Contamos con especialistas con más de 15 años de experiencia en el ámbito industrial. MAQUITEC ofrece equipos, asesoría y soporte técnico para garantizar operaciones seguras y eficientes.</p>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="{{ asset('img/logo_maquitec.jpg') }}" alt="Maquitec Empresa">
+            </div>
         </div>
     </section>
 
-    <section class="content">
-        <h2>Sobre nuestra empresa</h2>
-        <p>MAQUITEC I.S.A.C. es una empresa peruana especializada en la comercialización, ensamblaje y mantenimiento de equipos industriales. Nuestro trabajo está enfocado en clientes que requieren transporte de carga, almacenamiento y manejo de materiales con un enfoque en seguridad y productividad.</p>
-        <p>Trabajamos con marcas reconocidas del sector y brindamos un servicio cercano para asesorar en proyectos de logística, construcción e industria pesada. Nuestra meta es ser aliados confiables para cada cliente, desde la selección del equipo hasta el servicio postventa.</p>
+    <!-- SOBRE LA EMPRESA Y PILARES -->
+    <section class="seccion">
+        <div class="seccion-header">
+            <span class="badge-tag">Nuestra Identidad</span>
+            <h2>Sobre nuestra empresa</h2>
+            <p class="lead">
+                MAQUITEC I.S.A.C. es una empresa peruana especializada en la comercialización, ensamblaje y mantenimiento de equipos industriales. Nuestro trabajo está enfocado en clientes que requieren transporte de carga, almacenamiento y manejo de materiales con los más altos estándares de seguridad y productividad.
+            </p>
+        </div>
 
-        <div class="grid">
-            <div class="card">
+        <div class="grid-pilares">
+            <div class="tarjeta-pilar">
                 <h3>Misión</h3>
-                <p>Entregar soluciones industriales completas que faciliten la operación diaria de nuestros clientes, manteniendo altos estándares de calidad y seguridad.</p>
+                <p>Entregar soluciones industriales completas que faciliten la operación diaria de nuestros clientes, manteniendo altos estándares de calidad, seguridad y eficiencia tecnológica.</p>
             </div>
-            <div class="card">
+
+            <div class="tarjeta-pilar">
                 <h3>Visión</h3>
                 <p>Ser la opción número uno en soluciones de manejo de carga y mantenimiento industrial en el Perú, reconocidos por nuestra experiencia, velocidad de respuesta y confianza.</p>
             </div>
-            <div class="card">
+
+            <div class="tarjeta-pilar">
                 <h3>Valores</h3>
-                <p>Compromiso, transparencia, seguridad y calidad. Cada proyecto se atiende con responsabilidad y enfoque en el resultado.</p>
+                <p>Compromiso, transparencia, seguridad y calidad. Cada proyecto se atiende con máxima responsabilidad técnica y enfoque centrado en el cliente.</p>
             </div>
-            <div class="card">
-                <h3>Servicios clave</h3>
-                <p>Asesoría técnica, suministro de equipos, mantenimiento preventivo, instalación y gestión de repuestos para equipos industriales.</p>
+
+            <div class="tarjeta-pilar">
+                <h3>Servicios Clave</h3>
+                <p>Asesoría técnica especializada, suministro de equipos, mantenimiento preventivo y correctivo, instalación y gestión integral de repuestos.</p>
             </div>
         </div>
     </section>
 
-    <section class="section-highlight">
-        <h1>Marcas con las que trabajamos</h1>
-        <div class="brand-grid">
-            <img src="img/hyster.jpg" alt="Hyster">
-            <img src="img/tcm.jpg" alt="TCM">
-            <img src="img/yale.jpg" alt="Yale">
-            <img src="img/crown.jpg" alt="Crown">
-            <img src="img/hyundai.jpg" alt="Hyundai">
-            <img src="img/hangcha.jpg" alt="Hangcha">
-            <img src="img/clark.jpg" alt="Clark">
+    <!-- MARCAS Y SERVICIOS CON FONDO AMARILLO -->
+    <section class="section-highlight" id="servicios">
+        <div style="max-width: 1280px; margin: 0 auto;">
+            <div class="seccion-header" style="margin-bottom: 30px;">
+                <span class="badge-tag">Respaldo Global</span>
+                <h2>Servicios y Marcas Autorizadas</h2>
+                <p class="lead" style="color: #27272a;">Brindamos soporte completo, repuestos y mantenimiento especializado para las marcas líderes del mercado logístico.</p>
+            </div>
+
+            <div style="margin-bottom: 16px; text-align: center;">
+                <h3 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #1e293b; font-weight: 700;">MARCAS DE MONTACARGAS Y EQUIPOS LOGÍSTICOS:</h3>
+            </div>
+
+            <div class="brands-grid">
+                <div class="brand-box"><img src="{{ asset('img/marcas/toyota.jpg') }}" alt="Toyota"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/komatsu.jpg') }}" alt="Komatsu"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/hyster.jpg') }}" alt="Hyster"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/caterpillar.jpg') }}" alt="Caterpillar"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/yale.jpg') }}" alt="Yale"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/tcm.jpg') }}" alt="TCM"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/hyundai.jpg') }}" alt="Hyundai"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/hangcha.jpg') }}" alt="Hangcha"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/heli.jpg') }}" alt="Heli"></div>
+                <div class="brand-box"><img src="{{ asset('img/marcas/crown.jpg') }}" alt="Crown"></div>
+            </div>
         </div>
     </section>
 
     @include('footer.bottom')
+
+    <script>
+        const revealElements = document.querySelectorAll('.seccion-header, .tarjeta-pilar, .section-highlight .brand-box');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if ('IntersectionObserver' in window && !prefersReducedMotion) {
+            revealElements.forEach((element) => {
+                const siblingIndex = Array.prototype.indexOf.call(element.parentElement.children, element);
+                element.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 5) * 80}ms`);
+                element.classList.add('scroll-reveal');
+            });
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+            revealElements.forEach((element) => revealObserver.observe(element));
+        }
+    </script>
+
 </body>
 </html>

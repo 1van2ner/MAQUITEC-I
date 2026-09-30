@@ -19,10 +19,8 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('descripcion');
             $table->text('especificaciones')->nullable();
-            $table->decimal('precio', 10, 2);
             $table->integer('stock')->default(0);
             $table->string('imagen');
-            $table->boolean('destacado')->default(0); // <-- Columna añadida aquí
             $table->string('estado')->default('Disponible');
             $table->timestamps();
         });

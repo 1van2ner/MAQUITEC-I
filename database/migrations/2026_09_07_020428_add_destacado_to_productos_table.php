@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('productos', function (Blueprint $table) {
-            $table->boolean('destacado')->default(0)->after('imagen');
-        });
+        if (!Schema::hasColumn('productos', 'destacado')) {
+            Schema::table('productos', function (Blueprint $table) {
+                $table->boolean('destacado')->default(0)->after('imagen');
+            });
+        }
     }
 
     /**

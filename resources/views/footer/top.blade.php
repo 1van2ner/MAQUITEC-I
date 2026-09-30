@@ -7,6 +7,18 @@
         --gris-claro: #f4f4f4;
     }
 
+    .top-bar,
+    nav,
+    .logo,
+    .logo img,
+    .logo-text strong,
+    .logo-text span,
+    .menu,
+    .menu a,
+    .nav-auth {
+        box-sizing: border-box;
+    }
+
     /* Barra Superior (Top Bar) */
     .top-bar {
         background: #09090b;
@@ -34,15 +46,19 @@
         padding: 15px 6%;
         background: var(--negro);
         border-bottom: 4px solid var(--amarillo);
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
         position: sticky;
         top: 0;
         z-index: 20;
         gap: 20px;
+        box-shadow: none;
     }
-    .logo { display: flex; align-items: center; gap: 16px; text-decoration: none; }
-    .logo img { width: 60px; height: 60px; object-fit: contain; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
-    .logo-text strong { font-size: 1.1rem; color: var(--amarillo); letter-spacing: 0.06em; display: block; }
-    .logo-text span { color: var(--blanco); font-size: 0.8rem; display: block; }
+    .logo { display: flex; align-items: center; gap: 18px; text-decoration: none; min-width: 0; }
+    .logo img { width: 78px; height: 78px; min-width: 78px; object-fit: cover; border: 0; border-radius: 50%; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+    .logo-text strong { margin: 0; font-size: 1.1rem; color: var(--amarillo); letter-spacing: 0.06em; display: block; }
+    .logo-text span { margin: 0; color: var(--blanco); font-size: 0.8rem; display: block; }
 
     /* Menú central */
     .menu {
@@ -52,6 +68,8 @@
         flex-wrap: wrap;
         margin-right: auto; 
         margin-left: 20px;
+        padding: 0;
+        list-style: none;
     }
     .menu-toggle {
         display: none;
@@ -68,11 +86,15 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        min-width: 0;
         padding: 8px 16px;
         font-weight: 600;
         color: var(--blanco);
         background: transparent;
+        border: 0;
         border-radius: 999px;
+        box-shadow: none;
+        transform: none;
         text-decoration: none;
         transition: all 0.2s ease;
         font-size: 0.95rem;
@@ -239,7 +261,7 @@
 
 <nav>
     <a href="{{ url('/') }}" class="logo">
-        <img src="{{ asset('img/logo_maquitec.jpg') }}" alt="Logo Maquitec">
+        <img src="{{ asset('img/productos/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
         <div class="logo-text">
             <strong>MAQUITEC I.S.A.C.</strong>
             <span>Soluciones industriales en movimiento</span>

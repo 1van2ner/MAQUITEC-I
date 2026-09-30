@@ -54,7 +54,6 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'descripcion' => 'required|string',
             'categoria_id' => 'required|exists:categorias,id',
@@ -77,7 +76,6 @@ class ProductoController extends Controller
             'slug' => Str::slug($request->nombre),
             'codigo' => $request->codigo ?? 'MAQ-' . rand(1000, 9999),
             'categoria_id' => $request->categoria_id,
-            'precio' => $request->precio,
             'stock' => $request->stock,
             'descripcion' => $request->descripcion,
             'especificaciones' => $request->especificaciones,
@@ -104,7 +102,6 @@ class ProductoController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'descripcion' => 'required|string',
             'categoria_id' => 'required|exists:categorias,id',
@@ -131,7 +128,6 @@ class ProductoController extends Controller
             'slug' => Str::slug($request->nombre),
             'codigo' => $request->codigo ?? $producto->codigo,
             'categoria_id' => $request->categoria_id,
-            'precio' => $request->precio,
             'stock' => $request->stock,
             'descripcion' => $request->descripcion,
             'especificaciones' => $request->especificaciones,

@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MaquitecController; // <-- 1. Importamos el controlador nuevo
+use App\Http\Controllers\BannerController; // <-- Añade esto arriba con los demás controladores
 
 // 2. Ruta principal conectada al controlador para evitar errores de variables no definidas en la vista
 Route::get('/', [MaquitecController::class, 'index']);
@@ -31,38 +32,17 @@ Route::get('/categorias/{id}', [CategoriaController::class, 'show'])
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
 Route::get('/productos/cotizar/{producto}', function ($producto) {
-    $items = [
-        'montacargas' => [
-            'title' => 'Montacargas y carretillas',
-            'description' => 'Soluciones resistentes para movilizar carga en bodegas, talleres y líneas de producción.',
-            'image' => 'img/img_maquitec1.jpg',
-        ],
-        'reposapies' => [
-            'title' => 'Reposapiés y equipos de apoyo',
-            'description' => 'Productos que complementan la operación segura y eficiente del personal y la maquinaria.',
-            'image' => 'img/img_maquitec2.jpg',
-        ],
-        'componentes' => [
-            'title' => 'Componentes y repuestos',
-            'description' => 'Disponemos de piezas clave para mantenimiento y reposición de equipos industriales.',
-            'image' => 'img/img_maquitec3.jpg',
-        ],
-        'accesorios' => [
-            'title' => 'Accesorios especializados',
-            'description' => 'Herramientas y accesorios para soluciones a medida de cada cliente.',
-            'image' => 'img/img_maquitec4.jpg',
-        ],
-    ];
+    $productoEncontrado = \App\Models\Producto::where('slug', $producto)->first();
 
-    if (!isset($items[$producto])) {
+    if (!$productoEncontrado) {
         return redirect('/productos');
     }
 
     return view('producto-cotizar', [
-        'slug' => $producto,
-        'productTitle' => $items[$producto]['title'],
-        'productDescription' => $items[$producto]['description'],
-        'productImage' => $items[$producto]['image'],
+        'slug' => $productoEncontrado->slug,
+        'productTitle' => $productoEncontrado->nombre,
+        'productDescription' => $productoEncontrado->descripcion,
+        'productImage' => $productoEncontrado->imagen ?: 'img/img_maquitec1.jpg',
     ]);
 });
 
@@ -136,6 +116,22 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/categorias/{id}', [CategoriaController::class, 'destroy'])->name('admin.categorias.destroy');
 });
 
+// ==========================================
+// RUTAS DE GESTIÓN DE BANNERS (Solo Administradores)
+// ==========================================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/banners', [BannerController::class, 'index'])->name('admin.banners.index');
+    Route::get('/admin/banners/crear', [BannerController::class, 'create'])->name('admin.banners.create');
+    Route::post('/admin/banners', [BannerController::class, 'store'])->name('admin.banners.store');
+    Route::get('/admin/banners/{id}/edit', [BannerController::class, 'edit'])->name('admin.banners.edit');
+    Route::put('/admin/banners/{id}', [BannerController::class, 'update'])->name('admin.banners.update');
+    Route::delete('/admin/banners/{id}', [BannerController::class, 'destroy'])->name('admin.banners.destroy');
+
+    Route::get('/admin/configuracion', function () {
+        return view('admin.configuracion');
+    })->name('admin.configuracion');
+});
+
 
 // ==========================================
 // RUTAS DE AUTENTICACIÓN (Solo para invitados)
@@ -153,19 +149,35 @@ Route::middleware(['guest'])->group(function () {
 
     // Procesar Registro (POST)
     Route::post('/register', function (Request $request) {
-        $request->validate([
+        $validated = $request->validate([
+            'tipo_usuario' => ['required', 'in:persona,empresa'],
             'name' => 'required|string|max:255',
+            'documento' => [
+                'required',
+                'digits:' . ($request->input('tipo_usuario') === 'empresa' ? 11 : 8),
+                'unique:users,documento',
+            ],
+            'fecha_nacimiento' => ['exclude_if:tipo_usuario,empresa', 'required_if:tipo_usuario,persona', 'date', 'before:today'],
+            'telefono' => 'required|string|max:20',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:6|confirmed',
+        ], [
+            'documento.digits' => $request->input('tipo_usuario') === 'empresa'
+                ? 'El RUC debe contener exactamente 11 dígitos.'
+                : 'El DNI debe contener exactamente 8 dígitos.',
+            'documento.unique' => 'Este documento ya está registrado.',
+            'fecha_nacimiento.required_if' => 'La fecha de nacimiento es obligatoria para personas.',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'rol' => 'Cliente', 
-            'telefono' => $request->telefono ?? null,
-            'direccion' => $request->direccion ?? null,
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'rol' => 'Cliente',
+            'tipo_usuario' => $validated['tipo_usuario'],
+            'documento' => $validated['documento'],
+            'fecha_nacimiento' => $validated['fecha_nacimiento'] ?? null,
+            'telefono' => $validated['telefono'],
         ]);
 
         Auth::login($user);

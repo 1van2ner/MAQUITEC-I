@@ -52,7 +52,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo img { width: 50px; height: 50px; object-fit: contain; border-radius: 10px; }
+        .logo img { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; }
         .logo-text strong { font-size: 1.05rem; color: var(--amarillo); letter-spacing: 0.05em; display: block; }
         .logo-text span { color: #94a3b8; font-size: 0.75rem; display: block; }
 
@@ -237,7 +237,7 @@
         
         <nav>
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/logo_maquitec.jpg') }}" alt="Logo Maquitec">
+                <img src="{{ asset('img/productos/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
                 <div class="logo-text">
                     <strong>MAQUITEC I.S.A.C.</strong>
                     <span>Soluciones industriales en movimiento</span>

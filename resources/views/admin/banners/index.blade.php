@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Productos - MAQUITEC I.S.A.C.</title>
+    <title>Gestión de Banners - MAQUITEC I.S.A.C.</title>
     <style>
         :root { 
             --amarillo: #FFD700; 
@@ -13,8 +13,8 @@
             --gris-claro: #f8f9fa;
             --gris-borde: #e2e8f0;
             --texto-muted: #64748b;
-            --azul-admin: #2563eb;
         }
+        
         * { box-sizing: border-box; }
         
         body {
@@ -28,7 +28,10 @@
             justify-content: space-between;
         }
 
-        /* Barra superior y Navegación sofisticada */
+        .header-wrapper {
+            width: 100%;
+        }
+
         .top-bar { 
             background: rgba(10, 10, 10, 0.95); 
             backdrop-filter: blur(10px);
@@ -57,20 +60,21 @@
         .logo-text strong { font-size: 1.05rem; color: var(--amarillo); letter-spacing: 0.05em; display: block; }
         .logo-text span { color: #94a3b8; font-size: 0.75rem; display: block; }
 
-        .back-home {
+        .user-pill {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
             color: var(--blanco);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            display: inline-flex;
+            font-size: 0.85rem;
+            display: flex;
             align-items: center;
-            gap: 6px;
-            transition: color 0.2s ease;
+            gap: 8px;
         }
-        .back-home:hover { color: var(--amarillo); }
+        .user-pill span { color: var(--amarillo); font-weight: 600; }
 
-        /* Contenedor Principal */
-        .main-container {
+        /* Contenedor Principal Ampliado */
+        .admin-container {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -83,39 +87,31 @@
             background: var(--blanco);
             width: 100%;
             max-width: 1200px;
-            padding: 36px 44px;
-            border-radius: 20px;
+            padding: 40px 48px;
+            border-radius: 24px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-            border-top: 4px solid var(--amarillo);
-            position: relative;
+            border-top: 5px solid var(--amarillo);
         }
 
         .header-flex { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
-            margin-bottom: 24px; 
+            margin-bottom: 25px; 
             flex-wrap: wrap; 
             gap: 15px; 
         }
 
-        .admin-card h1 { 
-            margin: 0 0 6px 0; 
+        h1 { 
+            margin: 0; 
             color: var(--negro); 
-            font-size: 1.7rem; 
+            font-size: 1.8rem; 
             font-weight: 800;
             letter-spacing: -0.02em;
         }
 
-        .admin-card p {
-            margin: 0;
-            color: var(--texto-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Botones sofisticados */
         .btn { 
-            padding: 10px 16px; 
+            padding: 10px 18px; 
             border-radius: 10px; 
             font-weight: 700; 
             text-decoration: none; 
@@ -123,28 +119,28 @@
             display: inline-flex; 
             align-items: center; 
             justify-content: center;
+            gap: 6px; 
             cursor: pointer; 
             border: none; 
             transition: all 0.2s ease;
         }
-        
-        .btn-new { 
-            background: var(--negro); 
-            color: var(--amarillo); 
-            padding: 11px 20px; 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-        .btn-new:hover { 
+
+        .btn-primary { 
             background: var(--amarillo); 
             color: var(--negro); 
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.25);
+        }
+        .btn-primary:hover { 
+            background: var(--amarillo-hover); 
             transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(255, 215, 0, 0.35);
         }
 
         .btn-edit { 
             background: var(--amarillo); 
             color: var(--negro); 
-            margin-right: 5px; 
             padding: 8px 12px;
+            margin-right: 5px; 
             box-shadow: 0 2px 6px rgba(255, 215, 0, 0.2);
         }
         .btn-edit:hover { 
@@ -152,12 +148,14 @@
             transform: translateY(-1px);
         }
 
-        .btn-delete { 
+        .btn-danger { 
             background: #ef4444; 
             color: #fff; 
             padding: 8px 12px;
         }
-        .btn-delete:hover { background: #dc2626; }
+        .btn-danger:hover { 
+            background: #dc2626; 
+        }
 
         .btn-back { 
             display: inline-flex; 
@@ -172,51 +170,48 @@
             font-size: 0.85rem; 
             margin-bottom: 24px; 
             border: 1px solid var(--gris-borde);
-            transition: all 0.2s;
+            transition: all 0.2s ease;
         }
         .btn-back:hover {
             background: #e2e8f0;
         }
 
-        .alert-success { 
-            background: #dcfce7; 
-            color: #166534; 
-            padding: 14px 18px; 
-            border-radius: 10px; 
-            margin-bottom: 24px; 
-            font-weight: 600; 
-            font-size: 0.9rem;
-            border: 1px solid #bbf7d0;
-        }
-
-        /* Tabla estilizada */
         .table-responsive {
             width: 100%;
-            overflow-x: auto;
+            overflow-x: visible;
+            border-radius: 12px;
+            border: 1px solid var(--gris-borde);
         }
 
         table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin-top: 10px; 
-            white-space: nowrap;
+            text-align: left;
         }
 
         th, td { 
-            padding: 14px 16px; 
-            text-align: left; 
-            border-bottom: 1px solid var(--gris-borde); 
-            font-size: 0.9rem; 
-            vertical-align: middle; 
+            padding: 14px 18px; 
+            font-size: 0.92rem; 
+            vertical-align: middle;
         }
 
         th { 
             background: var(--gris-claro); 
             font-weight: 700; 
             color: #334155; 
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
+            text-transform: uppercase; 
+            font-size: 0.78rem; 
+            letter-spacing: 0.05em; 
+            border-bottom: 2px solid var(--gris-borde);
+        }
+
+        td {
+            border-bottom: 1px solid var(--gris-borde);
+            color: #334155;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
         }
 
         tr {
@@ -226,12 +221,35 @@
             background: #fafafa;
         }
 
-        .img-thumb { 
-            width: 50px; 
-            height: 50px; 
-            object-fit: cover; 
-            border-radius: 8px; 
-            border: 1px solid var(--gris-borde); 
+        .badge {
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            letter-spacing: 0.05em;
+        }
+        .badge-active {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .badge-inactive {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success { 
+            background: #dcfce7; 
+            color: #166534; 
+            padding: 14px 18px; 
+            border-radius: 10px; 
+            margin-bottom: 24px; 
+            font-weight: 600; 
+            font-size: 0.9rem; 
+            border: 1px solid #bbf7d0;
         }
 
         footer {
@@ -241,19 +259,18 @@
             padding: 18px;
             font-size: 0.8rem;
             border-top: 1px solid rgba(255,255,255,0.04);
+            width: 100%;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .admin-card { padding: 24px 16px; }
+            .admin-card { padding: 25px 20px; }
             .header-flex { flex-direction: column; align-items: flex-start; }
-            .btn-new { width: 100%; text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <div>
+    <div class="header-wrapper">
         <div class="top-bar">
             <span>Av. San Agustín SMP, Lima, Perú</span>
             <span>📞 963 727 185 | 955 081 815</span>
@@ -268,20 +285,23 @@
                     <span>Soluciones industriales en movimiento</span>
                 </div>
             </a>
-            <a href="{{ url('/') }}" class="back-home">← Volver al inicio</a>
+            <div class="user-pill">
+                Zona de Control
+            </div>
         </nav>
     </div>
 
-    <div class="main-container">
+    <div class="admin-container">
         <div class="admin-card">
+            
             <a href="{{ route('admin.dashboard') }}" class="btn-back">&larr; Volver al Panel</a>
             
             <div class="header-flex">
                 <div>
-                    <h1>Gestión de Maquinaria y Productos</h1>
-                    <p>Agrega equipos nuevos o da de baja maquinaria existente en el catálogo web.</p>
+                    <h1>Gestión de Banners</h1>
+                    <p style="margin: 4px 0 0 0; color: var(--texto-muted); font-size: 0.9rem;">Administra las imágenes y mensajes destacados del portal principal.</p>
                 </div>
-                <a href="{{ route('admin.productos.create') }}" class="btn btn-new">+ Añadir Nuevo Producto</a>
+                <a href="{{ route('admin.banners.create') }}" class="btn btn-primary">+ Nuevo Banner</a>
             </div>
 
             @if(session('success'))
@@ -292,45 +312,48 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Imagen</th>
-                            <th>Código</th>
-                            <th>Nombre</th>
-                            <th>Stock</th>
-                            <th>Acciones</th>
+                            <th style="width: 20%;">Imagen</th>
+                            <th style="width: 40%;">Título</th>
+                            <th style="width: 15%;">Estado</th>
+                            <th style="width: 25%; text-align: center;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($productos as $prod)
-                        <tr>
-                            <td><img src="{{ asset($prod->imagen) }}" alt="{{ $prod->nombre }}" class="img-thumb"></td>
-                            <td><code style="background: var(--gris-claro); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--gris-borde);">{{ $prod->codigo }}</code></td>
-                            <td><strong>{{ $prod->nombre }}</strong></td>
-                            <td>
-                                <span style="font-weight: 700; color: {{ $prod->stock > 0 ? '#166534' : '#991b1b' }}; background: {{ $prod->stock > 0 ? '#dcfce7' : '#fee2e2' }}; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; display: inline-block;">
-                                    {{ $prod->stock }} unidades
-                                </span>
-                            </td>
-                            <td>
-                                <!-- Botón Editar (Amarillo corporativo) -->
-                                <a href="{{ route('admin.productos.edit', $prod->id) }}" class="btn btn-edit">Editar</a>
-
-                                <!-- Botón Eliminar -->
-                                <form action="{{ route('admin.productos.destroy', $prod->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-delete">Eliminar</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
+                        @forelse($banners as $banner)
+                            <tr>
+                                <td>
+                                    <img src="{{ asset($banner->imagen) }}" alt="Banner" style="width: 100px; height: 56px; object-fit: cover; border-radius: 8px; border: 1px solid var(--gris-borde); background: #f8fafc;">
+                                </td>
+                                <td><strong>{{ $banner->titulo }}</strong></td>
+                                <td>
+                                    <span class="badge {{ $banner->activo ? 'badge-active' : 'badge-inactive' }}">
+                                        {{ $banner->activo ? 'Activo' : 'Inactivo' }}
+                                    </span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="{{ route('admin.banners.edit', $banner->id) }}" class="btn btn-edit">Editar</a>
+                                    <form action="{{ route('admin.banners.destroy', $banner->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este banner?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: var(--texto-muted); padding: 40px;">No hay banners registrados.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 
     <footer>
         © 2026 MAQUITEC I.S.A.C. — Todos los derechos reservados.
     </footer>
+
 </body>
 </html>

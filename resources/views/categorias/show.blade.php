@@ -18,7 +18,6 @@
         .producto-contenido { padding: 22px; }
         .producto h2 { margin: 0 0 10px; font-size: 1.2rem; }
         .producto p { margin: 0 0 12px; color: #555; line-height: 1.6; }
-        .precio { color: #857200; font-weight: 700; }
         .volver { display: inline-block; margin-top: 34px; color: var(--negro); font-weight: 700; }
         @media (max-width: 800px) { .productos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         @media (max-width: 560px) { .productos { grid-template-columns: 1fr; } }
@@ -45,9 +44,6 @@
                         <div class="producto-contenido">
                             <h2>{{ $producto->nombre }}</h2>
                             <p>{{ $producto->descripcion ?? 'Producto industrial especializado.' }}</p>
-                            @if($producto->precio !== null)
-                                <span class="precio">S/ {{ number_format($producto->precio, 2) }}</span>
-                            @endif
                         </div>
                     </article>
                 @endforeach

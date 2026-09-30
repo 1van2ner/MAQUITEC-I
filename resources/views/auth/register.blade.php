@@ -52,7 +52,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo img { width: 50px; height: 50px; object-fit: contain; border-radius: 10px; }
+        .logo img { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; }
         .logo-text strong { font-size: 1.05rem; color: var(--amarillo); letter-spacing: 0.05em; display: block; }
         .logo-text span { color: #94a3b8; font-size: 0.75rem; display: block; }
 
@@ -121,6 +121,84 @@
         .form-group.full-width {
             grid-column: span 2;
         }
+
+        .account-type-fieldset {
+            min-width: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .account-type-fieldset legend {
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 0.83rem;
+            color: #334155;
+        }
+
+        .account-type-options {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .account-type-option {
+            position: relative;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .account-type-option input {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+        }
+
+        .account-type-card {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 12px 14px;
+            border: 1.5px solid var(--gris-borde);
+            border-radius: 10px;
+            background: var(--gris-claro);
+            transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .account-type-card strong {
+            color: var(--negro);
+            font-size: 0.92rem;
+        }
+
+        .account-type-card small {
+            color: var(--texto-muted);
+            font-size: 0.78rem;
+            font-weight: 400;
+        }
+
+        .account-type-option input:checked + .account-type-card {
+            border-color: #caaa2b;
+            background: #fffbea;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.14);
+        }
+
+        .account-type-option input:focus-visible + .account-type-card {
+            outline: 2px solid var(--negro);
+            outline-offset: 2px;
+        }
+
+        .form-errors {
+            margin-bottom: 20px;
+            padding: 12px 16px;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            background: #fef2f2;
+            color: #991b1b;
+            font-size: 0.85rem;
+        }
+
+        .form-errors ul { margin: 6px 0 0; padding-left: 20px; }
 
         .form-group label {
             display: block;
@@ -258,7 +336,7 @@
         
         <nav>
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/logo_maquitec.jpg') }}" alt="Logo Maquitec">
+                <img src="{{ asset('img/productos/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
                 <div class="logo-text">
                     <strong>MAQUITEC I.S.A.C.</strong>
                     <span>Soluciones industriales en movimiento</span>
@@ -275,33 +353,63 @@
                 <p class="subtitle">Complete sus datos corporativos y personales para gestionar servicios</p>
             </div>
 
+            @if ($errors->any())
+                <div class="form-errors" role="alert">
+                    <strong>Revise los datos ingresados:</strong>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <form action="{{ url('/register') }}" method="POST">
                 @csrf
                 <div class="form-grid">
-                    
+                    <fieldset class="account-type-fieldset form-group full-width">
+                        <legend>Tipo de cuenta *</legend>
+                        <div class="account-type-options">
+                            <label class="account-type-option">
+                                <input type="radio" name="tipo_usuario" value="persona" {{ old('tipo_usuario', 'persona') === 'persona' ? 'checked' : '' }} required>
+                                <span class="account-type-card">
+                                    <strong>Persona</strong>
+                                    <small>Registro con DNI de 8 dígitos</small>
+                                </span>
+                            </label>
+                            <label class="account-type-option">
+                                <input type="radio" name="tipo_usuario" value="empresa" {{ old('tipo_usuario') === 'empresa' ? 'checked' : '' }} required>
+                                <span class="account-type-card">
+                                    <strong>Empresa</strong>
+                                    <small>Registro con RUC de 11 dígitos</small>
+                                </span>
+                            </label>
+                        </div>
+                    </fieldset>
+
                     <div class="form-group full-width">
-                        <label for="name">Nombre completo *</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Ej. Juan Pérez" required>
+                        <label for="name" id="name-label">Nombre completo *</label>
+                        <input type="text" id="name" name="name" class="form-control" value="{{ old('name') }}" placeholder="Ej. Juan Pérez" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="dni">DNI *</label>
-                        <input type="text" id="dni" name="dni" class="form-control" placeholder="Número de DNI (8 dígitos)" maxlength="8" pattern="[0-9]{8}" title="Debe ingresar un DNI válido de 8 dígitos" required>
+                        <label for="documento"><span id="document-label">DNI *</span></label>
+                        <input type="text" id="documento" name="documento" class="form-control" value="{{ old('documento') }}" placeholder="Número de DNI (8 dígitos)" maxlength="8" pattern="[0-9]{8}" inputmode="numeric" autocomplete="off" title="Ingrese un DNI de 8 dígitos" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="birthdate-group">
                         <label for="birthdate">Fecha de nacimiento *</label>
-                        <input type="date" id="birthdate" name="birthdate" class="form-control" required>
+                        <input type="date" id="birthdate" name="fecha_nacimiento" class="form-control" value="{{ old('fecha_nacimiento') }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="phone">Número telefónico *</label>
-                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Ej. 963727185" required>
+                        <input type="tel" id="phone" name="telefono" class="form-control" value="{{ old('telefono') }}" placeholder="Ej. 963727185" required>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Correo electrónico *</label>
-                        <input type="email" id="email" name="email" class="form-control" placeholder="correo@ejemplo.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+                        <input type="email" id="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="correo@ejemplo.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
                     </div>
 
                     <div class="form-group">
@@ -342,6 +450,33 @@
     </footer>
 
     <script>
+        const accountTypeInputs = document.querySelectorAll('input[name="tipo_usuario"]');
+        const nameLabel = document.getElementById('name-label');
+        const nameInput = document.getElementById('name');
+        const documentLabel = document.getElementById('document-label');
+        const documentInput = document.getElementById('documento');
+        const birthdateGroup = document.getElementById('birthdate-group');
+        const birthdateInput = document.getElementById('birthdate');
+
+        function updateAccountTypeFields() {
+            const selectedAccountType = document.querySelector('input[name="tipo_usuario"]:checked');
+            const isCompany = selectedAccountType?.value === 'empresa';
+
+            nameLabel.textContent = isCompany ? 'Razón social *' : 'Nombre completo *';
+            nameInput.placeholder = isCompany ? 'Ej. MAQUITEC S.A.C.' : 'Ej. Juan Pérez';
+            documentLabel.textContent = isCompany ? 'RUC *' : 'DNI *';
+            documentInput.placeholder = isCompany ? 'Número de RUC (11 dígitos)' : 'Número de DNI (8 dígitos)';
+            documentInput.maxLength = isCompany ? 11 : 8;
+            documentInput.pattern = isCompany ? '[0-9]{11}' : '[0-9]{8}';
+            documentInput.title = isCompany ? 'Ingrese un RUC de 11 dígitos' : 'Ingrese un DNI de 8 dígitos';
+            birthdateGroup.hidden = isCompany;
+            birthdateInput.disabled = isCompany;
+            birthdateInput.required = !isCompany;
+        }
+
+        accountTypeInputs.forEach((input) => input.addEventListener('change', updateAccountTypeFields));
+        updateAccountTypeFields();
+
         function togglePassword(fieldId, btn) {
             const input = document.getElementById(fieldId);
             const isPassword = input.type === 'password';
