@@ -49,5 +49,5 @@ RUN a2enmod rewrite \
 # 11. Exponer el puerto por defecto
 EXPOSE 80
 
-# 12. Ejecutar migraciones e iniciar Apache
+# 12. Iniciar Apache adaptándolo al puerto dinámico que exige Render y ejecutando migraciones
 CMD sed -i "s/80/$PORT/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf && php artisan migrate --force && apache2-foreground
