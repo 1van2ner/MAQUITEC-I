@@ -178,7 +178,8 @@
 
         .table-responsive {
             width: 100%;
-            overflow-x: visible; /* Evita que aparezca barra de desplazamiento */
+            min-width: 0;
+            overflow-x: auto;
             border-radius: 12px;
             border: 1px solid var(--gris-borde);
         }
@@ -187,6 +188,7 @@
             width: 100%; 
             border-collapse: collapse; 
             text-align: left;
+            table-layout: fixed;
             /* Eliminado white-space: nowrap para que el texto baje de línea y no estire la tabla */
         }
 
@@ -209,6 +211,7 @@
         td {
             border-bottom: 1px solid var(--gris-borde);
             color: #334155;
+            overflow-wrap: anywhere;
         }
 
         tr:last-child td {
@@ -255,8 +258,57 @@
         }
 
         @media (max-width: 768px) {
-            .admin-card { padding: 25px 20px; }
+            .top-bar { display: none; }
+            .admin-container { align-items: flex-start; padding: 20px 12px; }
+            .admin-card { min-width: 0; padding: 25px 16px; border-radius: 18px; }
             .header-flex { flex-direction: column; align-items: flex-start; }
+            h1 { font-size: 1.45rem; }
+            .table-responsive { overflow: visible; border: 0; }
+            table, tbody { display: block; width: 100%; }
+            thead { display: none; }
+            tbody tr {
+                display: grid;
+                grid-template-columns: 64px minmax(0, 1fr);
+                gap: 0 8px;
+                margin-bottom: 12px;
+                padding: 8px;
+                border: 1px solid var(--gris-borde);
+                border-radius: 12px;
+                background: var(--blanco);
+            }
+            tbody td {
+                display: block;
+                min-width: 0;
+                padding: 9px 8px;
+                border: 0;
+                font-size: 0.88rem;
+                overflow-wrap: anywhere;
+            }
+            tbody td::before {
+                content: attr(data-label);
+                display: block;
+                margin-bottom: 4px;
+                color: var(--texto-muted);
+                font-size: 0.66rem;
+                font-weight: 800;
+                text-transform: uppercase;
+            }
+            tbody td:nth-child(1) { grid-column: 1; grid-row: 1; }
+            tbody td:nth-child(2) { grid-column: 2; grid-row: 1; }
+            tbody td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; }
+            tbody td:nth-child(4) {
+                display: grid;
+                grid-column: 1 / -1;
+                grid-row: 3;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+                text-align: left !important;
+            }
+            tbody td:nth-child(4)::before { grid-column: 1 / -1; }
+            tbody td:nth-child(4) form { margin: 0; }
+            tbody td:nth-child(4) .btn { width: 100%; padding: 8px 6px; font-size: 0.78rem; }
+            tbody tr.empty-row { display: block; }
+            tbody tr.empty-row td { width: 100%; text-align: center !important; }
         }
     </style>
 </head>
@@ -317,10 +369,10 @@
                     <tbody>
                         @forelse($categorias as $cat)
                             <tr>
-                                <td>{{ $cat->id }}</td>
-                                <td><strong>{{ $cat->nombre }}</strong></td>
-                                <td>{{ $cat->descripcion ?? 'Sin descripción' }}</td>
-                                <td style="text-align: right;">
+                                <td data-label="ID">{{ $cat->id }}</td>
+                                <td data-label="Categoría"><strong>{{ $cat->nombre }}</strong></td>
+                                <td data-label="Descripción">{{ $cat->descripcion ?? 'Sin descripción' }}</td>
+                                <td data-label="Acciones" style="text-align: right;">
                                     <a href="{{ route('admin.categorias.edit', $cat->id) }}" class="btn btn-edit">Editar</a>
                                     <form action="{{ route('admin.categorias.destroy', $cat->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?');">
                                         @csrf
@@ -330,7 +382,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr>
+                            <tr class="empty-row">
                                 <td colspan="4" style="text-align: center; color: var(--texto-muted); padding: 40px;">No hay categorías registradas.</td>
                             </tr>
                         @endforelse

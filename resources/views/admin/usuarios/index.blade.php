@@ -104,6 +104,17 @@
             gap: 15px; 
         }
 
+        .user-filters {
+            display: grid;
+            grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) minmax(0, 1fr) auto auto;
+            gap: 12px;
+            margin: 20px 0 24px;
+            align-items: end;
+        }
+        .user-filters > div { min-width: 0; }
+        .user-filters input,
+        .user-filters select { max-width: 100%; min-width: 0; }
+
         h1 { 
             margin: 0; 
             color: var(--negro); 
@@ -166,7 +177,8 @@
 
         .table-responsive {
             width: 100%;
-            overflow-x: visible;
+            min-width: 0;
+            overflow-x: auto;
             border-radius: 12px;
             border: 1px solid var(--gris-borde);
         }
@@ -175,6 +187,7 @@
             width: 100%; 
             border-collapse: collapse; 
             text-align: left;
+            table-layout: fixed;
         }
 
         th, td { 
@@ -196,6 +209,7 @@
         td {
             border-bottom: 1px solid var(--gris-borde);
             color: #334155;
+            overflow-wrap: anywhere;
         }
 
         tr:last-child td {
@@ -243,8 +257,64 @@
         }
 
         @media (max-width: 768px) {
-            .admin-card { padding: 25px 20px; }
+            .top-bar { display: none; }
+            .admin-container { align-items: flex-start; padding: 20px 12px; }
+            .admin-card { min-width: 0; padding: 25px 16px; border-radius: 18px; }
             .header-flex { flex-direction: column; align-items: flex-start; }
+            h1 { font-size: 1.45rem; }
+            .user-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+            .user-filters > div:first-child { grid-column: 1 / -1; }
+            .user-filters button,
+            .user-filters > a { width: 100%; padding-right: 8px; padding-left: 8px; }
+            .table-responsive { overflow: visible; border: 0; }
+            table, tbody { display: block; width: 100%; }
+            thead { display: none; }
+            tbody tr {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0 8px;
+                margin-bottom: 12px;
+                padding: 8px;
+                border: 1px solid var(--gris-borde);
+                border-radius: 12px;
+                background: var(--blanco);
+            }
+            tbody td {
+                display: block;
+                min-width: 0;
+                padding: 9px 8px;
+                border: 0;
+                font-size: 0.86rem;
+                overflow-wrap: anywhere;
+            }
+            tbody td::before {
+                content: attr(data-label);
+                display: block;
+                margin-bottom: 4px;
+                color: var(--texto-muted);
+                font-size: 0.66rem;
+                font-weight: 800;
+                text-transform: uppercase;
+            }
+            tbody td:nth-child(1) { grid-column: 1; grid-row: 1; }
+            tbody td:nth-child(2) { grid-column: 2; grid-row: 1; }
+            tbody td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; }
+            tbody td:nth-child(4) { grid-column: 1; grid-row: 3; }
+            tbody td:nth-child(5) { grid-column: 1 / -1; grid-row: 4; }
+            tbody td:nth-child(6) { grid-column: 2; grid-row: 3; }
+            tbody td:nth-child(7) {
+                display: grid;
+                grid-column: 1 / -1;
+                grid-row: 5;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+                text-align: left !important;
+            }
+            tbody td:nth-child(7)::before { grid-column: 1 / -1; }
+            tbody td:nth-child(7) form { margin: 0; }
+            tbody td:nth-child(7) .btn { width: 100%; padding: 8px 6px; font-size: 0.78rem; }
+            tbody tr.empty-row { display: block; }
+            tbody tr.empty-row td { width: 100%; text-align: center !important; }
         }
     </style>
 </head>
@@ -283,7 +353,7 @@
                 </div>
             </div>
 
-            <form method="GET" action="{{ route('admin.usuarios.index') }}" style="display: grid; grid-template-columns: 1.8fr 1fr 1fr auto auto; gap: 12px; margin: 20px 0 24px; align-items: end;">
+            <form method="GET" action="{{ route('admin.usuarios.index') }}" class="user-filters">
                 <div>
                     <label for="search" style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Buscar</label>
                     <input id="search" type="text" name="search" value="{{ request('search') }}" placeholder="Nombre, correo, rol o fecha" style="width: 100%; padding: 11px 12px; border: 2px solid var(--amarillo); border-radius: 10px; font-size: 0.92rem; box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.1);">
@@ -330,17 +400,17 @@
                     <tbody>
                         @forelse($usuarios as $user)
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td><strong>{{ $user->name }}</strong></td>
-                            <td>{{ $user->email }}</td>
-                            <td>
+                            <td data-label="ID">{{ $user->id }}</td>
+                            <td data-label="Nombre"><strong>{{ $user->name }}</strong></td>
+                            <td data-label="Correo">{{ $user->email }}</td>
+                            <td data-label="Rol">
                                 <span class="badge {{ $user->rol === 'Administrador' ? 'badge-admin' : 'badge-cliente' }}">
                                     {{ $user->rol ?? 'Cliente' }}
                                 </span>
                             </td>
-                            <td>{{ $user->created_at ? $user->created_at->format('d/m/Y') : 'Sin fecha' }}</td>
-                            <td>{{ $user->telefono ?? 'No registrado' }}</td>
-                            <td style="text-align: right;">
+                            <td data-label="Fecha de registro">{{ $user->created_at ? $user->created_at->format('d/m/Y') : 'Sin fecha' }}</td>
+                            <td data-label="Teléfono">{{ $user->telefono ?? 'No registrado' }}</td>
+                            <td data-label="Acciones" style="text-align: right;">
                                 <a href="{{ route('admin.usuarios.edit', $user->id) }}" class="btn btn-edit">Editar</a>
                                 <form action="{{ route('admin.usuarios.destroy', $user->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
                                     @csrf
@@ -350,7 +420,7 @@
                             </td>
                         </tr>
                         @empty
-                        <tr>
+                        <tr class="empty-row">
                             <td colspan="7" style="text-align: center; color: var(--texto-muted); padding: 40px;">No hay usuarios registrados.</td>
                         </tr>
                         @endforelse

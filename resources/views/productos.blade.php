@@ -318,8 +318,20 @@
 
         @media (max-width: 600px) {
             .products-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 14px;
             }
+            .catalog-container { gap: 24px; margin: 28px auto; padding: 0 4%; }
+            .sidebar { padding: 20px 16px; border-radius: 14px; }
+            .catalog-content { min-width: 0; gap: 20px; }
+            .catalog-header-bar { padding: 14px; border-radius: 12px; }
+            .catalog-header-bar span { font-size: 0.9rem; line-height: 1.4; }
+            .product-image-container { height: 132px; padding: 10px; }
+            .product-info { gap: 7px; padding: 12px; }
+            .product-category-tag { font-size: 0.64rem; letter-spacing: 0.04em; }
+            .product-title { font-size: 0.9rem; line-height: 1.3; overflow-wrap: anywhere; }
+            .product-action { padding: 0 10px 12px; }
+            .btn-cotizar { padding: 10px 6px; border-radius: 8px; font-size: 0.7rem; letter-spacing: 0; }
         }
     </style>
 </head>

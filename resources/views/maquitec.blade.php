@@ -50,6 +50,16 @@
             max-height: 720px;
         }
 
+        .hero-slider.is-draggable {
+            cursor: grab;
+            touch-action: pan-y;
+            user-select: none;
+        }
+
+        .hero-slider.is-draggable.is-dragging { cursor: grabbing; }
+        .hero-slider.is-draggable .hero-bg-img,
+        .hero-slider.is-draggable .hero-overlay { pointer-events: none; }
+
         .hero-slide {
             position: absolute;
             top: 0;
@@ -163,34 +173,6 @@
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(247, 213, 71, 0.5);
         }
-
-        .slider-nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.4);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            backdrop-filter: blur(4px);
-            transition: all 0.2s ease;
-        }
-
-        .slider-nav-btn:hover {
-            background: var(--amarillo);
-            color: #000000;
-            border-color: var(--amarillo);
-        }
-
-        .slider-nav-btn.prev { left: 24px; }
-        .slider-nav-btn.next { right: 24px; }
 
         .slider-controls {
             position: absolute;
@@ -619,14 +601,25 @@
         }
 
         @media (max-width: 768px) {
-            .cards, .grid-categorias { grid-template-columns: 1fr; }
+            .seccion { padding-left: 3%; padding-right: 3%; }
+            .cards, .grid-categorias {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+            .card img { height: 140px; object-fit: contain; }
+            .card-content { padding: 12px; gap: 8px; }
+            .card-content strong { font-size: 0.76rem; }
+            .card-content p { font-size: 0.78rem; overflow-wrap: anywhere; }
+            .tarjeta-categoria { padding: 16px 10px; border-radius: 12px; }
+            .icono-wrapper { width: 44px; height: 44px; margin-bottom: 12px; }
+            .icono-wrapper svg { width: 22px; height: 22px; }
+            .tarjeta-categoria h3 { font-size: 0.82rem; }
+            .tarjeta-categoria p { font-size: 0.76rem; margin-bottom: 12px; overflow-wrap: anywhere; }
+            .badge-productos { padding: 6px 8px; font-size: 0.68rem; }
             .features-container { grid-template-columns: 1fr; }
             .feature-item { border-bottom: 1px solid #e2e8f0; }
             .feature-item:last-child { border-bottom: none; }
             .hero-slider { height: 50vh; min-height: 400px; }
-            .slider-nav-btn { width: 40px; height: 40px; }
-            .slider-nav-btn.prev { left: 10px; }
-            .slider-nav-btn.next { right: 10px; }
             .brand-box { width: 120px; }
             .payment-container {
                 flex-direction: column;
@@ -649,7 +642,7 @@
 
     <!-- SECCIÓN DE BANNER HERO DINÁMICO IMPRESIONANTE -->
     <section class="hero-banner-section" id="inicio">
-        <div class="hero-slider">
+        <div class="hero-slider {{ isset($banners) && $banners->count() > 1 ? 'is-draggable' : '' }}">
             @forelse($banners as $index => $banner)
                 <div class="hero-slide {{ $index === 0 ? 'active' : '' }}">
                     <img src="{{ asset($banner->imagen) }}" alt="{{ $banner->titulo }}" class="hero-bg-img">
@@ -682,12 +675,7 @@
                 </div>
             @endforelse
 
-            <!-- Controles de Navegación Lateral -->
             @if(isset($banners) && $banners->count() > 1)
-                <button class="slider-nav-btn prev" onclick="moveSlide(-1)">&larr;</button>
-                <button class="slider-nav-btn next" onclick="moveSlide(1)">&rarr;</button>
-
-                <!-- Puntos de Navegación -->
                 <div class="slider-controls">
                     @foreach($banners as $index => $banner)
                         <span class="dot {{ $index === 0 ? 'active' : '' }}" onclick="currentSlide({{ $index }})"></span>
@@ -810,7 +798,7 @@
         <div style="max-width: 1280px; margin: 0 auto;">
             <div class="seccion-header" style="margin-bottom: 30px;">
                 <span class="badge-tag">Respaldo Global</span>
-                <h2>Servicios y Marcas Autorizadas</h2>
+                <h2>Marcas Autorizadas</h2>
                 <p class="lead">Brindamos soporte completo, repuestos y mantenimiento especializado para las marcas líderes del mercado logístico.</p>
             </div>
 
@@ -889,6 +877,46 @@
 
         function moveSlide(step) {
             showSlide(slideIndex + step);
+        }
+
+        const heroSlider = document.querySelector('.hero-slider.is-draggable');
+        if (heroSlider) {
+            let dragStart = null;
+            let suppressNextClick = false;
+
+            heroSlider.addEventListener('pointerdown', event => {
+                if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+                dragStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+                heroSlider.setPointerCapture(event.pointerId);
+                heroSlider.classList.add('is-dragging');
+            });
+
+            heroSlider.addEventListener('pointerup', event => {
+                if (!dragStart || dragStart.pointerId !== event.pointerId) return;
+
+                const deltaX = event.clientX - dragStart.x;
+                const deltaY = event.clientY - dragStart.y;
+                if (Math.abs(deltaX) >= 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                    suppressNextClick = true;
+                    moveSlide(deltaX < 0 ? 1 : -1);
+                    setTimeout(() => { suppressNextClick = false; }, 0);
+                }
+
+                dragStart = null;
+                heroSlider.classList.remove('is-dragging');
+            });
+
+            heroSlider.addEventListener('pointercancel', () => {
+                dragStart = null;
+                heroSlider.classList.remove('is-dragging');
+            });
+
+            heroSlider.addEventListener('click', event => {
+                if (!suppressNextClick) return;
+                event.preventDefault();
+                event.stopPropagation();
+                suppressNextClick = false;
+            }, true);
         }
 
         if (slides.length > 1) {

@@ -193,6 +193,7 @@
         /* Tabla estilizada */
         .table-responsive {
             width: 100%;
+            min-width: 0;
             overflow-x: auto;
         }
 
@@ -200,7 +201,7 @@
             width: 100%; 
             border-collapse: collapse; 
             margin-top: 10px; 
-            white-space: nowrap;
+            table-layout: fixed;
         }
 
         th, td { 
@@ -209,6 +210,7 @@
             border-bottom: 1px solid var(--gris-borde); 
             font-size: 0.9rem; 
             vertical-align: middle; 
+            overflow-wrap: anywhere;
         }
 
         th { 
@@ -246,9 +248,57 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .admin-card { padding: 24px 16px; }
+            .top-bar { display: none; }
+            .main-container { align-items: flex-start; padding: 20px 12px; }
+            .admin-card { min-width: 0; padding: 24px 16px; }
             .header-flex { flex-direction: column; align-items: flex-start; }
             .btn-new { width: 100%; text-align: center; }
+            .admin-card h1 { font-size: 1.4rem; }
+            .table-responsive { overflow: visible; }
+            table, tbody { display: block; width: 100%; }
+            thead { display: none; }
+            tbody tr {
+                display: grid;
+                grid-template-columns: 76px minmax(0, 1fr);
+                gap: 0 8px;
+                margin-bottom: 12px;
+                padding: 8px;
+                border: 1px solid var(--gris-borde);
+                border-radius: 12px;
+                background: var(--blanco);
+            }
+            tbody td {
+                display: block;
+                min-width: 0;
+                padding: 9px 8px;
+                border: 0;
+                font-size: 0.86rem;
+                overflow-wrap: anywhere;
+            }
+            tbody td::before {
+                content: attr(data-label);
+                display: block;
+                margin-bottom: 4px;
+                color: var(--texto-muted);
+                font-size: 0.66rem;
+                font-weight: 800;
+                text-transform: uppercase;
+            }
+            tbody td:nth-child(1) { grid-column: 1; grid-row: 1; }
+            tbody td:nth-child(2) { grid-column: 2; grid-row: 1; }
+            tbody td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; }
+            tbody td:nth-child(4) { grid-column: 1 / -1; grid-row: 3; }
+            tbody td:nth-child(5) {
+                display: grid;
+                grid-column: 1 / -1;
+                grid-row: 4;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
+            tbody td:nth-child(5)::before { grid-column: 1 / -1; }
+            tbody td:nth-child(5) form { margin: 0; }
+            tbody td:nth-child(5) .btn { width: 100%; margin-right: 0; padding: 8px 6px; font-size: 0.78rem; }
+            .img-thumb { width: 64px; height: 64px; }
         }
     </style>
 </head>
@@ -303,15 +353,15 @@
                     <tbody>
                         @foreach($productos as $prod)
                         <tr>
-                            <td><img src="{{ asset($prod->imagen) }}" alt="{{ $prod->nombre }}" class="img-thumb"></td>
-                            <td><code style="background: var(--gris-claro); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--gris-borde);">{{ $prod->codigo }}</code></td>
-                            <td><strong>{{ $prod->nombre }}</strong></td>
-                            <td>
+                            <td data-label="Imagen"><img src="{{ asset($prod->imagen) }}" alt="{{ $prod->nombre }}" class="img-thumb"></td>
+                            <td data-label="Código"><code style="background: var(--gris-claro); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--gris-borde);">{{ $prod->codigo }}</code></td>
+                            <td data-label="Nombre"><strong>{{ $prod->nombre }}</strong></td>
+                            <td data-label="Stock">
                                 <span style="font-weight: 700; color: {{ $prod->stock > 0 ? '#166534' : '#991b1b' }}; background: {{ $prod->stock > 0 ? '#dcfce7' : '#fee2e2' }}; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; display: inline-block;">
                                     {{ $prod->stock }} unidades
                                 </span>
                             </td>
-                            <td>
+                            <td data-label="Acciones">
                                 <!-- Botón Editar (Amarillo corporativo) -->
                                 <a href="{{ route('admin.productos.edit', $prod->id) }}" class="btn btn-edit">Editar</a>
 

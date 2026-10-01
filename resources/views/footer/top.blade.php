@@ -229,13 +229,23 @@
         .menu-toggle { display: inline-flex; }
         .menu {
             display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
             width: 100%;
             flex-direction: column;
             align-items: stretch;
             margin-left: 0;
             margin-right: 0;
             gap: 8px;
-            padding-top: 10px;
+            padding: 10px 6% 14px;
+            max-height: 70vh;
+            overflow-y: auto;
+            background: #111111;
+            border-top: 2px solid var(--amarillo);
+            border-bottom: 1px solid #333333;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.45);
+            z-index: 21;
         }
         .menu.open { display: flex; }
         .menu a { width: 100%; justify-content: flex-start; border-radius: 8px; }
@@ -250,6 +260,61 @@
         .user-menu-btn { width: 100%; justify-content: center; }
         .user-dropdown-menu { left: 0; right: 0; width: 100%; }
         .btn-login, .btn-register { width: 100%; justify-content: center; box-sizing: border-box; }
+    }
+
+    @media (max-width: 680px) {
+        .top-bar { display: none; }
+
+        nav {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 36px 36px;
+            gap: 8px;
+            padding: 12px 5%;
+        }
+        .logo {
+            grid-column: 1;
+            grid-row: 1;
+            gap: 10px;
+        }
+        .logo img { width: 56px; height: 56px; min-width: 56px; }
+        .logo-text { min-width: 0; }
+        .logo-text strong { font-size: 0.98rem; letter-spacing: 0; }
+        .logo-text span { font-size: 0.68rem; }
+        .menu-toggle { grid-column: 3; grid-row: 1; justify-self: end; }
+        .menu { grid-column: 1 / -1; grid-row: 2; }
+        .nav-auth-user {
+            grid-column: 2;
+            grid-row: 1;
+            width: 36px;
+            margin: 0;
+            flex-direction: row;
+        }
+        .nav-auth-user .user-dropdown-container { width: 36px; }
+        .nav-auth-user .user-menu-btn {
+            width: 36px;
+            height: 36px;
+            justify-content: center;
+            gap: 0;
+            padding: 2px;
+            box-sizing: border-box;
+        }
+        .nav-auth-user .user-greeting,
+        .nav-auth-user .dropdown-chevron { display: none; }
+        .nav-auth-user .user-avatar-icon { width: 28px; height: 28px; font-size: 0.8rem; }
+        .nav-auth-user .user-dropdown-menu {
+            left: auto;
+            right: 0;
+            width: min(240px, calc(100vw - 24px));
+        }
+        .nav-auth-guest {
+            grid-column: 1 / -1;
+            grid-row: 3;
+            width: 100%;
+            margin: 0;
+            flex-direction: row;
+        }
+        .nav-auth-guest .btn-login,
+        .nav-auth-guest .btn-register { width: auto; flex: 1; }
     }
 </style>
 
@@ -280,10 +345,10 @@
     </div>
 
     <!-- Sección de Autenticación Condicional -->
-    <div class="nav-auth">
+    <div class="nav-auth {{ Auth::check() ? 'nav-auth-user' : 'nav-auth-guest' }}">
         @auth
             <div class="user-dropdown-container">
-                <button type="button" class="user-menu-btn" id="userMenuToggle" aria-expanded="false" aria-controls="userDropdownMenu">
+                <button type="button" class="user-menu-btn" id="userMenuToggle" aria-label="Cuenta de {{ Auth::user()->name }}" aria-expanded="false" aria-controls="userDropdownMenu">
                     <span class="user-avatar-icon">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
                     <span class="user-greeting">Hola, <strong>{{ Auth::user()->name }}</strong></span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="dropdown-chevron" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
