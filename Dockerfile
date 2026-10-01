@@ -1,15 +1,17 @@
 # 1. Usar una imagen oficial de PHP con Apache
 FROM php:8.2-apache
 
-# 2. Instalar dependencias del sistema y Node.js (necesario para Vite)
+# 2. Instalar dependencias del sistema, librería de PostgreSQL y Node.js (necesario para Vite)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libpq-dev \
     zip \
     unzip \
+    && docker-php-ext-install pdo pdo_pgsql pgsql pdo_mysql \
     && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
 
