@@ -102,9 +102,12 @@
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
             gap: 30px; 
+            align-items: start;
         }
 
         .service-card {
+            position: relative;
+            z-index: 0;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -117,8 +120,82 @@
             transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
         }
 
+        .service-gallery {
+            max-height: 0;
+            margin: 0;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: max-height 0.35s ease, margin 0.35s ease, opacity 0.25s ease;
+        }
+
+        .service-gallery-frame {
+            position: relative;
+            height: 190px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            background: #090a0b;
+            cursor: grab;
+            touch-action: pan-y;
+        }
+
+        .service-gallery-frame.is-dragging { cursor: grabbing; }
+
+        .service-gallery-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.35s ease, transform 0.6s ease;
+        }
+
+        .service-gallery-slide.is-active { opacity: 1; transform: scale(1.02); }
+
+        .service-gallery-controls {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .service-gallery-dots { display: flex; align-items: center; justify-content: center; gap: 7px; }
+        .service-gallery-dot {
+            width: 7px;
+            height: 7px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.65);
+            cursor: pointer;
+        }
+        .service-gallery-dot.is-active { width: 18px; border-radius: 8px; background: var(--amarillo); }
+
+        @media (hover: hover) and (pointer: fine) {
+            .service-card:hover,
+            .service-card:focus-within {
+                z-index: 2;
+                transform: translateY(-6px) scale(1.025);
+                border-color: var(--amarillo);
+                box-shadow: 0 20px 40px rgba(247, 213, 71, 0.16);
+            }
+
+            .service-card:hover .service-gallery,
+            .service-card:focus-within .service-gallery {
+                max-height: 230px;
+                margin: 0 0 24px;
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
         .service-card:hover {
-            transform: translateY(-6px);
             border-color: var(--amarillo);
             box-shadow: 0 20px 40px rgba(247, 213, 71, 0.12);
         }
@@ -268,6 +345,22 @@
                 padding: 40px 20px 60px; 
             }
         }
+
+        @media (hover: none) {
+            .service-gallery {
+                max-height: 230px;
+                margin: 0 0 22px;
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .service-card:hover { transform: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .service-gallery,
+            .service-gallery-slide { transition: none; }
+        }
     </style>
 </head>
 <body>
@@ -287,11 +380,32 @@
             <p>Ofrecemos servicios completos en manejo de carga, grúas, montacargas y equipos industriales con respaldo técnico garantizado.</p>
         </div>
 
+        @php
+            $serviceGalleryImages = [
+                ['src' => asset('img/montacarga_reparcion.jpg'), 'alt' => 'Montacargas en reparación con el capó abierto'],
+                ['src' => asset('img/montacarga_reparcion2.jpg'), 'alt' => 'Montacargas en reparación'],
+            ];
+        @endphp
+
         <div class="service-grid">
             <article class="service-card">
                 <div>
                     <h3>⚙️ Instalación de equipos</h3>
                     <p>Colocamos y configuramos su maquinaria con soporte técnico en sitio para que entre en operación rápidamente de manera segura.</p>
+                </div>
+                <div class="service-gallery" role="region" aria-label="Galería de instalación de equipos" data-service-gallery>
+                    <div class="service-gallery-frame">
+                        @foreach($serviceGalleryImages as $imageIndex => $image)
+                            <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
+                        @endforeach
+                        <div class="service-gallery-controls">
+                            <div class="service-gallery-dots">
+                                @foreach($serviceGalleryImages as $imageIndex => $image)
+                                    <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Instalación%20de%20Equipos" target="_blank" rel="noopener" class="btn-whatsapp">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
@@ -304,6 +418,20 @@
                     <h3>🛠️ Mantenimiento preventivo</h3>
                     <p>Planes periódicos orientados a reducir fallas imprevistas, alargar la vida útil de sus equipos y optimizar la productividad.</p>
                 </div>
+                <div class="service-gallery" role="region" aria-label="Galería de mantenimiento preventivo" data-service-gallery>
+                    <div class="service-gallery-frame">
+                        @foreach($serviceGalleryImages as $imageIndex => $image)
+                            <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
+                        @endforeach
+                        <div class="service-gallery-controls">
+                            <div class="service-gallery-dots">
+                                @foreach($serviceGalleryImages as $imageIndex => $image)
+                                    <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Mantenimiento%20Preventivo" target="_blank" rel="noopener" class="btn-whatsapp">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                     Consultar por WhatsApp
@@ -315,6 +443,20 @@
                     <h3>🛠️ Reparación rápida</h3>
                     <p>Atención de urgencia y diagnóstico especializado para minimizar los tiempos de inactividad de su flota y restaurar operaciones.</p>
                 </div>
+                <div class="service-gallery" role="region" aria-label="Galería de reparación rápida" data-service-gallery>
+                    <div class="service-gallery-frame">
+                        @foreach($serviceGalleryImages as $imageIndex => $image)
+                            <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
+                        @endforeach
+                        <div class="service-gallery-controls">
+                            <div class="service-gallery-dots">
+                                @foreach($serviceGalleryImages as $imageIndex => $image)
+                                    <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Reparación%20Rápida" target="_blank" rel="noopener" class="btn-whatsapp">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                     Consultar por WhatsApp
@@ -325,6 +467,20 @@
                 <div>
                     <h3>📋 Asesoría técnica</h3>
                     <p>Evaluamos su operación actual y recomendamos las mejores tecnologías y equipos para optimizar sus flujos logísticos y de carga.</p>
+                </div>
+                <div class="service-gallery" role="region" aria-label="Galería de asesoría técnica" data-service-gallery>
+                    <div class="service-gallery-frame">
+                        @foreach($serviceGalleryImages as $imageIndex => $image)
+                            <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
+                        @endforeach
+                        <div class="service-gallery-controls">
+                            <div class="service-gallery-dots">
+                                @foreach($serviceGalleryImages as $imageIndex => $image)
+                                    <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Asesoría%20Técnica" target="_blank" rel="noopener" class="btn-whatsapp">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
@@ -352,6 +508,75 @@
     @include('footer.bottom')
 
     <script>
+        const serviceGalleries = document.querySelectorAll('[data-service-gallery]');
+        const reduceGalleryMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        serviceGalleries.forEach(gallery => {
+            const card = gallery.closest('.service-card');
+            const slides = [...gallery.querySelectorAll('.service-gallery-slide')];
+            const dots = [...gallery.querySelectorAll('[data-gallery-dot]')];
+            let activeIndex = 0;
+            let rotationTimer = null;
+
+            const showSlide = index => {
+                activeIndex = (index + slides.length) % slides.length;
+                slides.forEach((slide, slideIndex) => {
+                    const isActive = slideIndex === activeIndex;
+                    slide.classList.toggle('is-active', isActive);
+                    slide.setAttribute('aria-hidden', String(!isActive));
+                    dots[slideIndex].classList.toggle('is-active', isActive);
+                    dots[slideIndex].setAttribute('aria-pressed', String(isActive));
+                });
+            };
+
+            const stopRotation = () => {
+                clearInterval(rotationTimer);
+                rotationTimer = null;
+            };
+
+            const startRotation = () => {
+                if (reduceGalleryMotion || rotationTimer || slides.length < 2) return;
+                rotationTimer = setInterval(() => showSlide(activeIndex + 1), 3500);
+            };
+
+            dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
+
+            const frame = gallery.querySelector('.service-gallery-frame');
+            let dragStart = null;
+
+            frame.addEventListener('pointerdown', event => {
+                if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
+                dragStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+                frame.setPointerCapture(event.pointerId);
+                frame.classList.add('is-dragging');
+            });
+
+            frame.addEventListener('pointerup', event => {
+                if (!dragStart || dragStart.pointerId !== event.pointerId) return;
+                const deltaX = event.clientX - dragStart.x;
+                const deltaY = event.clientY - dragStart.y;
+                if (Math.abs(deltaX) >= 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
+                    showSlide(activeIndex + (deltaX < 0 ? 1 : -1));
+                }
+                dragStart = null;
+                frame.classList.remove('is-dragging');
+            });
+
+            frame.addEventListener('pointercancel', () => {
+                dragStart = null;
+                frame.classList.remove('is-dragging');
+            });
+
+            card.addEventListener('pointerenter', event => {
+                if (event.pointerType === 'mouse') startRotation();
+            });
+            card.addEventListener('pointerleave', stopRotation);
+            card.addEventListener('focusin', startRotation);
+            card.addEventListener('focusout', event => {
+                if (!card.contains(event.relatedTarget)) stopRotation();
+            });
+        });
+
         const revealElements = document.querySelectorAll('.intro, .service-card, .highlight-card, .cta');
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
