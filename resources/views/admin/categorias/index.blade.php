@@ -56,14 +56,14 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo img { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; }
+        .logo img { width: 50px; height: 50px; object-fit: cover; border-radius: 50%; border: 2px solid var(--amarillo); }
         .logo-text strong { font-size: 1.05rem; color: var(--amarillo); letter-spacing: 0.05em; display: block; }
         .logo-text span { color: #94a3b8; font-size: 0.75rem; display: block; }
 
         .user-pill {
             background: rgba(255, 215, 0, 0.1);
             border: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 20px;
             color: var(--blanco);
             font-size: 0.85rem;
@@ -278,7 +278,7 @@
                 </div>
             </a>
             <div class="user-pill">
-                Zona de Control
+                Hola, <span>{{ Auth::user()->name }}</span>
             </div>
         </nav>
     </div>

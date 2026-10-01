@@ -52,21 +52,22 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo img { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; }
+        .logo img { width: 50px; height: 50px; object-fit: cover; border-radius: 50%; border: 2px solid var(--amarillo); }
         .logo-text strong { font-size: 1.05rem; color: var(--amarillo); letter-spacing: 0.05em; display: block; }
         .logo-text span { color: #94a3b8; font-size: 0.75rem; display: block; }
 
-        .back-home {
+        .user-pill {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
             color: var(--blanco);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            display: inline-flex;
+            font-size: 0.85rem;
+            display: flex;
             align-items: center;
-            gap: 6px;
-            transition: color 0.2s ease;
+            gap: 8px;
         }
-        .back-home:hover { color: var(--amarillo); }
+        .user-pill span { color: var(--amarillo); font-weight: 600; }
 
         /* Contenedor Principal */
         .admin-container {
@@ -236,7 +237,7 @@
                     <span>Soluciones industriales en movimiento</span>
                 </div>
             </a>
-            <a href="{{ url('/') }}" class="back-home">← Volver al inicio</a>
+            <div class="user-pill">Hola, <span>{{ Auth::user()->name }}</span></div>
         </nav>
     </div>
 

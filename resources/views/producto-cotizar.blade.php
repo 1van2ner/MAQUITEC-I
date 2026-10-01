@@ -104,6 +104,15 @@
             text-align: center;
         }
 
+        .message-alert-error {
+            background: rgba(239, 68, 68, 0.14);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.35);
+            text-align: left;
+        }
+
+        .message-alert-error ul { margin: 8px 0 0; padding-left: 22px; }
+
         /* GRILLA DOS COLUMNAS */
         .quote-grid {
             display: grid;
@@ -292,6 +301,17 @@
             </div>
         @endif
 
+        @if($errors->any())
+            <div class="message-alert message-alert-error" role="alert">
+                <strong>No pudimos enviar tu solicitud:</strong>
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="quote-grid">
             <!-- COLUMNA IZQUIERDA: RESUMEN DE PRODUCTO -->
             <div class="product-summary-card">
@@ -307,35 +327,35 @@
             <div class="quote-form-card">
                 <h2>Datos de Contacto</h2>
                 
-                <form method="POST" action="/productos/cotizar">    
+                <form method="POST" action="{{ url('/productos/cotizar') }}">
                     @csrf
-                    <input type="hidden" name="product" value="{{ $slug }}">
+                    <input type="hidden" name="product" value="{{ old('product', $slug) }}">
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name">Nombre completo *</label>
-                            <input id="name" name="name" type="text" placeholder="Ej. Juan Pérez" required>
+                            <input id="name" name="name" type="text" value="{{ old('name') }}" placeholder="Ej. Juan Pérez" required>
                         </div>
                         <div class="form-group">
                             <label for="company">Empresa *</label>
-                            <input id="company" name="company" type="text" placeholder="Nombre de tu empresa" required>
+                            <input id="company" name="company" type="text" value="{{ old('company') }}" placeholder="Nombre de tu empresa" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="email">Correo electrónico *</label>
-                            <input id="email" name="email" type="email" placeholder="correo@empresa.com" required>
+                            <input id="email" name="email" type="email" value="{{ old('email') }}" placeholder="correo@empresa.com" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Teléfono / WhatsApp *</label>
-                            <input id="phone" name="phone" type="tel" placeholder="+51 9XX XXX XXX" required>
+                            <input id="phone" name="phone" type="tel" value="{{ old('phone') }}" placeholder="+51 9XX XXX XXX" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="message">Detalle de la consulta *</label>
-                        <textarea id="message" name="message" placeholder="Cuéntanos qué requerimientos específicos o tiempo de alquiler/compra necesitas..." required></textarea>
+                        <textarea id="message" name="message" placeholder="Cuéntanos qué requerimientos específicos o tiempo de alquiler/compra necesitas..." required>{{ old('message') }}</textarea>
                     </div>
 
                     <button type="submit" class="btn-send-quote">Enviar Solicitud de Cotización</button>

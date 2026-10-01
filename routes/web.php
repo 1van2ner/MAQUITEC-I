@@ -4,8 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
-use App\Models\Categoria; 
+use App\Models\Categoria;
+use App\Models\Producto;
+use App\Models\Banner;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
@@ -47,8 +50,41 @@ Route::get('/productos/cotizar/{producto}', function ($producto) {
 });
 
 Route::post('/productos/cotizar', function (Request $request) {
-    return back()->with('message', 'Gracias. Hemos recibido tu solicitud de cotización y te responderemos pronto.');
-});
+    $validated = $request->validate([
+        'product' => ['required', 'exists:productos,slug'],
+        'name' => ['required', 'string', 'max:255'],
+        'company' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'max:255'],
+        'phone' => ['required', 'string', 'max:50'],
+        'message' => ['required', 'string', 'max:5000'],
+    ]);
+
+    if (in_array(config('mail.default'), ['log', 'array'], true)) {
+        return back()->withInput()->withErrors([
+            'quote' => 'El correo no está configurado para envío. Configura SMTP en el archivo .env e inténtalo nuevamente.',
+        ]);
+    }
+
+    $product = Producto::with('categoria')->where('slug', $validated['product'])->firstOrFail();
+    $quote = array_merge($validated, [
+        'product_name' => $product->nombre,
+        'product_description' => $product->descripcion,
+        'product_image' => $product->imagen,
+        'category_name' => $product->categoria?->nombre,
+    ]);
+
+    try {
+        Mail::to(config('mail.quote_to'))->send(new \App\Mail\QuoteRequestReceived($quote));
+    } catch (\Throwable $exception) {
+        report($exception);
+
+        return back()->withInput()->withErrors([
+            'quote' => 'No se pudo enviar la solicitud. Revisa la configuración del correo e inténtalo nuevamente.',
+        ]);
+    }
+
+    return back()->with('message', 'Tu solicitud fue enviada correctamente. Nos pondremos en contacto contigo pronto.');
+})->middleware('throttle:5,1');
 
 Route::get('/servicios', function () {
     return view('servicios');
@@ -72,13 +108,36 @@ Route::get('/perfil', function () {
     return view('perfil');
 })->middleware('auth')->name('profile');
 
+Route::put('/perfil/password', function (Request $request) {
+    $validated = $request->validate([
+        'current_password' => ['required', 'current_password'],
+        'password' => ['required', 'string', 'min:8', 'confirmed', 'different:current_password'],
+    ]);
+
+    $request->user()->update([
+        'password' => Hash::make($validated['password']),
+    ]);
+
+    return back()->with('status', 'Tu contraseña se actualizó correctamente.');
+})->middleware('auth')->name('password.update.custom');
+
 Route::get('/admin/dashboard', function () {
     abort_unless(
         Auth::user()->rol === 'Administrador' || Auth::user()->email === 'ventas@maquitec.com',
         403
     );
 
-    return view('admin-dashboard');
+    $totalProductos = Producto::count();
+    $totalCategorias = Categoria::count();
+    $totalBanners = Banner::count();
+    $totalUsuarios = User::count();
+
+    return view('admin-dashboard', compact(
+        'totalProductos',
+        'totalCategorias',
+        'totalBanners',
+        'totalUsuarios'
+    ));
 })->middleware('auth')->name('admin.dashboard');
 
 
