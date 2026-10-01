@@ -17,7 +17,7 @@ class QuoteRequestEmailTest extends TestCase
     {
         config([
             'mail.default' => 'smtp',
-            'mail.quote_to' => 'ivan20koji07rv@gmail.com',
+            'mail.quote_to' => 'maquitec.servicios0601@gmail.com',
         ]);
         Mail::fake();
 
@@ -34,7 +34,7 @@ class QuoteRequestEmailTest extends TestCase
             'slug' => 'montacargas-de-prueba',
             'descripcion' => 'Producto de prueba',
             'stock' => 1,
-            'imagen' => 'img/productos/maquitec_2026_new.jpg',
+            'imagen' => 'img/logo_pagina_general/maquitec_2026_new.jpg',
         ]);
 
         $response = $this->from('/productos/cotizar/' . $producto->slug)
@@ -51,7 +51,7 @@ class QuoteRequestEmailTest extends TestCase
             ->assertSessionHas('message');
 
         Mail::assertSent(QuoteRequestReceived::class, function (QuoteRequestReceived $mail) use ($producto) {
-            return $mail->hasTo('ivan20koji07rv@gmail.com')
+            return $mail->hasTo('maquitec.servicios0601@gmail.com')
                 && $mail->quote['product_name'] === $producto->nombre
                 && $mail->quote['product_image'] === $producto->imagen
                 && $mail->quote['email'] === 'ana@example.com';

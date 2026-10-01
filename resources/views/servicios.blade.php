@@ -45,7 +45,7 @@
             text-align: center;
             color: var(--texto-claro);
             background: linear-gradient(180deg, rgba(18, 19, 22, 0.85), rgba(18, 19, 22, 0.95)), 
-                        url("{{ asset('img/heli.jpg') }}") center/cover no-repeat;
+                        url("{{ asset('img/marcas/heli.jpg') }}") center/cover no-repeat;
             border-bottom: 1px solid var(--borde-card);
         }
 

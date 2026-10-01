@@ -16,7 +16,7 @@
 
                 <div>
                     <label style="display:block; font-weight: 700; margin-bottom: 8px;">Correo de contacto</label>
-                    <input type="email" value="ventas@maquitec.com" style="width: 100%; padding: 12px 14px; border: 1px solid #d4d4d8; border-radius: 10px;">
+                    <input type="email" value="maquitec.servicios0601@gmail.com" style="width: 100%; padding: 12px 14px; border: 1px solid #d4d4d8; border-radius: 10px;">
                 </div>
 
                 <div>

@@ -115,6 +115,6 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
-    'quote_to' => env('MAIL_QUOTE_TO', 'ivan20koji07rv@gmail.com'),
+    'quote_to' => env('MAIL_QUOTE_TO', 'maquitec.servicios0601@gmail.com'),
 
 ];

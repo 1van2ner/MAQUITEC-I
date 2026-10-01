@@ -37,7 +37,7 @@ class AdminDashboardCountersTest extends TestCase
             'slug' => 'producto-de-prueba',
             'descripcion' => 'Producto para validar el contador.',
             'stock' => 1,
-            'imagen' => 'img/productos/maquitec_2026_new.jpg',
+            'imagen' => 'img/logo_pagina_general/maquitec_2026_new.jpg',
         ]);
 
         Banner::create([

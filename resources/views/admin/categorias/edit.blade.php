@@ -219,14 +219,14 @@
         <div class="top-bar">
             <span>Av. San Agustín SMP, Lima, Perú</span>
             <span>📞 963 727 185 | 955 081 815</span>
-            <span>✉ ventas@maquitec.com</span>
+            <span>✉ maquitec.servicios0601@gmail.com</span>
         </div>
         
         <nav>
             <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/productos/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
+                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
                 <div class="logo-text">
-                    <strong>MAQUITEC I.S.A.C.</strong>
+                    <strong>MAQUITEC´I</strong>
                     <span>Soluciones industriales en movimiento</span>
                 </div>
             </a>

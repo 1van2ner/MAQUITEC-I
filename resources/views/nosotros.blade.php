@@ -87,11 +87,12 @@
         }
 
         .hero-image-wrapper img {
+            width: 260px;
             max-width: 100%;
-            max-height: 300px;
+            aspect-ratio: 1;
             object-fit: cover;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border-radius: 50%;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
         }
 
         /* SECCIONES GENERALES */
@@ -285,7 +286,7 @@
                 <p>Contamos con especialistas con más de 15 años de experiencia en el ámbito industrial. MAQUITEC ofrece equipos, asesoría y soporte técnico para garantizar operaciones seguras y eficientes.</p>
             </div>
             <div class="hero-image-wrapper">
-                <img src="{{ asset('img/logo_maquitec.jpg') }}" alt="Maquitec Empresa">
+                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Maquitec Empresa">
             </div>
         </div>
     </section>

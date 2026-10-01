@@ -669,7 +669,7 @@
                 </div>
             @empty
                 <div class="hero-slide active">
-                    <img src="{{ asset('img/logo_maquitec.jpg') }}" alt="Maquitec Banner" class="hero-bg-img">
+                    <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Maquitec Banner" class="hero-bg-img">
                     <div class="hero-overlay"></div>
                     
                     <div class="hero-container">
