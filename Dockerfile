@@ -32,10 +32,10 @@ RUN composer install --no-dev --optimize-autoloader \
     && npm install \
     && npm run build
 
-# 8. Dar permisos correctos a las carpetas de almacenamiento y caché de Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
-    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
-    && chmod 664 /var/www/html/database/database.sqlite
+# 8. Crear carpetas necesarias y asignar permisos correctos de almacenamiento e imágenes
+RUN mkdir -p /var/www/html/public/img/productos \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database /var/www/html/public/img \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database /var/www/html/public/img
 
 # 9. Configurar Apache para que apunte a la carpeta 'public' de Laravel
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
