@@ -9,13 +9,15 @@
             --amarillo: #f7d547;
             --amarillo-hover: #e5c338;
             --amarillo-oscuro: #caaa2b;
+            --negro: #000000;
+            --fondo-card: rgba(255, 255, 255, 0.03);
+            --borde-card: rgba(255, 255, 255, 0.08);
             --texto-claro: #ffffff;
             --texto-muted: #a1a1aa;
         }
 
         * { box-sizing: border-box; }
-        
-        /* FONDO CON TEXTURA TIPO METAL CEPILLADO OSCURO */
+
         body { 
             margin: 0; 
             font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; 
@@ -32,20 +34,20 @@
         img { display: block; max-width: 100%; }
         a { color: inherit; text-decoration: none; }
 
-        /* HERO NOSOTROS - TARJETA DESTACADA AMARILLA */
+        /* HERO SECTION */
         .hero-section {
-            padding: 40px 5%;
+            padding: 50px 5% 30px 5%;
             display: flex;
             justify-content: center;
         }
 
         .hero-card {
-            background: #f7d547;
+            background: var(--amarillo);
             width: 100%;
-            max-width: 1280px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px -10px rgba(247, 213, 71, 0.25);
-            border: 1px solid #e5c338;
+            max-width: 1320px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(247, 213, 71, 0.18), 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #e5c338;
             overflow: hidden;
             position: relative;
             color: #000000;
@@ -53,91 +55,130 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 40px;
+            gap: 50px;
         }
 
         .hero-content {
-            flex: 1;
-            max-width: 650px;
+            flex: 1.2;
+        }
+
+        .hero-badge {
+            background: #000000;
+            color: var(--amarillo);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
         .hero-content h1 {
             font-size: clamp(2.2rem, 3.8vw, 3.2rem);
-            font-weight: 800;
+            font-weight: 900;
             color: #000000;
             line-height: 1.1;
-            margin: 0 0 16px 0;
+            margin: 0 0 18px 0;
             letter-spacing: -0.02em;
             text-transform: uppercase;
         }
 
         .hero-content p {
-            font-size: 1.1rem;
-            color: #27272a;
-            line-height: 1.6;
+            font-size: 1.12rem;
+            color: #1f2937;
+            line-height: 1.65;
+            margin: 0 0 30px 0;
+            font-weight: 600;
+        }
+
+        /* METRICAS Y ESTADISTICAS EN HERO */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            border-top: 2px solid rgba(0,0,0,0.15);
+            padding-top: 24px;
+        }
+
+        .stat-item h4 {
             margin: 0;
-            font-weight: 500;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #000000;
+        }
+
+        .stat-item p {
+            margin: 2px 0 0 0;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #374151;
+            text-transform: uppercase;
+            line-height: 1.3;
         }
 
         .hero-image-wrapper {
-            flex: 1;
+            flex: 0.8;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
         .hero-image-wrapper img {
-            width: 260px;
-            max-width: 100%;
-            aspect-ratio: 1;
+            width: 280px;
+            height: 280px;
             object-fit: cover;
             border-radius: 50%;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+            border: 6px solid #000000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
 
         /* SECCIONES GENERALES */
         .seccion {
             padding: 80px 5%;
-            max-width: 1280px;
+            max-width: 1320px;
             margin: 0 auto;
         }
 
         .seccion-header {
             text-align: center;
-            max-width: 750px;
-            margin: 0 auto 50px auto;
+            max-width: 800px;
+            margin: 0 auto 55px auto;
         }
 
         .badge-tag {
-            background: rgba(247, 213, 71, 0.1);
+            background: rgba(247, 213, 71, 0.12);
             color: #f7d547;
-            padding: 6px 14px;
+            padding: 6px 16px;
             border-radius: 99px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             display: inline-block;
-            margin-bottom: 12px;
-            border: 1px solid rgba(247, 213, 71, 0.25);
+            margin-bottom: 14px;
+            border: 1px solid rgba(247, 213, 71, 0.3);
         }
 
         .seccion h2 {
             margin: 0;
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             letter-spacing: -0.02em;
             color: var(--texto-claro);
-            font-weight: 800;
+            font-weight: 900;
+            text-transform: uppercase;
         }
 
         .seccion p.lead {
             margin: 16px 0 0 0;
             color: var(--texto-muted);
-            font-size: 1.05rem;
+            font-size: 1.08rem;
             line-height: 1.7;
         }
 
-        /* GRID DE TARJETAS DE VALORES Y PILARES */
+        /* GRID DE PILARES OPERATIVOS */
         .grid-pilares {
             display: grid;
             gap: 24px;
@@ -145,53 +186,156 @@
         }
 
         .tarjeta-pilar {
-            background: #f7d547;
-            border-radius: 16px;
-            padding: 36px 30px;
-            border: 1px solid #e5c338;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            background: var(--amarillo);
+            border-radius: 20px;
+            padding: 38px 32px;
+            border: 2px solid #e5c338;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             gap: 12px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             color: #000000;
         }
 
         .tarjeta-pilar:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(247, 213, 71, 0.3);
+            transform: translateY(-6px);
+            box-shadow: 0 18px 36px rgba(247, 213, 71, 0.25);
+            border-color: #ffffff;
+        }
+
+        .tarjeta-pilar .icon-box {
+            font-size: 2rem;
+            margin-bottom: 4px;
         }
 
         .tarjeta-pilar h3 {
             margin: 0;
-            font-size: 1.3rem;
-            font-weight: 800;
+            font-size: 1.35rem;
+            font-weight: 900;
             color: #000000;
             text-transform: uppercase;
-            letter-spacing: -0.01em;
         }
 
         .tarjeta-pilar p {
             margin: 0;
-            color: #27272a;
+            color: #1f2937;
             line-height: 1.6;
-            font-size: 0.98rem;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
         }
 
-        /* SECCIÓN MARCAS CON FONDO AMARILLO */
+        /* CORE DE SERVICIOS TÉCNICOS (PRIMER PLANO) */
+        .grid-servicios-core {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .card-servicio {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px 26px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .card-servicio:hover {
+            border-color: var(--amarillo);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(247, 213, 71, 0.15);
+        }
+
+        .card-servicio .servicio-num {
+            font-size: 0.85rem;
+            font-weight: 900;
+            color: var(--amarillo);
+            background: rgba(247, 213, 71, 0.1);
+            padding: 4px 12px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 16px;
+            border: 1px solid rgba(247, 213, 71, 0.2);
+        }
+
+        .card-servicio h3 {
+            margin: 0 0 12px 0;
+            font-size: 1.25rem;
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .card-servicio p {
+            margin: 0;
+            color: var(--texto-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* SUMINISTROS Y FLUIDOS (SEGUNDO PLANO) */
+        .seccion-insumos {
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 80px 5%;
+        }
+
+        .grid-insumos {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1320px;
+            margin: 40px auto 0 auto;
+        }
+
+        .card-insumo {
+            background: #18191c;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.25s ease;
+        }
+
+        .card-insumo:hover {
+            border-color: var(--amarillo);
+            transform: translateY(-4px);
+        }
+
+        .card-insumo .icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+
+        .card-insumo h4 {
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .card-insumo p {
+            margin: 0;
+            color: var(--texto-muted);
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+
+        /* SECCIÓN MARCAS AUTORIZADAS */
         .section-highlight {
-            background: #f7d547; 
+            background: var(--amarillo); 
             color: #000000; 
-            border-top: 1px solid #e5c338;
-            border-bottom: 1px solid #e5c338;
+            border-top: 2px solid #e5c338;
+            border-bottom: 2px solid #e5c338;
             padding: 80px 5%;
         }
 
         .section-highlight .badge-tag {
-            background: rgba(0, 0, 0, 0.08);
-            color: #000000;
-            border-color: rgba(0, 0, 0, 0.2);
+            background: #000000;
+            color: var(--amarillo);
+            border: none;
         }
 
         .section-highlight h2 {
@@ -203,45 +347,37 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 16px;
-            max-width: 1280px;
+            max-width: 1320px;
             margin: 0 auto;
         }
 
         .brand-box {
             background: #ffffff; 
-            border: 1px solid #e5c338;
-            border-radius: 10px;
-            height: 80px;
-            width: 140px;
+            border: 2px solid #e5c338;
+            border-radius: 14px;
+            height: 85px;
+            width: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 12px;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            padding: 14px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
         }
 
         .brand-box:hover {
-            transform: translateY(-2px);
+            transform: translateY(-4px);
             border-color: #000000;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
         }
 
         .brand-box img {
-            max-height: 42px;
+            max-height: 46px;
             max-width: 100%;
             object-fit: contain;
-            transition: transform 0.2s ease;
         }
 
-        .brand-box:hover img {
-            transform: scale(1.05);
-        }
-
-        .hero-card {
-            animation: page-enter 750ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-        }
-
+        /* SCROLL REVEAL ANIMATIONS */
         .scroll-reveal {
             opacity: 0;
             translate: 0 24px;
@@ -253,24 +389,20 @@
             translate: 0 0;
         }
 
-        @keyframes page-enter {
-            from { opacity: 0; transform: translateY(22px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1100px) {
+            .grid-servicios-core, .grid-insumos { grid-template-columns: repeat(2, 1fr); }
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .hero-card { animation: none; }
-        }
-
-        /* RESPONSIVE */
         @media (max-width: 900px) {
             .hero-card { flex-direction: column; text-align: center; padding: 40px 24px; }
-            .hero-content { max-width: 100%; }
+            .hero-stats { grid-template-columns: 1fr; gap: 16px; }
             .grid-pilares { grid-template-columns: 1fr; }
         }
 
-        @media (max-width: 680px) {
-            .brand-box { width: 120px; }
+        @media (max-width: 600px) {
+            .grid-servicios-core, .grid-insumos { grid-template-columns: 1fr; }
+            .brand-box { width: 125px; height: 70px; }
         }
     </style>
 </head>
@@ -282,11 +414,27 @@
     <section class="hero-section">
         <div class="hero-card">
             <div class="hero-content">
-                <h1>Trayectoria e Innovación en <span>Maquinaria Pesada</span></h1>
-                <p>Contamos con especialistas con más de 15 años de experiencia en el ámbito industrial. MAQUITEC ofrece equipos, asesoría y soporte técnico para garantizar operaciones seguras y eficientes.</p>
+                <span class="hero-badge">Especialistas en Soporte Logístico e Industrial</span>
+                <h1>Potencia, Disponibilidad y <span>Ingeniería de Mantenimiento</span></h1>
+                <p>Respaldados por tecnicos con más de 15 años de experiencia técnica en el sector. En MAQUITEC I.S.A.C. garantizamos la operatividad continua de su flota de montacargas y maquinaria pesada mediante soluciones de mantenimiento de alto rendimiento y suministro integral de repuestos.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <h4>+15 Años</h4>
+                        <p>De Especialización Técnica</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>+500</h4>
+                        <p>Equipos Diagnosticados y Reparados</p>
+                    </div>
+                    <div class="stat-item">
+                        <h4>100%</h4>
+                        <p>Fiabilidad en Operaciones</p>
+                    </div>
+                </div>
             </div>
             <div class="hero-image-wrapper">
-                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Maquitec Empresa">
+                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="MAQUITEC I.S.A.C. Maquinaria">
             </div>
         </div>
     </section>
@@ -295,46 +443,105 @@
     <section class="seccion">
         <div class="seccion-header">
             <span class="badge-tag">Nuestra Identidad</span>
-            <h2>Sobre nuestra empresa</h2>
+            <h2>Ingeniería Aplicada al Servicio Logístico</h2>
             <p class="lead">
-                MAQUITEC I.S.A.C. es una empresa peruana especializada en la comercialización, ensamblaje y mantenimiento de equipos industriales. Nuestro trabajo está enfocado en clientes que requieren transporte de carga, almacenamiento y manejo de materiales con los más altos estándares de seguridad y productividad.
+                MAQUITEC I.S.A.C. es una organización peruana líder en el diagnóstico, mantenimiento correctivo, preventivo y reparación integral de equipos de manipulación de carga. Complementamos nuestra propuesta técnica con el suministro confiable de componentes y fluidos automotrices de grado industrial.
             </p>
         </div>
 
         <div class="grid-pilares">
             <div class="tarjeta-pilar">
+                <div class="icon-box">⚙️</div>
                 <h3>Misión</h3>
-                <p>Entregar soluciones industriales completas que faciliten la operación diaria de nuestros clientes, manteniendo altos estándares de calidad, seguridad y eficiencia tecnológica.</p>
+                <p>Garantizar el máximo tiempo de actividad operacional de nuestros clientes mediante servicios técnicos de precisión, diagnóstico especializado y suministro oportuno de repuestos de alta calidad.</p>
             </div>
 
             <div class="tarjeta-pilar">
+                <div class="icon-box">🚀</div>
                 <h3>Visión</h3>
-                <p>Ser la opción número uno en soluciones de manejo de carga y mantenimiento industrial en el Perú, reconocidos por nuestra experiencia, velocidad de respuesta y confianza.</p>
+                <p>Consolidarnos como la empresa referente a nivel nacional en ingeniería de mantenimiento de equipos logísticos, reconocida por nuestra velocidad de respuesta, excelencia técnica y ética profesional.</p>
             </div>
 
             <div class="tarjeta-pilar">
+                <div class="icon-box">🛡️</div>
                 <h3>Valores</h3>
-                <p>Compromiso, transparencia, seguridad y calidad. Cada proyecto se atiende con máxima responsabilidad técnica y enfoque centrado en el cliente.</p>
+                <p>Rigor técnico, transparencia comercial, respuesta inmediata y compromiso con la seguridad operacional en cada taller e intervención en campo.</p>
             </div>
 
             <div class="tarjeta-pilar">
-                <h3>Servicios Clave</h3>
-                <p>Asesoría técnica especializada, suministro de equipos, mantenimiento preventivo y correctivo, instalación y gestión integral de repuestos.</p>
+                <div class="icon-box">🔧</div>
+                <h3>Capacidad Operativa</h3>
+                <p>Infraestructura equipada para revisiones mayores, pruebas de presión hidráulica, rectificación de componentes y soporte técnico preventivo multimarca.</p>
             </div>
         </div>
     </section>
 
-    <!-- MARCAS Y SERVICIOS CON FONDO AMARILLO -->
-    <section class="section-highlight" id="servicios">
-        <div style="max-width: 1280px; margin: 0 auto;">
-            <div class="seccion-header" style="margin-bottom: 30px;">
-                <span class="badge-tag">Respaldo Global</span>
-                <h2>Servicios y Marcas Autorizadas</h2>
-                <p class="lead" style="color: #27272a;">Brindamos soporte completo, repuestos y mantenimiento especializado para las marcas líderes del mercado logístico.</p>
-            </div>
+    <!-- CORE DE SERVICIOS TÉCNICOS (PRIMER PLANO) -->
+    <section class="seccion" style="padding-top: 0;">
+        <div class="seccion-header">
+            <span class="badge-tag">Servicios Principales</span>
+            <h2>Especialidades de Mantenimiento y Reparación</h2>
+            <p class="lead">Atendemos las exigencias del sector industrial con procedimientos bajo estándares del fabricante.</p>
+        </div>
 
-            <div style="margin-bottom: 16px; text-align: center;">
-                <h3 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; color: #1e293b; font-weight: 700;">MARCAS DE MONTACARGAS Y EQUIPOS LOGÍSTICOS:</h3>
+        <div class="grid-servicios-core">
+            <div class="card-servicio">
+                <span class="servicio-num">SERVICIO CORE 01</span>
+                <h3>Mantenimiento Preventivo y Correctivo</h3>
+                <p>Programas estructurados para reducir fallas no planificadas en montacargas eléctricos, diésel y a gas GLP.</p>
+            </div>
+            <div class="card-servicio">
+                <span class="servicio-num">SERVICIO CORE 02</span>
+                <h3>Reparación de Sistemas Hidráulicos</h3>
+                <p>Overhaul completo de bombas, mangueras de alta presión, mandos finales y cilindros de elevación.</p>
+            </div>
+            <div class="card-servicio">
+                <span class="servicio-num">SERVICIO CORE 03</span>
+                <h3>Diagnóstico y Reconstrucción de Motores</h3>
+                <p>Evaluación computarizada y reparación integral de motores diésel y de combustión pesada.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUMINISTROS Y FLUIDOS (SEGUNDO PLANO) -->
+    <section class="seccion-insumos">
+        <div class="seccion-header">
+            <span class="badge-tag">Suministros y Fluidos</span>
+            <h2>Repuestos, Accesorios y Aceites Especializados</h2>
+            <p class="lead">Disponemos de un amplio catálogo de insumos de alto rendimiento para garantizar el buen funcionamiento mecánico de su flota.</p>
+        </div>
+
+        <div class="grid-insumos">
+            <div class="card-insumo">
+                <div class="icon">🛢️</div>
+                <h4>Aceites y Gasolinas</h4>
+                <p>Lubricantes multigrado para motores diésel de trabajo pesado y gasolina.</p>
+            </div>
+            <div class="card-insumo">
+                <div class="icon">🧪</div>
+                <h4>Líquidos de Freno y Refrigerantes</h4>
+                <p>Fluidos sintéticos DOT3 / DOT4 y refrigerantes de alto punto de ebullición.</p>
+            </div>
+            <div class="card-insumo">
+                <div class="icon">🧩</div>
+                <h4>Filtros Industriales</h4>
+                <p>Sistemas de filtración de aire, aceite, combustible e hidráulicos.</p>
+            </div>
+            <div class="card-insumo">
+                <div class="icon">🧈</div>
+                <h4>Grasas Multiuso</h4>
+                <p>Grasas complejas de litio para chasis, rodamientos y cadenas de elevación.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARCAS Y RESPALDO TÉCNICO -->
+    <section class="section-highlight" id="servicios">
+        <div style="max-width: 1320px; margin: 0 auto;">
+            <div class="seccion-header" style="margin-bottom: 35px;">
+                <span class="badge-tag">Respaldo Multimarca</span>
+                <h2>Marcas Atendidas en Servicio y Repuestos</h2>
+                <p class="lead" style="color: #1f2937;">Contamos con experiencia técnica comprobada en las principales marcas del mercado mundial.</p>
             </div>
 
             <div class="brands-grid">
@@ -355,7 +562,7 @@
     @include('footer.bottom')
 
     <script>
-        const revealElements = document.querySelectorAll('.seccion-header, .tarjeta-pilar, .section-highlight .brand-box');
+        const revealElements = document.querySelectorAll('.seccion-header, .tarjeta-pilar, .card-servicio, .card-insumo, .section-highlight .brand-box');
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         if ('IntersectionObserver' in window && !prefersReducedMotion) {

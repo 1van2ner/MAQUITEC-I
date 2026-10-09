@@ -274,7 +274,7 @@
                         <option value="">Seleccione una categoría...</option>
                         @foreach($categorias as $cat)
                             <option value="{{ $cat->id }}" {{ old('categoria_id') == $cat->id ? 'selected' : '' }}>
-                                {{ $cat->nombre }}
+                                {{ $cat->parent ? $cat->parent->nombre . ' > ' . $cat->nombre : $cat->nombre . ' (principal)' }}
                             </option>
                         @endforeach
                     </select>
@@ -292,7 +292,10 @@
                     </div>
                     <div class="form-group">
                         <label>Imagen del Producto *</label>
-                        <input type="file" name="imagen" accept="image/*" required>
+                        <input type="file" id="imagenes" name="imagenes[]" accept="image/jpeg,image/png,image/webp" multiple required>
+                        <small>Selecciona entre 1 y 4 imágenes. La primera será la imagen principal.</small>
+                        <small id="imagenes-seleccionadas">Ninguna imagen seleccionada</small>
+                        <div id="imagenes-preview" class="image-preview-grid"></div>
                     </div>
                 </div>
 
@@ -314,5 +317,26 @@
     <footer>
         © 2026 MAQUITEC I.S.A.C. — Todos los derechos reservados.
     </footer>
+    <script>
+        const imageInput = document.getElementById('imagenes');
+        const imagePreview = document.getElementById('imagenes-preview');
+        const imageSummary = document.getElementById('imagenes-seleccionadas');
+
+        imageInput.addEventListener('change', () => {
+            const files = Array.from(imageInput.files);
+            imageInput.setCustomValidity(files.length > 4 ? 'Selecciona un máximo de 4 imágenes.' : '');
+            imageSummary.textContent = files.length
+                ? `${files.length} de 4 imágenes seleccionadas`
+                : 'Ninguna imagen seleccionada';
+            imagePreview.replaceChildren();
+
+            files.slice(0, 4).forEach((file) => {
+                const image = document.createElement('img');
+                image.src = URL.createObjectURL(file);
+                image.alt = file.name;
+                imagePreview.append(image);
+            });
+        });
+    </script>
 </body>
 </html>

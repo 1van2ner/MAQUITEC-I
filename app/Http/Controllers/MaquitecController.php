@@ -11,8 +11,14 @@ class MaquitecController extends Controller
 {
     public function index()
     {
-        // Obtenemos las categorías con el conteo de sus productos
-        $categorias = Categoria::withCount('productos')->get();
+        // Obtenemos las categorías principales y el conteo de sus subcategorías
+        $categorias = Categoria::with(['children' => function ($query) {
+            $query->withCount('productos');
+        }])
+            ->withCount('productos')
+            ->whereNull('parent_id')
+            ->orderBy('nombre')
+            ->get();
 
         // Obtenemos hasta 4 productos marcados como destacados
         $productosDestacados = Producto::where('destacado', 1)->take(4)->get();

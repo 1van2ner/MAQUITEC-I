@@ -370,7 +370,7 @@
                         @forelse($categorias as $cat)
                             <tr>
                                 <td data-label="ID">{{ $cat->id }}</td>
-                                <td data-label="Categoría"><strong>{{ $cat->nombre }}</strong></td>
+                                <td data-label="Categoría"><strong>{{ $cat->nombre }}</strong><small style="display:block; color:var(--texto-muted);">Categoría padre</small></td>
                                 <td data-label="Descripción">{{ $cat->descripcion ?? 'Sin descripción' }}</td>
                                 <td data-label="Acciones" style="text-align: right;">
                                     <a href="{{ route('admin.categorias.edit', $cat->id) }}" class="btn btn-edit">Editar</a>
@@ -381,6 +381,21 @@
                                     </form>
                                 </td>
                             </tr>
+                            @foreach($cat->children as $subcategoria)
+                                <tr>
+                                    <td data-label="ID">{{ $subcategoria->id }}</td>
+                                    <td data-label="Categoría"><span style="padding-left: 18px;">↳ {{ $subcategoria->nombre }}</span><small style="display:block; padding-left: 18px; color:var(--texto-muted);">Subcategoría de {{ $cat->nombre }}</small></td>
+                                    <td data-label="Descripción">{{ $subcategoria->descripcion ?? 'Sin descripción' }}</td>
+                                    <td data-label="Acciones" style="text-align: right;">
+                                        <a href="{{ route('admin.categorias.edit', $subcategoria->id) }}" class="btn btn-edit">Editar</a>
+                                        <form action="{{ route('admin.categorias.destroy', $subcategoria->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
                         @empty
                             <tr class="empty-row">
                                 <td colspan="4" style="text-align: center; color: var(--texto-muted); padding: 40px;">No hay categorías registradas.</td>

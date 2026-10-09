@@ -41,11 +41,15 @@ Route::get('/productos/cotizar/{producto}', function ($producto) {
         return redirect('/productos');
     }
 
+    $productImages = $productoEncontrado->gallery_images;
+    $productImage = $productImages[0] ?? 'img/img_maquitec1.jpg';
+
     return view('producto-cotizar', [
         'slug' => $productoEncontrado->slug,
         'productTitle' => $productoEncontrado->nombre,
         'productDescription' => $productoEncontrado->descripcion,
-        'productImage' => $productoEncontrado->imagen ?: 'img/img_maquitec1.jpg',
+        'productImage' => $productImage,
+        'productImages' => $productImages ?: [$productImage],
     ]);
 });
 

@@ -8,6 +8,7 @@
         :root {
             --amarillo: #f7d547;
             --amarillo-hover: #e5c338;
+            --amarillo-oscuro: #caaa2b;
             --negro: #000000;
             --negro-card: rgba(255, 255, 255, 0.03);
             --borde-card: rgba(255, 255, 255, 0.08);
@@ -36,25 +37,42 @@
             min-height: 100vh;
         }
 
-        /* BANNER HERO */
+        /* BANNER HERO IMPONENTE */
         .hero {
             display: grid;
             place-items: center;
-            min-height: 380px;
-            padding: 50px 20px;
+            min-height: 420px;
+            padding: 60px 20px;
             text-align: center;
             color: var(--texto-claro);
-            background: linear-gradient(180deg, rgba(18, 19, 22, 0.85), rgba(18, 19, 22, 0.95)), 
+            background: linear-gradient(180deg, rgba(18, 19, 22, 0.82), rgba(18, 19, 22, 0.96)), 
                         url("{{ asset('img/marcas/heli.jpg') }}") center/cover no-repeat;
-            border-bottom: 1px solid var(--borde-card);
+            border-bottom: 2px solid var(--borde-card);
+            position: relative;
+        }
+
+        .hero-badge {
+            background: rgba(247, 213, 71, 0.12);
+            color: var(--amarillo);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            display: inline-block;
+            margin-bottom: 16px;
+            border: 1px solid rgba(247, 213, 71, 0.3);
         }
 
         .hero h1 { 
             margin: 0; 
-            font-size: clamp(2.2rem, 4.5vw, 3.4rem); 
-            font-weight: 800;
+            font-size: clamp(2.3rem, 4.8vw, 3.6rem); 
+            font-weight: 900;
             letter-spacing: -0.02em; 
             color: var(--texto-claro);
+            text-transform: uppercase;
+            line-height: 1.1;
         }
 
         .hero h1 span {
@@ -62,46 +80,111 @@
         }
 
         .hero p { 
-            max-width: 760px; 
+            max-width: 820px; 
             margin: 18px auto 0; 
             line-height: 1.7; 
             color: var(--texto-muted); 
-            font-size: 1.1rem;
+            font-size: 1.12rem;
+            font-weight: 500;
+        }
+
+        /* METRICAS DE IMPACTO EN HERO */
+        .hero-metrics {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .metric-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
+            border-radius: 14px;
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-box strong {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--amarillo);
+            font-weight: 900;
+        }
+
+        .metric-box span {
+            font-size: 0.8rem;
+            color: var(--texto-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.04em;
         }
 
         /* CONTENIDO PRINCIPAL */
         .content { 
-            max-width: 1240px; 
+            max-width: 1320px; 
             margin: 0 auto; 
             padding: 60px 4% 80px; 
             width: 100%;
         }
 
         .intro { 
-            margin-bottom: 50px; 
+            margin-bottom: 40px; 
             text-align: center; 
         }
 
         .intro h2 { 
             margin: 0; 
-            font-size: 2.2rem; 
-            font-weight: 800;
+            font-size: 2.3rem; 
+            font-weight: 900;
             color: var(--texto-claro);
+            text-transform: uppercase;
         }
 
         .intro p { 
-            max-width: 700px; 
+            max-width: 750px; 
             margin: 12px auto 0; 
             color: var(--texto-muted); 
             line-height: 1.7; 
-            font-size: 1.05rem;
+            font-size: 1.08rem;
+        }
+
+        /* FILTROS / PESTAÑAS INTERACTIVAS */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 45px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--texto-muted);
+            padding: 12px 26px;
+            border-radius: 30px;
+            font-size: 0.92rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .tab-btn:hover, .tab-btn.is-active {
+            background: var(--amarillo);
+            color: var(--negro);
+            border-color: var(--amarillo);
+            box-shadow: 0 6px 18px rgba(247, 213, 71, 0.25);
+            transform: translateY(-2px);
         }
 
         /* GRILLA DE SERVICIOS */
         .service-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 30px; 
+            gap: 32px; 
             align-items: start;
         }
 
@@ -110,31 +193,71 @@
             z-index: 0;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 36px;
+            justify-content: flex-start;
+            padding: 38px;
             background: var(--negro-card);
             border: 1px solid var(--borde-card);
-            border-radius: 20px;
+            border-radius: 22px;
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
             backdrop-filter: blur(10px);
-            transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
+        .service-card:hover {
+            z-index: 2;
+            transform: translateY(-8px);
+            border-color: var(--amarillo);
+            box-shadow: 0 20px 40px rgba(247, 213, 71, 0.18);
+        }
+
+        .service-tag {
+            background: rgba(247, 213, 71, 0.12);
+            color: var(--amarillo);
+            padding: 5px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            display: inline-block;
+            margin-bottom: 16px;
+            border: 1px solid rgba(247, 213, 71, 0.25);
+            width: fit-content;
+        }
+
+        .service-card h3 { 
+            margin: 0 0 14px; 
+            font-size: 1.45rem; 
+            font-weight: 800;
+            color: var(--texto-claro);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .service-card p { 
+            margin: 0 0 24px; 
+            color: var(--texto-muted); 
+            line-height: 1.7; 
+            font-size: 0.98rem;
+        }
+
+        /* GALERÍA DESPLEGABLE / INTERACTIVA */
         .service-gallery {
             max-height: 0;
             margin: 0;
             overflow: hidden;
             opacity: 0;
             pointer-events: none;
-            transition: max-height 0.35s ease, margin 0.35s ease, opacity 0.25s ease;
+            transition: max-height 0.4s ease, margin 0.4s ease, opacity 0.3s ease;
         }
 
         .service-gallery-frame {
             position: relative;
-            height: 190px;
+            height: 200px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 12px;
+            border-radius: 14px;
             background: #090a0b;
             cursor: grab;
             touch-action: pan-y;
@@ -174,47 +297,15 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.65);
             cursor: pointer;
+            transition: all 0.25s ease;
         }
         .service-gallery-dot.is-active { width: 18px; border-radius: 8px; background: var(--amarillo); }
 
-        @media (hover: hover) and (pointer: fine) {
-            .service-card:hover,
-            .service-card:focus-within {
-                z-index: 2;
-                transform: translateY(-6px) scale(1.025);
-                border-color: var(--amarillo);
-                box-shadow: 0 20px 40px rgba(247, 213, 71, 0.16);
-            }
-
-            .service-card:hover .service-gallery,
-            .service-card:focus-within .service-gallery {
-                max-height: 230px;
-                margin: 0 0 24px;
-                opacity: 1;
-                pointer-events: auto;
-            }
-        }
-
-        .service-card:hover {
-            border-color: var(--amarillo);
-            box-shadow: 0 20px 40px rgba(247, 213, 71, 0.12);
-        }
-
-        .service-card h3 { 
-            margin: 0 0 14px; 
-            font-size: 1.4rem; 
-            font-weight: 700;
-            color: var(--texto-claro);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .service-card p { 
-            margin: 0 0 28px; 
-            color: var(--texto-muted); 
-            line-height: 1.7; 
-            font-size: 0.98rem;
+        .service-card.is-gallery-open .service-gallery {
+            max-height: 240px;
+            margin: 0 0 24px;
+            opacity: 1;
+            pointer-events: auto;
         }
 
         /* BOTÓN WHATSAPP */
@@ -224,23 +315,24 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            padding: 14px 20px;
+            padding: 15px 20px;
             background: var(--whatsapp);
-            border-radius: 12px;
+            border-radius: 14px;
             color: var(--texto-claro);
-            font-weight: 700;
+            font-weight: 800;
             font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 0.03em;
             box-shadow: 0 6px 18px rgba(37, 211, 102, 0.25);
             transition: all 0.25s ease;
             text-decoration: none;
+            margin-top: auto;
         }
 
         .btn-whatsapp:hover { 
             background: var(--whatsapp-hover); 
             transform: translateY(-2px); 
-            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.38);
         }
 
         .btn-whatsapp svg { 
@@ -249,7 +341,7 @@
             fill: currentColor; 
         }
 
-        /* SECCIÓN HIGHLIGHT / TARJETAS DESTACADAS */
+        /* SECCIÓN HIGHLIGHT / GARANTÍAS OPERATIVAS */
         .highlight { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
@@ -258,21 +350,26 @@
         }
 
         .highlight-card { 
-            padding: 32px; 
-            background: rgba(247, 213, 71, 0.05); 
+            padding: 34px; 
+            background: rgba(247, 213, 71, 0.04); 
             border-left: 5px solid var(--amarillo); 
-            border-radius: 16px; 
+            border-radius: 18px; 
             border-top: 1px solid var(--borde-card);
             border-right: 1px solid var(--borde-card);
             border-bottom: 1px solid var(--borde-card);
             backdrop-filter: blur(10px);
+            transition: transform 0.25s ease;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-4px);
         }
 
         .highlight-card h3 { 
             margin: 0 0 12px; 
             color: var(--amarillo); 
             font-size: 1.25rem;
-            font-weight: 800;
+            font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 0.04em;
         }
@@ -284,36 +381,54 @@
             font-size: 0.98rem;
         }
 
-        /* LLAMADO A LA ACCIÓN (CTA) */
+        /* CALL TO ACTION */
         .cta { 
             display: flex; 
+            flex-direction: column;
+            align-items: center;
             justify-content: center; 
-            margin-top: 60px; 
+            margin-top: 70px; 
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 50px 30px;
+            border-radius: 24px;
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+        }
+
+        .cta h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .cta p {
+            color: var(--texto-muted);
+            margin: 0 0 26px 0;
+            max-width: 600px;
+            font-size: 1.05rem;
         }
 
         .btn-productos { 
-            padding: 16px 36px; 
+            padding: 16px 38px; 
             background: var(--amarillo); 
             border: none; 
-            border-radius: 12px; 
+            border-radius: 14px; 
             color: var(--negro); 
-            font-weight: 800; 
+            font-weight: 900; 
             font-size: 1rem;
             text-transform: uppercase;
             letter-spacing: 0.04em;
-            box-shadow: 0 8px 20px rgba(247, 213, 71, 0.2); 
+            box-shadow: 0 8px 22px rgba(247, 213, 71, 0.25); 
             transition: all 0.25s ease;
             text-decoration: none;
         }
 
         .btn-productos:hover { 
             background: var(--amarillo-hover); 
-            transform: translateY(-2px);
-            box-shadow: 0 12px 26px rgba(247, 213, 71, 0.35);
-        }
-
-        .hero {
-            animation: page-enter 750ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(247, 213, 71, 0.4);
         }
 
         .scroll-reveal {
@@ -327,39 +442,21 @@
             translate: 0 0;
         }
 
-        @keyframes page-enter {
-            from { opacity: 0; transform: translateY(22px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .hero { animation: none; }
-        }
-
         /* RESPONSIVE DESIGN */
-        @media (max-width: 850px) {
+        @media (max-width: 900px) {
             .service-grid, .highlight { 
                 grid-template-columns: 1fr; 
             }
             .content { 
                 padding: 40px 20px 60px; 
             }
+            .hero-metrics {
+                gap: 16px;
+            }
         }
 
         @media (hover: none) {
-            .service-gallery {
-                max-height: 230px;
-                margin: 0 0 22px;
-                opacity: 1;
-                pointer-events: auto;
-            }
-
             .service-card:hover { transform: none; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .service-gallery,
-            .service-gallery-slide { transition: none; }
         }
     </style>
 </head>
@@ -367,40 +464,66 @@
 
     @include('footer.top')
 
+    <!-- BANNER HERO -->
     <section class="hero">
         <div>
-            <h1>Servicios Especializados Adecuados a tus <span>Necesidades</span></h1>
-            <p>Asesoría, instalación y mantenimiento de equipos pesados y de logística para asegurar operaciones seguras, productivas y confiables.</p>
+            <span class="hero-badge">Soporte Técnico de Nivel Industrial</span>
+            <h1>Servicios Especializados para <span>Maquinaria Pesada</span></h1>
+            <p>Mantenimiento preventivo, diagnóstico avanzado, reparación de sistemas hidráulicos y soluciones integrales para garantizar la operatividad continua de su flota.</p>
+
+            <div class="hero-metrics">
+                <div class="metric-box">
+                    <strong>+15 Años</strong>
+                    <span>De Experiencia Técnica</span>
+                </div>
+                <div class="metric-box">
+                    <strong>+500</strong>
+                    <span>Intervenciones Exitosas</span>
+                </div>
+                <div class="metric-box">
+                    <strong>100%</strong>
+                    <span>Garantía de Servicio</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <section class="content">
         <div class="intro">
-            <h2>Qué hacemos</h2>
-            <p>Ofrecemos servicios completos en manejo de carga, grúas, montacargas y equipos industriales con respaldo técnico garantizado.</p>
+            <h2>Especialidades Operativas</h2>
+            <p>Atendemos requerimientos críticos en montacargas, grúas y maquinaria de logística pesada con respuesta rápida en taller o en sitio.</p>
+        </div>
+
+        <!-- PESTAÑAS DE FILTRADO INTERACTIVO -->
+        <div class="tabs-container">
+            <button class="tab-btn is-active" data-filter="all">Todos los Servicios</button>
+            <button class="tab-btn" data-filter="core">Mantenimiento Core</button>
+            <button class="tab-btn" data-filter="soporte">Soporte y Asesoría</button>
         </div>
 
         @php
             $serviceGalleryImages = [
-                ['src' => asset('img/montacarga_reparcion.jpg'), 'alt' => 'Montacargas en reparación con el capó abierto'],
-                ['src' => asset('img/montacarga_reparcion2.jpg'), 'alt' => 'Montacargas en reparación'],
+                ['src' => asset('img/montacarga_reparcion.jpg'), 'alt' => 'Montacargas en proceso de reparación técnica'],
+                ['src' => asset('img/montacarga_reparcion2.jpg'), 'alt' => 'Mantenimiento especializado de maquinaria'],
             ];
         @endphp
 
+        <!-- GRILLA DE SERVICIOS -->
         <div class="service-grid">
-            <article class="service-card">
+            <article class="service-card" data-category="soporte">
                 <div>
-                    <h3>⚙️ Instalación de equipos</h3>
-                    <p>Colocamos y configuramos su maquinaria con soporte técnico en sitio para que entre en operación rápidamente de manera segura.</p>
+                    <span class="service-tag">Puesta en Marcha</span>
+                    <h3>⚙️ Instalación de Equipos</h3>
+                    <p>Colocación, calibración y configuración técnica en sitio de maquinaria pesada y logística para asegurar una integración limpia, segura y productiva.</p>
                 </div>
                 <div class="service-gallery" role="region" aria-label="Galería de instalación de equipos" data-service-gallery>
                     <div class="service-gallery-frame">
-                        @foreach($serviceGalleryImages as $imageIndex => $image)
+                        @foreach($serviceGalleryImages as $imageIndex =>$image)
                             <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
                         @endforeach
                         <div class="service-gallery-controls">
                             <div class="service-gallery-dots">
-                                @foreach($serviceGalleryImages as $imageIndex => $image)
+                                @foreach($serviceGalleryImages as $imageIndex =>$image)
                                     <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
                                 @endforeach
                             </div>
@@ -413,19 +536,20 @@
                 </a>
             </article>
 
-            <article class="service-card">
+            <article class="service-card" data-category="core">
                 <div>
-                    <h3>🛠️ Mantenimiento preventivo</h3>
-                    <p>Planes periódicos orientados a reducir fallas imprevistas, alargar la vida útil de sus equipos y optimizar la productividad.</p>
+                    <span class="service-tag">Prevención de Fallas</span>
+                    <h3>🛠️ Mantenimiento Preventivo</h3>
+                    <p>Planes programados de inspección, cambio de fluidos (aceites, refrigerantes, líquidos de freno) y filtros para maximizar la vida útil y prevenir paradas imprevistas.</p>
                 </div>
                 <div class="service-gallery" role="region" aria-label="Galería de mantenimiento preventivo" data-service-gallery>
                     <div class="service-gallery-frame">
-                        @foreach($serviceGalleryImages as $imageIndex => $image)
+                        @foreach($serviceGalleryImages as $imageIndex =>$image)
                             <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
                         @endforeach
                         <div class="service-gallery-controls">
                             <div class="service-gallery-dots">
-                                @foreach($serviceGalleryImages as $imageIndex => $image)
+                                @foreach($serviceGalleryImages as $imageIndex =>$image)
                                     <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
                                 @endforeach
                             </div>
@@ -438,19 +562,20 @@
                 </a>
             </article>
 
-            <article class="service-card">
+            <article class="service-card" data-category="core">
                 <div>
-                    <h3>🛠️ Reparación rápida</h3>
-                    <p>Atención de urgencia y diagnóstico especializado para minimizar los tiempos de inactividad de su flota y restaurar operaciones.</p>
+                    <span class="service-tag">Respuesta Inmediata</span>
+                    <h3>⚡ Reparación Rápida & Correctiva</h3>
+                    <p>Atención de urgencia ante averías críticas. Diagnóstico especializado de motor, sistema hidráulico y transmisión para restaurar sus operaciones sin pérdidas de tiempo.</p>
                 </div>
                 <div class="service-gallery" role="region" aria-label="Galería de reparación rápida" data-service-gallery>
                     <div class="service-gallery-frame">
-                        @foreach($serviceGalleryImages as $imageIndex => $image)
+                        @foreach($serviceGalleryImages as $imageIndex =>$image)
                             <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
                         @endforeach
                         <div class="service-gallery-controls">
                             <div class="service-gallery-dots">
-                                @foreach($serviceGalleryImages as $imageIndex => $image)
+                                @foreach($serviceGalleryImages as $imageIndex =>$image)
                                     <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
                                 @endforeach
                             </div>
@@ -463,19 +588,20 @@
                 </a>
             </article>
 
-            <article class="service-card">
+            <article class="service-card" data-category="soporte">
                 <div>
-                    <h3>📋 Asesoría técnica</h3>
-                    <p>Evaluamos su operación actual y recomendamos las mejores tecnologías y equipos para optimizar sus flujos logísticos y de carga.</p>
+                    <span class="service-tag">Optimización Operativa</span>
+                    <h3>📋 Asesoría Técnica Especializada</h3>
+                    <p>Evaluación integral del estado de su flota, recomendación de insumos correctos (fluidos, repuestos originales) y asesoramiento para reducir costos operativos.</p>
                 </div>
                 <div class="service-gallery" role="region" aria-label="Galería de asesoría técnica" data-service-gallery>
                     <div class="service-gallery-frame">
-                        @foreach($serviceGalleryImages as $imageIndex => $image)
+                        @foreach($serviceGalleryImages as $imageIndex =>$image)
                             <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
                         @endforeach
                         <div class="service-gallery-controls">
                             <div class="service-gallery-dots">
-                                @foreach($serviceGalleryImages as $imageIndex => $image)
+                                @foreach($serviceGalleryImages as $imageIndex =>$image)
                                     <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
                                 @endforeach
                             </div>
@@ -489,18 +615,22 @@
             </article>
         </div>
 
+        <!-- HIGHLIGHTS / RESPALDO OPERATIVO -->
         <div class="highlight">
             <div class="highlight-card">
-                <h3>Marcas & Confianza</h3>
-                <p>Trabajamos con proveedores internacionales reconocidos y garantizamos respaldo técnico en cada proyecto industrial.</p>
+                <h3>Respaldo Multimarca</h3>
+                <p>Mantenimiento y soporte técnico garantizado para las marcas líderes en logística: Toyota, Komatsu, Hyster, Caterpillar, Yale, TCM, Hyundai y más.</p>
             </div>
             <div class="highlight-card">
-                <h3>Atención Profesional</h3>
-                <p>Equipo especializado con sólida experiencia en proyectos industriales, mineros, portuarios y de transporte logístico.</p>
+                <h3>Suministro de Repuestos & Fluidos</h3>
+                <p>Complementamos el servicio técnico con venta directa de aceites de motor, líquidos de freno, filtros y componentes genuinos para su maquinaria.</p>
             </div>
         </div>
 
+        <!-- CALL TO ACTION (CTA) -->
         <div class="cta">
+            <h3>¿Buscas repuestos o fluidos específicos?</h3>
+            <p>Explora nuestro catálogo completo de accesorios, lubricantes e insumos originales para equipos de carga pesada.</p>
             <a href="{{ url('/productos') }}" class="btn-productos">Ver catálogo de productos</a>
         </div>
     </section>
@@ -508,6 +638,59 @@
     @include('footer.bottom')
 
     <script>
+        // FILTRADO DE SERVICIOS POR PESTAÑAS (TABS)
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const serviceCards = document.querySelectorAll('.service-card');
+
+        const openServiceGallery = selectedCard => {
+            serviceCards.forEach(card => {
+                card.classList.toggle('is-gallery-open', card === selectedCard);
+            });
+        };
+
+        const closeServiceGallery = card => {
+            if (!card.matches(':hover') && !card.contains(document.activeElement)) {
+                card.classList.remove('is-gallery-open');
+            }
+        };
+
+        serviceCards.forEach(card => {
+            card.addEventListener('pointerenter', event => {
+                if (event.pointerType === 'mouse') openServiceGallery(card);
+            });
+
+            card.addEventListener('pointerleave', event => {
+                if (event.pointerType === 'mouse') closeServiceGallery(card);
+            });
+
+            card.addEventListener('pointerdown', event => {
+                if (event.pointerType === 'touch') openServiceGallery(card);
+            });
+
+            card.addEventListener('focusin', () => openServiceGallery(card));
+            card.addEventListener('focusout', event => {
+                if (!card.contains(event.relatedTarget)) closeServiceGallery(card);
+            });
+        });
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('is-active'));
+                btn.classList.add('is-active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                serviceCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // GALERÍA DE IMÁGENES DENTRO DE LAS TARJETAS
         const serviceGalleries = document.querySelectorAll('[data-service-gallery]');
         const reduceGalleryMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -577,6 +760,7 @@
             });
         });
 
+        // ANIMACIONES DE ENTRADA (SCROLL REVEAL)
         const revealElements = document.querySelectorAll('.intro, .service-card, .highlight-card, .cta');
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

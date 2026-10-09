@@ -371,6 +371,39 @@
             border-color: var(--texto-muted);
         }
 
+        .gallery-image-grid,
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .gallery-image-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 8px;
+            border: 1px solid var(--gris-borde);
+            border-radius: 8px;
+            background: var(--blanco);
+        }
+
+        .gallery-image-card img,
+        .image-preview-grid img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .gallery-image-card .delete-image-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: none;
+        }
+
         /* Botones de Acción */
         .form-actions {
             display: flex;
@@ -493,7 +526,7 @@
                                 <option value="">Seleccione una categoría...</option>
                                 @foreach($categorias as $categoria)
                                     <option value="{{ $categoria->id }}" {{ (old('categoria_id', $producto->categoria_id) == $categoria->id) ? 'selected' : '' }}>
-                                        {{ $categoria->nombre }}
+                                        {{ $categoria->parent ? $categoria->parent->nombre . ' > ' . $categoria->nombre : $categoria->nombre . ' (principal)' }}
                                     </option>
                                 @endforeach
                             </select>
@@ -539,30 +572,34 @@
                         </div>
                     </div>
 
-                    <!-- Sección de Imagen -->
+                    <!-- Imágenes existentes y nuevas -->
                     <div class="form-group full-width">
-                        <label>Imagen del Producto</label>
-                        <div class="image-upload-container">
-                            @if($producto->imagen)
-                                <div class="current-image-preview">
-                                    <img src="{{ str_starts_with($producto->imagen, 'http') ? $producto->imagen : asset(ltrim(str_replace('public/', '', str_replace('storage/', '', $producto->imagen)), '/')) }}" alt="Imagen actual">
-                                    <span>Imagen actual</span>
-                                </div>
-                            @else
-                                <div class="current-image-preview placeholder">
-                                    <span>Sin imagen</span>
-                                </div>
-                            @endif
+                        <label>Imágenes del producto</label>
+                        <p class="subtitle">Las imágenes sin marcar se conservarán. Puedes tener hasta 4 en total.</p>
 
-                            <div class="file-input-wrapper">
-                                <label for="imagen" class="file-custom-btn">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                    Cambiar imagen de archivo
-                                </label>
-                                <input type="file" id="imagen" name="imagen" accept="image/*">
-                                <span class="file-name-display">Ningún archivo seleccionado</span>
+                        @if(count($producto->gallery_images))
+                            <div class="gallery-image-grid">
+                                @foreach($producto->gallery_images as $image)
+                                    <div class="gallery-image-card">
+                                        <img src="{{ str_starts_with($image, 'http') ? $image : asset(ltrim(str_replace(['public/', 'storage/'], '', $image), '/')) }}" alt="Imagen del producto">
+                                        <label class="delete-image-option">
+                                            <input type="checkbox" name="eliminar_imagenes[]" value="{{ $image }}" {{ in_array($image, old('eliminar_imagenes', [])) ? 'checked' : '' }}>
+                                            Eliminar esta imagen
+                                        </label>
+                                    </div>
+                                @endforeach
                             </div>
+                        @else
+                            <p class="subtitle">Este producto no tiene imágenes guardadas.</p>
+                        @endif
+
+                        <div class="file-input-wrapper" style="margin-top: 16px;">
+                            <label for="imagenes" class="file-custom-btn">Agregar imágenes</label>
+                            <input type="file" id="imagenes" name="imagenes[]" accept="image/jpeg,image/png,image/webp" multiple>
+                            <span class="file-name-display" id="imagenes-seleccionadas">Ninguna imagen seleccionada</span>
                         </div>
+                        <small id="limite-imagenes"></small>
+                        <div id="imagenes-preview" class="image-preview-grid"></div>
                     </div>
 
                 </div>
@@ -585,10 +622,45 @@
     </footer>
 
     <script>
-        document.getElementById('imagen').addEventListener('change', function(e) {
-            const fileName = e.target.files[0] ? e.target.files[0].name : 'Ningún archivo seleccionado';
-            document.querySelector('.file-name-display').textContent = fileName;
+        const imageInput = document.getElementById('imagenes');
+        const imagePreview = document.getElementById('imagenes-preview');
+        const imageSummary = document.getElementById('imagenes-seleccionadas');
+        const imageLimit = document.getElementById('limite-imagenes');
+        const deleteImageCheckboxes = document.querySelectorAll('input[name="eliminar_imagenes[]"]');
+        const productForm = imageInput.closest('form');
+
+        function updateImageLimit() {
+            const keptImages = Array.from(deleteImageCheckboxes).filter((checkbox) => !checkbox.checked).length;
+            const availableSlots = Math.max(0, 4 - keptImages);
+            const selectedFiles = Array.from(imageInput.files);
+
+            imageInput.setCustomValidity(selectedFiles.length > availableSlots
+                ? `Puedes agregar como máximo ${availableSlots} imagen(es) con la selección actual.`
+                : '');
+            imageLimit.textContent = `Puedes agregar ${availableSlots} imagen(es) más.`;
+            imageSummary.textContent = selectedFiles.length
+                ? `${selectedFiles.length} imagen(es) seleccionada(s)`
+                : 'Ninguna imagen seleccionada';
+            imagePreview.replaceChildren();
+
+            selectedFiles.forEach((file) => {
+                const image = document.createElement('img');
+                image.src = URL.createObjectURL(file);
+                image.alt = file.name;
+                imagePreview.append(image);
+            });
+        }
+
+        imageInput.addEventListener('change', updateImageLimit);
+        deleteImageCheckboxes.forEach((checkbox) => checkbox.addEventListener('change', updateImageLimit));
+        productForm.addEventListener('submit', (event) => {
+            updateImageLimit();
+            if (!imageInput.checkValidity()) {
+                event.preventDefault();
+                imageInput.reportValidity();
+            }
         });
+        updateImageLimit();
     </script>
 </body>
 </html>

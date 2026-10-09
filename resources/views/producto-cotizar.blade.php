@@ -151,6 +151,35 @@
             object-fit: contain;
         }
 
+        .product-image-thumbnails {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            margin: -12px 0 24px;
+            padding: 2px 1px 8px;
+        }
+
+        .product-image-thumbnail {
+            flex: 0 0 64px;
+            width: 64px;
+            height: 64px;
+            padding: 5px;
+            border: 1px solid var(--borde-card);
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .product-image-thumbnail[aria-pressed="true"] {
+            border: 2px solid var(--amarillo);
+        }
+
+        .product-image-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
         .product-summary-card .tag {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -295,6 +324,8 @@
     </section>
 
     <section class="content-container">
+        @php($productImages = $productImages ?? [$productImage])
+
         @if(session('message'))
             <div class="message-alert">
                 {{ session('message') }}
@@ -316,8 +347,17 @@
             <!-- COLUMNA IZQUIERDA: RESUMEN DE PRODUCTO -->
             <div class="product-summary-card">
                 <div class="product-image-box">
-                    <img src="{{ asset($productImage) }}" alt="{{ $productTitle }}">
+                    <img id="main-product-image" src="{{ asset($productImage) }}" alt="{{ $productTitle }}">
                 </div>
+                @if(count($productImages) > 1)
+                    <div class="product-image-thumbnails" role="group" aria-label="Imágenes de {{ $productTitle }}">
+                        @foreach($productImages as $image)
+                            <button class="product-image-thumbnail" type="button" data-image-url="{{ asset($image) }}" aria-label="Ver imagen {{ $loop->iteration }}" aria-pressed="{{ $loop->first ? 'true' : 'false' }}">
+                                <img src="{{ asset($image) }}" alt="">
+                            </button>
+                        @endforeach
+                    </div>
+                @endif
                 <span class="tag">Equipo Seleccionado</span>
                 <h3>{{ $productTitle }}</h3>
                 <p>{{ $productDescription }}</p>
@@ -365,6 +405,19 @@
     </section>
 
     @include('footer.bottom')
+
+    <script>
+        const mainProductImage = document.getElementById('main-product-image');
+
+        document.querySelectorAll('.product-image-thumbnail').forEach((thumbnail) => {
+            thumbnail.addEventListener('click', () => {
+                mainProductImage.src = thumbnail.dataset.imageUrl;
+                document.querySelectorAll('.product-image-thumbnail').forEach((item) => {
+                    item.setAttribute('aria-pressed', String(item === thumbnail));
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

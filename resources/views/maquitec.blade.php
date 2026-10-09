@@ -212,6 +212,20 @@
             margin: 0 auto;
         }
 
+        .seccion-destacados {
+            max-width: 1680px;
+            width: 100%;
+            padding: 80px 2.5%;
+        }
+
+        .seccion-categorias {
+            max-width: 1680px;
+            width: 100%;
+            margin: 60px auto;
+            padding: 0 2.5%;
+            text-align: center;
+        }
+
         .seccion-header {
             text-align: center;
             max-width: 700px;
@@ -232,7 +246,7 @@
             border: 1px solid rgba(247, 213, 71, 0.25);
         }
 
-        .seccion h2 {
+        .seccion h2, .seccion-destacados h2, .seccion-categorias h2 {
             margin: 0;
             font-size: 2.2rem;
             letter-spacing: -0.02em;
@@ -240,7 +254,7 @@
             font-weight: 800;
         }
 
-        .seccion p.lead {
+        .seccion p.lead, .seccion-destacados p.lead, .seccion-categorias p.lead {
             margin: 14px 0 0 0;
             color: var(--texto-muted);
             font-size: 1.05rem;
@@ -262,35 +276,52 @@
             .hero-slide.active .hero-content { animation: none; }
         }
 
-        /* PRODUCTOS DESTACADOS */
+        /* --- SECCIÓN PRODUCTOS DESTACADOS INTERACTIVOS --- */
         .cards {
             display: grid;
             gap: 24px;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2%;
+        }
+
+        .card-link {
+            display: block;
+            height: 100%;
+            color: inherit;
+            text-decoration: none;
         }
 
         .card {
-            background: #f7d547;
-            border-radius: 16px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
             overflow: hidden;
-            border: 1px solid #e5c338;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            color: #000000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
 
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(247, 213, 71, 0.3);
+        .card-link:hover .card, .card-link:focus-visible .card {
+            transform: translateY(-8px);
+            border-color: var(--amarillo);
+            box-shadow: 0 16px 36px rgba(247, 213, 71, 0.2);
         }
 
         .card img {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 240px;
+            object-fit: contain;
             background: #ffffff;
+            padding: 16px;
+            transition: transform 0.35s ease;
+        }
+
+        .card-link:hover img, .card-link:focus-visible img {
+            transform: scale(1.06);
         }
 
         .card-content {
@@ -301,82 +332,103 @@
             gap: 10px;
         }
 
-        .card-content strong { 
-            font-size: 1rem; 
-            color: #000000; 
+        .card-content strong {
+            font-size: 1.1rem;
+            color: #ffffff;
             font-weight: 700;
+            margin-bottom: 6px;
         }
 
-        .card-content p { 
-            margin: 0; 
-            color: #27272a; 
-            line-height: 1.5; 
-            font-size: 0.9rem; 
+        .card-content p {
+            margin: 0 0 14px;
+            color: var(--texto-muted);
+            line-height: 1.5;
+            font-size: 0.88rem;
             flex-grow: 1;
         }
 
-        /* CATEGORÍAS */
+        .card-quote-action {
+            margin-top: auto;
+            background: var(--amarillo);
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        /* --- SECCIÓN NUESTRAS CATEGORÍAS (MÁS AMPLIAS Y ELEGANTES) --- */
         .grid-categorias {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+            margin-top: 40px;
         }
 
         .tarjeta-categoria {
-            background: #f7d547;
-            border-radius: 16px;
-            padding: 30px 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            background: var(--amarillo);
+            border-radius: 22px;
+            padding: 32px 24px;
+            min-height: 230px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: space-between;
             text-align: center;
-            transition: all 0.2s ease;
-            border: 1px solid #e5c338;
-            color: #000000;
+            text-decoration: none;
+            color: var(--negro);
+            border: 2px solid #e5c338;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
         }
 
         .tarjeta-categoria:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(247, 213, 71, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(247, 213, 71, 0.28), 0 12px 28px rgba(0, 0, 0, 0.45);
+            border-color: #ffffff;
         }
 
-        .icono-wrapper {
-            width: 56px;
-            height: 56px;
-            background: #000000;
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            margin-bottom: 18px;
-            color: #f7d547;
+        .tarjeta-categoria .icono-wrapper {
+            width: 52px;
+            height: 52px;
+            background: var(--negro);
+            color: var(--amarillo);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
         }
 
-        .icono-wrapper svg { width: 26px; height: 26px; }
+        .tarjeta-categoria .icono-wrapper svg { width: 26px; height: 26px; }
 
         .tarjeta-categoria h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            color: #000000;
+            font-size: 1.12rem;
+            font-weight: 800;
+            margin: 8px 0;
+            letter-spacing: 0.04em;
+            color: var(--negro);
+            line-height: 1.3;
         }
 
         .tarjeta-categoria p {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #27272a;
-            margin: 0 0 20px 0;
-            line-height: 1.5;
-            flex-grow: 1;
+            margin: 0 0 14px;
+            line-height: 1.4;
+            font-weight: 500;
         }
 
-        .badge-productos {
-            background: #000000;
-            color: #f7d547;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 6px 14px;
-            border-radius: 6px;
-            transition: background 0.2s ease;
+        .tarjeta-categoria .badge-productos {
+            background: var(--negro);
+            color: var(--amarillo);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
         }
 
         .tarjeta-categoria:hover .badge-productos {
@@ -592,8 +644,11 @@
         }
 
         /* RESPONSIVE */
-        @media (max-width: 1024px) {
+        @media (max-width: 1280px) {
             .cards, .grid-categorias { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 1024px) {
             .features-container { grid-template-columns: repeat(2, 1fr); }
             .feature-item { border-right: none; border-bottom: 1px solid #e2e8f0; }
             .feature-item:nth-child(3), .feature-item:nth-child(4) { border-bottom: none; }
@@ -602,10 +657,7 @@
 
         @media (max-width: 768px) {
             .seccion { padding-left: 3%; padding-right: 3%; }
-            .cards, .grid-categorias {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 12px;
-            }
+            .cards, .grid-categorias { gap: 12px; }
             .card img { height: 140px; object-fit: contain; }
             .card-content { padding: 12px; gap: 8px; }
             .card-content strong { font-size: 0.76rem; }
@@ -632,6 +684,13 @@
             }
             .payment-methods {
                 justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .cards, .grid-categorias {
+                grid-template-columns: 1fr;
+                gap: 16px;
             }
         }
     </style>
@@ -686,7 +745,7 @@
     </section>
 
     <!-- PRODUCTOS DESTACADOS -->
-    <section class="seccion" id="productos">
+    <section class="seccion seccion-destacados" id="productos">
         <div class="seccion-header">
             <span class="badge-tag">Catálogo Selecto</span>
             <h2>Nuestros productos destacados</h2>
@@ -695,13 +754,16 @@
 
         <div class="cards">
             @forelse($productosDestacados as $producto)
-                <article class="card">
-                    <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}">
-                    <div class="card-content">
-                        <strong>{{ $producto->nombre }}</strong>
-                        <p>{{ Str::limit($producto->descripcion, 75) }}</p>
-                    </div>
-                </article>
+                <a href="{{ url('/productos/cotizar/' . ($producto->slug ?? 'montacargas')) }}" class="card-link">
+                    <article class="card">
+                        <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}">
+                        <div class="card-content">
+                            <strong>{{ $producto->nombre }}</strong>
+                            <p>{{ Str::limit($producto->descripcion, 75) }}</p>
+                            <div class="card-quote-action">Cotizar Producto</div>
+                        </div>
+                    </article>
+                </a>
             @empty
                 <div style="grid-column: span 4; text-align: center; padding: 40px; color: var(--texto-muted); background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
                     <p>Pronto agregaremos productos destacados a esta sección.</p>
@@ -711,7 +773,7 @@
     </section>
 
     <!-- SECCIÓN DE CATEGORÍAS -->
-    <section class="seccion" style="padding-top: 0;">
+    <section class="seccion seccion-categorias">
         <div class="seccion-header">
             <span class="badge-tag">Especialidades</span>
             <h2>Nuestras Categorías</h2>
@@ -720,7 +782,7 @@
 
         <div class="grid-categorias">
             @foreach($categorias as $categoria)
-                <a href="{{ route('categorias.show', $categoria->id) }}" class="tarjeta-categoria">
+                <a href="{{ route('productos.index', ['categoria' => $categoria->id]) }}" class="tarjeta-categoria">
                     <div class="icono-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -728,7 +790,7 @@
                     </div>
                     <h3>{{ strtoupper($categoria->nombre) }}</h3>
                     <p>{{ $categoria->descripcion ?? 'Equipos y componentes especializados.' }}</p>
-                    <span class="badge-productos">{{ $categoria->productos_count ?? 0 }} productos</span>
+                    <span class="badge-productos">{{ $categoria->productos_count + $categoria->children->sum('productos_count') }} productos</span>
                 </a>
             @endforeach
         </div>

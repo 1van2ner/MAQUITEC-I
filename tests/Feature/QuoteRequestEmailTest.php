@@ -13,6 +13,34 @@ class QuoteRequestEmailTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_quote_page_receives_the_product_image_gallery(): void
+    {
+        $categoria = Categoria::create([
+            'nombre' => 'Categoría con galería',
+            'descripcion' => 'Prueba de galería de cotización',
+        ]);
+        $images = [
+            'img/productos/producto-principal.jpg',
+            'img/productos/producto-detalle.jpg',
+        ];
+
+        $producto = Producto::create([
+            'categoria_id' => $categoria->id,
+            'codigo' => 'QUOTE-GALLERY-001',
+            'nombre' => 'Producto con varias imágenes',
+            'slug' => 'producto-con-varias-imagenes',
+            'descripcion' => 'Producto de prueba',
+            'stock' => 1,
+            'imagen' => $images[0],
+            'imagenes' => $images,
+        ]);
+
+        $this->get('/productos/cotizar/' . $producto->slug)
+            ->assertOk()
+            ->assertViewHas('productImages', $images)
+            ->assertSee('product-image-thumbnails');
+    }
+
     public function test_quote_request_is_sent_to_the_configured_recipient(): void
     {
         config([
@@ -36,6 +64,10 @@ class QuoteRequestEmailTest extends TestCase
             'stock' => 1,
             'imagen' => 'img/logo_pagina_general/maquitec_2026_new.jpg',
         ]);
+
+        $this->get('/productos/cotizar/' . $producto->slug)
+            ->assertOk()
+            ->assertViewHas('productImages', [$producto->imagen]);
 
         $response = $this->from('/productos/cotizar/' . $producto->slug)
             ->post('/productos/cotizar', [

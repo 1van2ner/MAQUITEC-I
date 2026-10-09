@@ -339,6 +339,24 @@
                 <div class="alert-success">{{ session('success') }}</div>
             @endif
 
+            <form method="GET" action="{{ route('admin.productos.index') }}" style="display:flex; flex-wrap:wrap; align-items:end; gap:12px; margin-bottom:18px;">
+                <div style="display:flex; flex-direction:column; gap:6px; flex:1 1 260px;">
+                    <label for="buscar-producto" style="font-size:0.78rem; font-weight:700; color:#334155;">Buscar producto</label>
+                    <input id="buscar-producto" type="search" name="buscar" value="{{ request('buscar') }}" placeholder="Nombre o código" style="padding:10px 12px; border:1px solid var(--gris-borde); border-radius:8px; font:inherit;">
+                </div>
+                <div style="display:flex; flex-direction:column; gap:6px; min-width:190px;">
+                    <label for="filtro-destacado" style="font-size:0.78rem; font-weight:700; color:#334155;">Mostrar</label>
+                    <select id="filtro-destacado" name="destacado" style="padding:10px 12px; border:1px solid var(--gris-borde); border-radius:8px; font:inherit;">
+                        <option value="">Todos los productos</option>
+                        <option value="1" {{ request('destacado') === '1' ? 'selected' : '' }}>Destacados de portada</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-new">Buscar</button>
+                @if(request()->hasAny(['buscar', 'destacado']))
+                    <a href="{{ route('admin.productos.index') }}" class="btn" style="background:var(--gris-claro); color:var(--negro);">Limpiar</a>
+                @endif
+            </form>
+
             <div class="table-responsive">
                 <table>
                     <thead>
@@ -351,11 +369,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($productos as $prod)
+                        @forelse($productos as $prod)
                         <tr>
                             <td data-label="Imagen"><img src="{{ asset($prod->imagen) }}" alt="{{ $prod->nombre }}" class="img-thumb"></td>
                             <td data-label="Código"><code style="background: var(--gris-claro); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--gris-borde);">{{ $prod->codigo }}</code></td>
-                            <td data-label="Nombre"><strong>{{ $prod->nombre }}</strong></td>
+                            <td data-label="Nombre">
+                                <strong>{{ $prod->nombre }}</strong>
+                                @if($prod->destacado)
+                                    <small style="display:block; margin-top:4px; color:#9a6700; font-weight:700;">Destacado en portada</small>
+                                @endif
+                            </td>
                             <td data-label="Stock">
                                 <span style="font-weight: 700; color: {{ $prod->stock > 0 ? '#166534' : '#991b1b' }}; background: {{ $prod->stock > 0 ? '#dcfce7' : '#fee2e2' }}; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; display: inline-block;">
                                     {{ $prod->stock }} unidades
@@ -373,9 +396,32 @@
                                 </form>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="5" style="padding:32px; text-align:center; color:var(--texto-muted);">No se encontraron productos con esos filtros.</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:18px;">
+                <span style="color:var(--texto-muted); font-size:0.88rem;">Mostrando {{ $productos->firstItem() ?? 0 }}-{{ $productos->lastItem() ?? 0 }} de {{ $productos->total() }} productos</span>
+                @if($productos->hasPages())
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        @if($productos->onFirstPage())
+                            <span class="btn" style="background:var(--gris-claro); color:var(--texto-muted);">Anterior</span>
+                        @else
+                            <a class="btn" style="background:var(--gris-claro); color:var(--negro);" href="{{ $productos->previousPageUrl() }}">Anterior</a>
+                        @endif
+                        <span style="font-size:0.88rem;">Página {{ $productos->currentPage() }} de {{ $productos->lastPage() }}</span>
+                        @if($productos->hasMorePages())
+                            <a class="btn" style="background:var(--gris-claro); color:var(--negro);" href="{{ $productos->nextPageUrl() }}">Siguiente</a>
+                        @else
+                            <span class="btn" style="background:var(--gris-claro); color:var(--texto-muted);">Siguiente</span>
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </div>

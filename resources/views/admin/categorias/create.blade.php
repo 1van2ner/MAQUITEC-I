@@ -261,6 +261,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="parent_id">Categoría padre (Opcional)</label>
+                    <select id="parent_id" name="parent_id">
+                        <option value="">Sin categoría padre</option>
+                        @foreach($categoriasPadre as $categoriaPadre)
+                            <option value="{{ $categoriaPadre->id }}" {{ old('parent_id') == $categoriaPadre->id ? 'selected' : '' }}>
+                                {{ $categoriaPadre->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label>Descripción (Opcional)</label>
                     <textarea name="descripcion" placeholder="Breve detalle de los equipos que pertenecen a esta categoría...">{{ old('descripcion') }}</textarea>
                 </div>

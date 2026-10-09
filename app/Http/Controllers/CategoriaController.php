@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Models\Categoria;
 
 class CategoriaController extends Controller
@@ -10,7 +11,12 @@ class CategoriaController extends Controller
     // Listar todas las categorías (Panel Admin)
     public function index()
     {
-        $categorias = Categoria::all();
+        $categorias = Categoria::with(['parent', 'children' => function ($query) {
+                $query->orderBy('nombre');
+            }])
+            ->whereNull('parent_id')
+            ->orderBy('nombre')
+            ->get();
         return view('admin.categorias.index', compact('categorias'));
     }
 
@@ -24,7 +30,8 @@ class CategoriaController extends Controller
     // Mostrar formulario de creación
     public function create()
     {
-        return view('admin.categorias.create');
+        $categoriasPadre = Categoria::whereNull('parent_id')->orderBy('nombre')->get();
+        return view('admin.categorias.create', compact('categoriasPadre'));
     }
 
     // Guardar nueva categoría
@@ -33,12 +40,14 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255|unique:categorias,nombre',
             'descripcion' => 'nullable|string',
+            'parent_id' => ['nullable', 'integer', Rule::exists('categorias', 'id')->whereNull('parent_id')],
         ]);
 
         // Nota: Si generas slugs automáticamente por model o request, asegúrate de incluirlo aquí si es necesario
         Categoria::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
+            'parent_id' => $request->parent_id,
         ]);
 
         return redirect()->route('admin.categorias.index')->with('success', '¡Categoría creada exitosamente!');
@@ -48,7 +57,11 @@ class CategoriaController extends Controller
     public function edit($id)
     {
         $categoria = Categoria::findOrFail($id);
-        return view('admin.categorias.edit', compact('categoria'));
+        $categoriasPadre = Categoria::whereNull('parent_id')
+            ->whereKeyNot($categoria->id)
+            ->orderBy('nombre')
+            ->get();
+        return view('admin.categorias.edit', compact('categoria', 'categoriasPadre'));
     }
 
     // Actualizar categoría
@@ -59,11 +72,19 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255|unique:categorias,nombre,' . $id,
             'descripcion' => 'nullable|string',
+            'parent_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('categorias', 'id')->whereNull('parent_id'),
+                Rule::notIn([$categoria->id]),
+                Rule::prohibitedIf($categoria->children()->exists()),
+            ],
         ]);
 
         $categoria->update([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
+            'parent_id' => $request->parent_id,
         ]);
 
         return redirect()->route('admin.categorias.index')->with('success', '¡Categoría actualizada correctamente!');
@@ -76,6 +97,10 @@ class CategoriaController extends Controller
         
         if ($categoria->productos()->count() > 0) {
             return back()->with('error', 'No se puede eliminar la categoría porque tiene productos asignados.');
+        }
+
+        if ($categoria->children()->exists()) {
+            return back()->with('error', 'No se puede eliminar la categoría porque tiene subcategorías asignadas.');
         }
 
         $categoria->delete();

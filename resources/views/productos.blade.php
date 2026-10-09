@@ -16,7 +16,6 @@
 
         * { box-sizing: border-box; }
 
-        /* FONDO CON TEXTURA TIPO METAL CEPILLADO OSCURO */
         body { 
             margin: 0; 
             font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif; 
@@ -33,12 +32,11 @@
             min-height: 100vh;
         }
 
-        /* BARRA SUPERIOR DE NAVEGACIÓN DE RUTA */
         .top-nav-bar {
             background: rgba(18, 19, 22, 0.85);
-            padding: 18px 6%;
+            padding: 16px 4%;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--texto-muted);
             backdrop-filter: blur(10px);
         }
@@ -57,30 +55,37 @@
             font-weight: 500;
         }
 
-        /* ESTRUCTURA PRINCIPAL DEL CATÁLOGO */
+        /* --- CONTENEDOR EQUILIBRADO Y MENOS PEGADO A LOS EXTREMOS --- */
         .catalog-container {
-            max-width: 1440px;
-            margin: 50px auto;
-            padding: 0 4%;
+            max-width: 1520px; /* Ancho máximo controlado para evitar proporciones desmedidas */
+            margin: 30px auto;
+            padding: 0 3%; /* Espaciado lateral armonioso */
             display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 40px;
+            grid-template-columns: 320px 1fr; /* Columna limpia para el sidebar */
+            gap: 32px;
             width: 100%;
+            align-items: start;
         }
 
-        /* SIDEBAR / CATEGORÍAS EN TARJETA AMARILLA */
+        /* --- SIDEBAR FLOTANTE Y ESTÉTICO (ACOMPAÑA EL SCROLL) --- */
         .sidebar {
             background: var(--amarillo);
             border-radius: 20px;
-            padding: 32px 28px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-            border: 1px solid #e5c338;
-            height: fit-content;
+            padding: 28px 22px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            border: 2px solid #e5c338;
             color: var(--negro);
+            width: 100%;
+
+            /* EFECTO FLOTANTE AL HACER SCROLL */
+            position: sticky;
+            top: 24px;
+            z-index: 10;
+            height: fit-content;
         }
 
         .sidebar h3 {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 0.06em;
             color: var(--negro);
@@ -89,7 +94,7 @@
             align-items: center;
             gap: 10px;
             border-bottom: 2px solid rgba(0, 0, 0, 0.15);
-            padding-bottom: 16px;
+            padding-bottom: 14px;
             font-weight: 800;
         }
 
@@ -102,37 +107,43 @@
             gap: 10px;
         }
 
+        .category-item {
+            position: relative;
+        }
+
         .category-item a {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 18px;
+            padding: 13px 16px;
             border-radius: 12px;
-            color: #1f2937;
+            color: #111827;
             text-decoration: none;
-            font-size: 1.02rem;
-            font-weight: 600;
+            font-size: 0.98rem;
+            font-weight: 700;
             transition: all 0.2s ease;
         }
 
         .category-item a:hover {
-            background: rgba(0, 0, 0, 0.08);
+            background: rgba(0, 0, 0, 0.09);
             color: var(--negro);
+            transform: translateX(3px);
         }
 
         .category-item a.active {
             background: var(--negro);
             color: var(--amarillo);
-            font-weight: 700;
+            font-weight: 800;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
         }
 
         .category-count {
-            background: rgba(0, 0, 0, 0.1);
-            padding: 4px 12px;
+            background: rgba(0, 0, 0, 0.12);
+            padding: 4px 10px;
             border-radius: 16px;
-            font-size: 0.88rem;
-            color: #27272a;
-            font-weight: 700;
+            font-size: 0.85rem;
+            color: #111827;
+            font-weight: 800;
         }
 
         .category-item a.active .category-count {
@@ -140,18 +151,68 @@
             color: var(--negro);
         }
 
-        /* CONTENIDO PRINCIPAL Y GRILLA */
+        .subcategory-toggle-icon {
+            font-size: 0.75rem;
+            margin-left: 6px;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .subcategory-list {
+            list-style: none;
+            padding: 6px 0 6px 14px;
+            margin: 4px 0 0 0;
+            display: none;
+            border-left: 2px solid rgba(0, 0, 0, 0.2);
+            flex-direction: column;
+            gap: 6px;
+            animation: subcatSlideDown 0.25s ease forwards;
+        }
+
+        .category-item:hover > .subcategory-list,
+        .category-item.has-active-child > .subcategory-list,
+        .category-item.is-expanded > .subcategory-list {
+            display: flex;
+        }
+
+        .category-item:hover .subcategory-toggle-icon,
+        .category-item.has-active-child .subcategory-toggle-icon,
+        .category-item.is-expanded .subcategory-toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .subcategory-item a {
+            padding: 9px 12px;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 8px;
+        }
+
+        .subcategory-item a:hover {
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        .subcategory-item a.active {
+            background: var(--negro);
+            color: var(--amarillo);
+        }
+
+        @keyframes subcatSlideDown {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .catalog-content {
             display: flex;
             flex-direction: column;
-            gap: 32px;
+            gap: 24px;
         }
 
         .catalog-header-bar {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 22px 30px;
-            border-radius: 18px;
+            padding: 16px 22px;
+            border-radius: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -159,7 +220,7 @@
         }
 
         .catalog-header-bar span {
-            font-size: 1.08rem;
+            font-size: 1rem;
             color: var(--texto-muted);
             font-weight: 500;
         }
@@ -168,18 +229,16 @@
             color: var(--amarillo);
         }
 
-        /* GRILLA DE PRODUCTOS - EKSKAKTO A 3 COLUMNAS */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 26px;
         }
 
-        /* TARJETA DE PRODUCTO */
         .product-card {
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -191,24 +250,24 @@
         .product-card:hover {
             transform: translateY(-6px);
             border-color: var(--amarillo);
-            box-shadow: 0 16px 36px rgba(247, 213, 71, 0.18);
+            box-shadow: 0 16px 32px rgba(247, 213, 71, 0.18);
         }
 
         .product-image-container {
             width: 100%;
-            height: 240px;
+            height: 280px;
             background: #ffffff;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 14px;
         }
 
         .product-image-container img {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             transition: transform 0.3s ease;
         }
@@ -218,15 +277,15 @@
         }
 
         .product-info {
-            padding: 24px;
+            padding: 18px 20px 12px 20px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             flex-grow: 1;
         }
 
         .product-category-tag {
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
             font-weight: 800;
             color: var(--amarillo);
@@ -242,7 +301,7 @@
         }
 
         .product-action {
-            padding: 0 24px 24px 24px;
+            padding: 0 20px 20px 20px;
         }
 
         .btn-cotizar {
@@ -251,87 +310,114 @@
             text-align: center;
             background: var(--amarillo);
             color: var(--negro);
-            padding: 14px;
-            border-radius: 12px;
+            padding: 13px;
+            border-radius: 10px;
             font-weight: 800;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.03em;
             transition: all 0.2s ease;
-            box-shadow: 0 6px 16px rgba(247, 213, 71, 0.2);
+            box-shadow: 0 5px 14px rgba(247, 213, 71, 0.2);
         }
 
         .btn-cotizar:hover {
             background: var(--amarillo-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(247, 213, 71, 0.35);
+            box-shadow: 0 7px 18px rgba(247, 213, 71, 0.35);
         }
 
-        .catalog-container {
-            animation: page-enter 750ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        /* --- ESTILOS DE PAGINACIÓN DISCRETOS Y ORDENADOS --- */
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 36px;
+            margin-bottom: 20px;
+            width: 100%;
         }
 
-        .scroll-reveal {
-            opacity: 0;
-            translate: 0 24px;
-            transition: opacity 650ms ease var(--reveal-delay, 0ms), translate 650ms ease var(--reveal-delay, 0ms);
+        .pagination-wrapper nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .scroll-reveal.is-visible {
-            opacity: 1;
-            translate: 0 0;
+        .pagination-wrapper ul.pagination {
+            display: flex !important;
+            flex-direction: row !important;
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            gap: 6px !important;
+            align-items: center !important;
         }
 
-        @keyframes page-enter {
-            from { opacity: 0; transform: translateY(22px); }
-            to { opacity: 1; transform: translateY(0); }
+        .pagination-wrapper .page-item {
+            margin: 0 !important;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            .catalog-container { animation: none; }
+        .pagination-wrapper .page-link {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-width: 40px !important;
+            height: 40px !important;
+            padding: 0 12px !important;
+            background: #18191c !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            font-weight: 700 !important;
+            font-size: 0.9rem !important;
+            transition: all 0.2s ease !important;
         }
 
-        .no-products {
-            grid-column: 1 / -1;
-            background: rgba(255, 255, 255, 0.02);
-            padding: 80px 20px;
-            text-align: center;
-            border-radius: 20px;
-            border: 1px dashed rgba(255, 255, 255, 0.15);
-            color: var(--texto-muted);
-            font-size: 1.15rem;
+        .pagination-wrapper svg {
+            width: 14px !important;
+            height: 14px !important;
+            fill: currentColor !important;
+            max-width: 14px !important;
+            max-height: 14px !important;
         }
 
-        /* RESPONSIVE DESIGN */
+        .pagination-wrapper .page-link:hover {
+            background: var(--amarillo) !important;
+            color: #000000 !important;
+            border-color: var(--amarillo) !important;
+        }
+
+        .pagination-wrapper .page-item.active .page-link {
+            background: var(--amarillo) !important;
+            color: #000000 !important;
+            border-color: var(--amarillo) !important;
+            font-weight: 800 !important;
+        }
+
+        .pagination-wrapper .page-item.disabled .page-link {
+            background: rgba(255, 255, 255, 0.02) !important;
+            color: rgba(255, 255, 255, 0.25) !important;
+            border-color: rgba(255, 255, 255, 0.05) !important;
+            cursor: not-allowed !important;
+        }
+
         @media (max-width: 1200px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .catalog-container { grid-template-columns: 290px 1fr; }
         }
 
         @media (max-width: 900px) {
-            .catalog-container {
-                grid-template-columns: 1fr;
-            }
+            .catalog-container { grid-template-columns: 1fr; }
+            .sidebar { position: static; }
         }
 
         @media (max-width: 600px) {
-            .products-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 14px;
-            }
-            .catalog-container { gap: 24px; margin: 28px auto; padding: 0 4%; }
-            .sidebar { padding: 20px 16px; border-radius: 14px; }
-            .catalog-content { min-width: 0; gap: 20px; }
-            .catalog-header-bar { padding: 14px; border-radius: 12px; }
-            .catalog-header-bar span { font-size: 0.9rem; line-height: 1.4; }
-            .product-image-container { height: 132px; padding: 10px; }
-            .product-info { gap: 7px; padding: 12px; }
-            .product-category-tag { font-size: 0.64rem; letter-spacing: 0.04em; }
-            .product-title { font-size: 0.9rem; line-height: 1.3; overflow-wrap: anywhere; }
-            .product-action { padding: 0 10px 12px; }
-            .btn-cotizar { padding: 10px 6px; border-radius: 8px; font-size: 0.7rem; letter-spacing: 0; }
+            .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .catalog-container { gap: 16px; margin: 16px auto; padding: 0 3%; }
+            .sidebar { padding: 18px 14px; border-radius: 12px; }
+            .product-image-container { height: 150px; padding: 6px; }
         }
     </style>
 </head>
@@ -344,37 +430,65 @@
     </div>
 
     <div class="catalog-container">
-        <!-- BARRA LATERAL (SIDEBAR DE CATEGORÍAS) -->
+        <!-- BARRA LATERAL DE CATEGORÍAS FLOTANTE CON SCROLL -->
         <aside class="sidebar">
             <h3>🗂️ Categorías</h3>
             <ul class="category-list">
                 <li class="category-item">
                     <a href="{{ route('productos.index') }}" class="{{ !request('categoria') ? 'active' : '' }}">
                         <span>Todos los productos</span>
-                        <span class="category-count">{{ $totalProductos }}</span>
+                        <span class="category-count">{{ $totalProductos ?? (isset($productos) ? $productos->total() : 0) }}</span>
                     </a>
                 </li>
-                @foreach($categorias as $cat)
-                    <li class="category-item">
-                        <a href="{{ route('productos.index', ['categoria' => $cat->id]) }}" class="{{ request('categoria') == $cat->id ? 'active' : '' }}">
-                            <span>{{ $cat->nombre }}</span>
-                            <span class="category-count">{{ $cat->productos_count }}</span>
-                        </a>
-                    </li>
-                @endforeach
+
+                @if(isset($categorias))
+                    @foreach($categorias as $cat)
+                        @php
+                            $isChildActive = optional($cat->children)->pluck('id')->contains(request('categoria'));
+                            $isParentActive = request('categoria') == $cat->id;
+                            $hasChildren = isset($cat->children) && $cat->children->count() > 0;
+                            $sumChildren = $hasChildren ? $cat->children->sum('productos_count') : 0;
+                        @endphp
+
+                        <li class="category-item {{ $isChildActive ? 'has-active-child' : '' }} {{ $isParentActive ? 'is-expanded' : '' }}">
+                            <a href="{{ route('productos.index', ['categoria' => $cat->id]) }}" class="{{ $isParentActive ? 'active' : '' }}">
+                                <span>
+                                    {{ $cat->nombre }}
+                                    @if($hasChildren)
+                                        <span class="subcategory-toggle-icon">▼</span>
+                                    @endif
+                                </span>
+                                <span class="category-count">{{ $cat->productos_count + $sumChildren }}</span>
+                            </a>
+
+                            @if($hasChildren)
+                                <ul class="subcategory-list">
+                                    @foreach($cat->children as $subcategoria)
+                                        <li class="subcategory-item">
+                                            <a href="{{ route('productos.index', ['categoria' => $subcategoria->id]) }}" class="{{ request('categoria') == $subcategoria->id ? 'active' : '' }}">
+                                                <span>{{ $subcategoria->nombre }}</span>
+                                                <span class="category-count">{{ $subcategoria->productos_count }}</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
+                    @endforeach
+                @endif
             </ul>
         </aside>
 
-        <!-- CONTENIDO PRINCIPAL (GRILLA DE PRODUCTOS) -->
+        <!-- CONTENIDO PRINCIPAL DE PRODUCTOS -->
         <main class="catalog-content">
             <div class="catalog-header-bar">
                 <span>
-                    @if($categoriaActual)
+                    @if(isset($categoriaActual) && $categoriaActual)
                         Mostrando productos de: <strong>{{ $categoriaActual->nombre }}</strong>
                     @else
                         Mostrando todos los productos
                     @endif
-                    ({{ $productos->count() }} encontrados)
+                    ({{ $productos->total() ?? count($productos) }} encontrados)
                 </span>
             </div>
 
@@ -402,34 +516,15 @@
                     </div>
                 @endforelse
             </div>
+
+            <!-- CONTROLES DE PAGINACIÓN -->
+            <div class="pagination-wrapper">
+                {{ $productos->appends(request()->query())->links('pagination::bootstrap-4') }}
+            </div>
         </main>
     </div>
 
     @include('footer.bottom')
-
-    <script>
-        const revealElements = document.querySelectorAll('.sidebar, .catalog-header-bar, .product-card');
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        if ('IntersectionObserver' in window && !prefersReducedMotion) {
-            revealElements.forEach((element) => {
-                const siblingIndex = Array.prototype.indexOf.call(element.parentElement.children, element);
-                element.style.setProperty('--reveal-delay', `${Math.min(siblingIndex, 5) * 80}ms`);
-                element.classList.add('scroll-reveal');
-            });
-
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-            revealElements.forEach((element) => revealObserver.observe(element));
-        }
-    </script>
 
 </body>
 </html>

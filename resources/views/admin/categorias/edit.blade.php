@@ -262,6 +262,22 @@
                     <input type="text" name="nombre" value="{{ old('nombre', $categoria->nombre) }}" placeholder="Ej. Repuestos de Motor" required>
                 </div>
 
+                @if($categoria->children->isEmpty())
+                    <div class="form-group">
+                        <label for="parent_id">Categoría padre (Opcional)</label>
+                        <select id="parent_id" name="parent_id">
+                            <option value="">Sin categoría padre</option>
+                            @foreach($categoriasPadre as $categoriaPadre)
+                                <option value="{{ $categoriaPadre->id }}" {{ old('parent_id', $categoria->parent_id) == $categoriaPadre->id ? 'selected' : '' }}>
+                                    {{ $categoriaPadre->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @else
+                    <p class="subtitle">Esta categoría tiene subcategorías y debe permanecer como categoría padre.</p>
+                @endif
+
                 <div class="form-group">
                     <label>Descripción (Opcional)</label>
                     <textarea name="descripcion" placeholder="Breve detalle sobre la categoría...">{{ old('descripcion', $categoria->descripcion) }}</textarea>
