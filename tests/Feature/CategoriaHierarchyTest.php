@@ -36,6 +36,7 @@ class CategoriaHierarchyTest extends TestCase
 
         $this->get(route('admin.categorias.index'))
             ->assertOk()
+            ->assertDontSee('data-label="ID"', false)
             ->assertSee('Equipos de prueba')
             ->assertSee('Accesorios de prueba')
             ->assertSee('Subcategoría de Equipos de prueba');

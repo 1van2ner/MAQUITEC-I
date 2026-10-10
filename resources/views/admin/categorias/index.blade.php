@@ -268,8 +268,7 @@
             thead { display: none; }
             tbody tr {
                 display: grid;
-                grid-template-columns: 64px minmax(0, 1fr);
-                gap: 0 8px;
+                grid-template-columns: minmax(0, 1fr);
                 margin-bottom: 12px;
                 padding: 8px;
                 border: 1px solid var(--gris-borde);
@@ -294,19 +293,18 @@
                 text-transform: uppercase;
             }
             tbody td:nth-child(1) { grid-column: 1; grid-row: 1; }
-            tbody td:nth-child(2) { grid-column: 2; grid-row: 1; }
-            tbody td:nth-child(3) { grid-column: 1 / -1; grid-row: 2; }
-            tbody td:nth-child(4) {
+            tbody td:nth-child(2) { grid-column: 1; grid-row: 2; }
+            tbody td:nth-child(3) {
                 display: grid;
-                grid-column: 1 / -1;
+                grid-column: 1;
                 grid-row: 3;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
                 gap: 8px;
                 text-align: left !important;
             }
-            tbody td:nth-child(4)::before { grid-column: 1 / -1; }
-            tbody td:nth-child(4) form { margin: 0; }
-            tbody td:nth-child(4) .btn { width: 100%; padding: 8px 6px; font-size: 0.78rem; }
+            tbody td:nth-child(3)::before { grid-column: 1 / -1; }
+            tbody td:nth-child(3) form { margin: 0; }
+            tbody td:nth-child(3) .btn { width: 100%; padding: 8px 6px; font-size: 0.78rem; }
             tbody tr.empty-row { display: block; }
             tbody tr.empty-row td { width: 100%; text-align: center !important; }
         }
@@ -360,16 +358,14 @@
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 8%;">ID</th>
-                            <th style="width: 25%;">Nombre de la Categoría</th>
-                            <th style="width: 45%;">Descripción</th>
+                            <th style="width: 30%;">Nombre de la Categoría</th>
+                            <th style="width: 48%;">Descripción</th>
                             <th style="width: 22%; text-align: right;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($categorias as $cat)
                             <tr>
-                                <td data-label="ID">{{ $cat->id }}</td>
                                 <td data-label="Categoría"><strong>{{ $cat->nombre }}</strong><small style="display:block; color:var(--texto-muted);">Categoría padre</small></td>
                                 <td data-label="Descripción">{{ $cat->descripcion ?? 'Sin descripción' }}</td>
                                 <td data-label="Acciones" style="text-align: right;">
@@ -383,7 +379,6 @@
                             </tr>
                             @foreach($cat->children as $subcategoria)
                                 <tr>
-                                    <td data-label="ID">{{ $subcategoria->id }}</td>
                                     <td data-label="Categoría"><span style="padding-left: 18px;">↳ {{ $subcategoria->nombre }}</span><small style="display:block; padding-left: 18px; color:var(--texto-muted);">Subcategoría de {{ $cat->nombre }}</small></td>
                                     <td data-label="Descripción">{{ $subcategoria->descripcion ?? 'Sin descripción' }}</td>
                                     <td data-label="Acciones" style="text-align: right;">
@@ -398,7 +393,7 @@
                             @endforeach
                         @empty
                             <tr class="empty-row">
-                                <td colspan="4" style="text-align: center; color: var(--texto-muted); padding: 40px;">No hay categorías registradas.</td>
+                                <td colspan="3" style="text-align: center; color: var(--texto-muted); padding: 40px;">No hay categorías registradas.</td>
                             </tr>
                         @endforelse
                     </tbody>
