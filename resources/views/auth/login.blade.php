@@ -117,6 +117,16 @@
             font-size: 0.88rem;
         }
 
+        .login-status {
+            margin-bottom: 20px;
+            padding: 12px 14px;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            background: #f0fdf4;
+            color: #166534;
+            font-size: 0.88rem;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
@@ -263,6 +273,10 @@
                 <h2>Iniciar Sesión</h2>
                 <p class="subtitle">Accede a tu cuenta de MAQUITEC I.S.A.C.</p>
             </div>
+
+            @if (session('status'))
+                <div class="login-status" role="status">{{ session('status') }}</div>
+            @endif
 
             @if ($errors->any())
                 <div class="login-error" role="alert">

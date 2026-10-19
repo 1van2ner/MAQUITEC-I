@@ -19,6 +19,7 @@ class LoginTest extends TestCase
             'password' => Hash::make('clave-correcta-123'),
             'rol' => 'Cliente',
         ]);
+        $user->markEmailAsVerified();
 
         $this->post('/login', [
             'email' => $user->email,
@@ -38,6 +39,7 @@ class LoginTest extends TestCase
             'password' => Hash::make('clave-correcta-123'),
             'rol' => 'Cliente',
         ]);
+        $user->markEmailAsVerified();
 
         $this->from('/login')->post('/login', [
             'email' => $user->email,

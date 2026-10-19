@@ -643,6 +643,89 @@
             object-fit: contain;
         }
 
+        /* UBICACION Y MAPA */
+        .maps-section {
+            width: 100%;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 64px 5%;
+        }
+
+        .maps-card {
+            overflow: hidden;
+            background: rgba(26, 29, 36, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .maps-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 24px 28px;
+            border-bottom: 1px solid rgba(247, 213, 71, 0.25);
+        }
+
+        .maps-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 8px;
+            color: var(--texto-claro);
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .maps-title svg {
+            width: 25px;
+            height: 25px;
+            color: var(--amarillo);
+            flex-shrink: 0;
+        }
+
+        .maps-address {
+            margin: 0;
+            color: var(--texto-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .maps-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-shrink: 0;
+            padding: 11px 16px;
+            border-radius: 6px;
+            background: var(--amarillo);
+            color: #121316;
+            font-size: 0.88rem;
+            font-weight: 800;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .maps-link:hover {
+            background: var(--amarillo-hover);
+            transform: translateY(-2px);
+        }
+
+        .maps-container {
+            width: 100%;
+            height: clamp(300px, 42vw, 480px);
+            background: #202328;
+        }
+
+        .maps-container iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 1280px) {
             .cards, .grid-categorias { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -685,6 +768,14 @@
             .payment-methods {
                 justify-content: center;
             }
+            .maps-section { padding: 44px 3%; }
+            .maps-header {
+                align-items: flex-start;
+                flex-direction: column;
+                padding: 22px 18px;
+            }
+            .maps-title { font-size: 1.2rem; }
+            .maps-container { height: 340px; }
         }
 
         @media (max-width: 640px) {
@@ -911,6 +1002,35 @@
                 <div class="payment-card-badge" title="Transferencia Bancaria">
                     <img src="{{ asset('img/metodos_pago/transferencia-bancaria.jpg') }}" alt="Transferencia Bancaria">
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- UBICACION Y MAPA -->
+    <section class="maps-section" id="ubicacion" aria-labelledby="maps-title">
+        <div class="maps-card">
+            <div class="maps-header">
+                <div>
+                    <h2 class="maps-title" id="maps-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+                        </svg>
+                        Nuestra ubicación
+                    </h2>
+                    <p class="maps-address">Encuéntranos en Lima, Perú. Visítanos en nuestras oficinas y talleres para atender tus consultas.</p>
+                </div>
+                <a class="maps-link" href="https://www.google.com/maps?q=-12.046374,-77.042793" target="_blank" rel="noopener noreferrer">
+                    Abrir en Google Maps <span aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
+            <div class="maps-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.954625895318!2d-77.042793!3d-12.046374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDAyJzQ3LjAiUyA3N8KwMDInMzQuMSJX!5e0!3m2!1ses!2spe!4v1600000000000!5m2!1ses!2spe"
+                    title="Mapa de ubicación de MAQUITEC en Lima"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen>
+                </iframe>
             </div>
         </div>
     </section>

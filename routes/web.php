@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\Categoria;
+use Illuminate\Support\Facades\URL;
 use App\Models\Producto;
 use App\Models\Banner;
 use App\Http\Controllers\ProductoController;
@@ -124,6 +125,50 @@ Route::put('/perfil/password', function (Request $request) {
 
     return back()->with('status', 'Tu contraseña se actualizó correctamente.');
 })->middleware('auth')->name('password.update.custom');
+
+Route::get('/email/verify', function (Request $request) {
+    return view('auth.verify-email', [
+        'email' => $request->session()->get('verification_email'),
+    ]);
+})->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (Request $request, string $id, string $hash) {
+    $user = User::findOrFail($id);
+    $validHash = hash_equals(sha1($user->getEmailForVerification()), $hash);
+
+    abort_unless(URL::hasValidSignature($request) && $validHash, 403);
+
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+    }
+
+    return redirect()->route('login')->with('status', 'Tu correo fue verificado. Ya puedes iniciar sesión.');
+})->middleware('throttle:6,1')->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $email = $request->session()->get('verification_email');
+    $user = $email ? User::where('email', $email)->first() : null;
+
+    if (! $user || $user->hasVerifiedEmail()) {
+        return redirect()->route('login')->withErrors([
+            'email' => 'No hay una cuenta pendiente de verificación en esta sesión. Inicia sesión o regístrate nuevamente.',
+        ]);
+    }
+
+    try {
+        $user->sendEmailVerificationNotification();
+    } catch (\Throwable $exception) {
+        report($exception);
+
+        return redirect()->route('verification.notice')
+            ->with('verification_email', $user->email)
+            ->with('verification_error', 'No se pudo enviar el correo. Inténtalo nuevamente más tarde.');
+    }
+
+    return redirect()->route('verification.notice')
+        ->with('verification_email', $user->email)
+        ->with('status', 'Te enviamos un nuevo enlace de verificación.');
+})->middleware('throttle:6,1')->name('verification.send');
 
 Route::get('/admin/dashboard', function () {
     abort_unless(
@@ -243,10 +288,19 @@ Route::middleware(['guest'])->group(function () {
             'telefono' => $validated['telefono'],
         ]);
 
-        Auth::login($user);
-        $request->session()->regenerate();
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Throwable $exception) {
+            report($exception);
 
-        return redirect('/')->with('success', '¡Bienvenido a MAQUITEC I.S.A.C.!');
+            return redirect()->route('verification.notice')
+                ->with('verification_email', $user->email)
+                ->with('verification_error', 'Tu cuenta fue registrada, pero no se pudo enviar el correo. Puedes intentarlo nuevamente.');
+        }
+
+        return redirect()->route('verification.notice')
+            ->with('verification_email', $user->email)
+            ->with('status', 'Cuenta creada. Revisa tu correo y confirma la dirección para poder iniciar sesión.');
     });
 
     // Procesar Login (POST)
@@ -254,6 +308,14 @@ Route::middleware(['guest'])->group(function () {
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            if (! Auth::user()->hasVerifiedEmail()) {
+                Auth::logout();
+
+                return back()->withErrors([
+                    'email' => 'Debes verificar tu correo antes de iniciar sesión. Revisa el enlace que te enviamos.',
+                ])->withInput($request->only('email'));
+            }
+
             $request->session()->regenerate();
             return redirect()->intended('/'); 
         }
