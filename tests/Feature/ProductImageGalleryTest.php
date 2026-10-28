@@ -30,7 +30,7 @@ class ProductImageGalleryTest extends TestCase
 
     public function test_product_images_can_be_added_removed_and_kept_up_to_four(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->create(['rol' => 'Administrador']));
         $category = Categoria::query()->firstOrFail();
 
         $this->post(route('admin.productos.store'), [

@@ -261,6 +261,9 @@
         }
 
         /* Botón de acción principal sofisticado */
+        .legal-consent { grid-column: span 2; display:flex; align-items:flex-start; gap:10px; font-size:.86rem; color:var(--texto-muted); line-height:1.45; }
+        .legal-consent input { margin-top:3px; accent-color:var(--negro); }
+        .legal-consent a { color:var(--negro); font-weight:700; }
         .btn-submit-container {
             grid-column: span 2;
             margin-top: 10px;
@@ -432,9 +435,14 @@
                         </div>
                     </div>
 
-                    <div class="btn-submit-container">
-                        <button type="submit" class="btn-submit">Completar Registro</button>
-                    </div>
+                            <label class="legal-consent">
+                                <input type="checkbox" name="legal_acceptance" value="1" required {{ old('legal_acceptance') ? 'checked' : '' }}>
+                                <span>He leído y acepto los <a href="{{ route('terms') }}" target="_blank">Términos y Condiciones</a> y la <a href="{{ route('privacy.policy') }}" target="_blank">Política de Privacidad</a>.</span>
+                            </label>
+
+                            <div class="btn-submit-container">
+                                <button type="submit" class="btn-submit">Completar Registro</button>
+                            </div>
 
                     <div class="auth-footer-links">
                         ¿Ya posees una cuenta? <a href="{{ url('/login') }}">Ingresar aquí</a>

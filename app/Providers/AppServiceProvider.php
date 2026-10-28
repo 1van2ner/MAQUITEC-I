@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::define('manage-admin', static fn (User $user): bool => $user->rol === 'Administrador');
+
         VerifyEmail::toMailUsing(static function (object $notifiable, string $url): MailMessage {
             return (new MailMessage())
                 ->subject('Verifica tu correo electrónico - MAQUITEC I.S.A.C.')

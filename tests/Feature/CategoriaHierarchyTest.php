@@ -13,7 +13,7 @@ class CategoriaHierarchyTest extends TestCase
 
     public function test_categories_can_be_nested_and_are_shown_hierarchically(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->create(['rol' => 'Administrador']));
 
         $this->get(route('admin.categorias.create'))
             ->assertOk()

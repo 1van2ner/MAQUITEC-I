@@ -1,5 +1,5 @@
 # 1. Usar una imagen oficial de PHP con Apache
-FROM php:8.2-apache
+FROM php:8.4-apache
 
 # 2. Instalar dependencias del sistema, librería de PostgreSQL y Node.js (necesario para Vite)
 RUN apt-get update && apt-get install -y \
@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     && docker-php-ext-install pdo pdo_pgsql pgsql pdo_mysql \
-    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
     && apt-get install -y nodejs
 
 # 3. Limpiar cache de apt
@@ -23,6 +23,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # 5. Definir directorio de trabajo
 WORKDIR /var/www/html
+
+# Use safe production defaults; deployment secrets should be injected at runtime.
+ENV APP_ENV=production APP_DEBUG=false
 
 # 6. Copiar los archivos del proyecto al contenedor
 COPY . .

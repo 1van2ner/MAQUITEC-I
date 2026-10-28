@@ -95,6 +95,54 @@ Route::get('/servicios', function () {
     return view('servicios');
 });
 
+Route::get('/politica-de-cookies', function () {
+    return view('legal', [
+        'pageTitle' => 'Política de Cookies',
+        'pageType' => 'cookies',
+    ]);
+})->name('cookies.policy');
+
+Route::get('/politica-de-privacidad', function () {
+    return view('legal', [
+        'pageTitle' => 'Política de Privacidad',
+        'pageType' => 'privacy',
+    ]);
+})->name('privacy.policy');
+
+Route::get('/politica-de-seguridad', function () {
+    return view('legal', [
+        'pageTitle' => 'Política de Seguridad',
+        'pageType' => 'security',
+    ]);
+})->name('security.policy');
+
+Route::get('/terminos-y-condiciones', function () {
+    return view('legal', [
+        'pageTitle' => 'Términos y Condiciones de Uso',
+        'pageType' => 'terms',
+    ]);
+})->name('terms');
+
+Route::get('/aviso-de-seguridad', function () {
+    return response("Contact: mailto:maquitec.servicios0601@gmail.com\nExpires: 2027-10-27T00:00:00.000Z\nPreferred-Languages: es, en\nCanonical: ".config('app.url')."/.well-known/security.txt\n", 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+});
+
+Route::get('/.well-known/security.txt', function () {
+    return redirect('/aviso-de-seguridad', 308);
+});
+
+Route::get('/sitemap.xml', function () {
+    $urls = collect(['/','/nosotros','/productos','/servicios','/politica-de-cookies','/politica-de-privacidad','/politica-de-seguridad','/terminos-y-condiciones'])
+        ->map(fn ($path) => '<url><loc>'.e(url($path)).'</loc><changefreq>weekly</changefreq><priority>'.($path === '/' ? '1.0' : '0.7').'</priority></url>')
+        ->implode('');
+
+    foreach (Producto::where('estado', 'Disponible')->get(['slug', 'updated_at']) as $producto) {
+        $urls .= '<url><loc>'.e(url('/productos/cotizar/'.$producto->slug)).'</loc><lastmod>'.$producto->updated_at?->toW3cString().'</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>';
+    }
+
+    return response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'.$urls.'</urlset>', 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
+});
+
 Route::get('/contacto', function () {
     return view('contacto');
 });
@@ -193,7 +241,7 @@ Route::get('/admin/dashboard', function () {
 // ==========================================
 // RUTAS DE GESTIÓN DE USUARIOS (Solo Administradores)
 // ==========================================
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::get('/admin/usuarios', [UserController::class, 'index'])->name('admin.usuarios.index');
     Route::get('/admin/usuarios/{id}/edit', [UserController::class, 'edit'])->name('admin.usuarios.edit');
     Route::put('/admin/usuarios/{id}', [UserController::class, 'update'])->name('admin.usuarios.update');
@@ -203,7 +251,7 @@ Route::middleware(['auth'])->group(function () {
 // ==========================================
 // RUTAS DE GESTIÓN DE PRODUCTOS (Solo Administradores)
 // ==========================================
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::get('/admin/productos', [ProductoController::class, 'adminIndex'])->name('admin.productos.index');
     Route::get('/admin/productos/crear', [ProductoController::class, 'create'])->name('admin.productos.create');
     Route::post('/admin/productos', [ProductoController::class, 'store'])->name('admin.productos.store');
@@ -215,7 +263,7 @@ Route::middleware(['auth'])->group(function () {
 // ==========================================
 // RUTAS DE GESTIÓN DE CATEGORÍAS (Solo Administradores)
 // ==========================================
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::get('/admin/categorias', [CategoriaController::class, 'index'])->name('admin.categorias.index');
     Route::get('/admin/categorias/crear', [CategoriaController::class, 'create'])->name('admin.categorias.create');
     Route::post('/admin/categorias', [CategoriaController::class, 'store'])->name('admin.categorias.store');
@@ -227,7 +275,7 @@ Route::middleware(['auth'])->group(function () {
 // ==========================================
 // RUTAS DE GESTIÓN DE BANNERS (Solo Administradores)
 // ==========================================
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::get('/admin/banners', [BannerController::class, 'index'])->name('admin.banners.index');
     Route::get('/admin/banners/crear', [BannerController::class, 'create'])->name('admin.banners.create');
     Route::post('/admin/banners', [BannerController::class, 'store'])->name('admin.banners.store');
@@ -268,7 +316,8 @@ Route::middleware(['guest'])->group(function () {
             'fecha_nacimiento' => ['exclude_if:tipo_usuario,empresa', 'required_if:tipo_usuario,persona', 'date', 'before:today'],
             'telefono' => 'required|string|max:20',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:8|confirmed',
+            'legal_acceptance' => ['required', 'accepted'],
         ], [
             'documento.digits' => $request->input('tipo_usuario') === 'empresa'
                 ? 'El RUC debe contener exactamente 11 dígitos.'
@@ -301,7 +350,7 @@ Route::middleware(['guest'])->group(function () {
         return redirect()->route('verification.notice')
             ->with('verification_email', $user->email)
             ->with('status', 'Cuenta creada. Revisa tu correo y confirma la dirección para poder iniciar sesión.');
-    });
+    })->middleware('throttle:3,1');
 
     // Procesar Login (POST)
     Route::post('/login', function (Request $request) {
@@ -323,5 +372,5 @@ Route::middleware(['guest'])->group(function () {
         return back()->withErrors([
             'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
         ])->withInput();
-    });
+    })->middleware('throttle:5,1');
 });

@@ -26,6 +26,7 @@ class EmailVerificationTest extends TestCase
             'email' => 'cliente-nuevo@example.com',
             'password' => 'clave-segura-123',
             'password_confirmation' => 'clave-segura-123',
+            'legal_acceptance' => '1',
         ])
             ->assertRedirect(route('verification.notice'))
             ->assertSessionHas('verification_email', 'cliente-nuevo@example.com');

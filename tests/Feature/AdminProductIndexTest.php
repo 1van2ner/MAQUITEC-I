@@ -14,7 +14,7 @@ class AdminProductIndexTest extends TestCase
 
     public function test_featured_products_are_visible_first_and_can_be_filtered_or_searched(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(User::factory()->create(['rol' => 'Administrador']));
         $category = Categoria::query()->firstOrFail();
 
         for ($index = 1; $index <= 4; $index++) {

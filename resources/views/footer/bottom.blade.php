@@ -41,6 +41,15 @@
                 <li><a href="{{ url('/nosotros') }}">Nosotros</a></li>
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 <li><a href="{{ url('/servicios') }}">Servicios</a></li>
+                <li><a href="{{ route('terms') }}">Términos</a></li>
+                <li><a href="{{ route('privacy.policy') }}">Privacidad</a></li>
+                <li><a href="{{ route('cookies.policy') }}">Cookies</a></li>
+                <li><a href="{{ route('security.policy') }}">Seguridad</a></li>
+                <li><a href="{{ url('/aviso-de-seguridad') }}">Reporte de vulnerabilidades</a></li>
+                <li><button type="button" class="cookie-settings-link" data-open-cookie-settings>Configurar cookies</button></li>
+                <li><a href="{{ route('privacy.policy') }}">Privacidad</a></li>
+                <li><a href="{{ route('cookies.policy') }}">Cookies</a></li>
+                <li><a href="{{ route('security.policy') }}">Seguridad</a></li>
             </ul>
         </div>
 
@@ -139,6 +148,8 @@
     .footer-links li a:hover {
         transform: translateX(4px);
     }
+    .cookie-settings-link { border:0; padding:0; background:transparent; color:#f3f4f6; cursor:pointer; font:inherit; text-align:left; }
+    .cookie-settings-link:hover { color:var(--amarillo,#FFD700); }
     .social-links-text { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
     .social-links-text p { justify-content: space-between; gap: 12px; margin: 0; color: #e5e7eb; font-size: 0.82rem; }
     .social-links-text strong { color: var(--amarillo, #FFD700); font-size: 0.76rem; }
@@ -165,3 +176,85 @@
         .footer-bottom { padding-top: 18px; line-height: 1.5; }
     }
 </style>
+
+<div id="cookie-consent" class="cookie-consent" role="dialog" aria-modal="false" aria-labelledby="cookie-title" hidden>
+    <div class="cookie-consent__content">
+        <h2 id="cookie-title">Tu privacidad importa</h2>
+        <p>Usamos cookies necesarias para el funcionamiento del sitio. Las cookies opcionales solo se activarán si das tu consentimiento.</p>
+        <div class="cookie-consent__actions">
+            <button type="button" id="cookie-accept">Aceptar todas</button>
+            <button type="button" id="cookie-reject">Solo necesarias</button>
+            <button type="button" id="cookie-settings">Configurar</button>
+        </div>
+        <a href="{{ route('cookies.policy') }}">Leer la política de cookies</a>
+    </div>
+</div>
+
+<div id="cookie-preferences" class="cookie-preferences" role="dialog" aria-modal="true" aria-labelledby="cookie-preferences-title" hidden>
+    <div class="cookie-preferences__panel">
+        <h2 id="cookie-preferences-title">Preferencias de cookies</h2>
+        <label><strong>Necesarias</strong><span>Siempre activas</span><input type="checkbox" checked disabled></label>
+        <label><strong>Analíticas</strong><span>Nos ayudan a mejorar el sitio</span><input type="checkbox" id="cookie-analytics"></label>
+        <label><strong>Marketing</strong><span>Personalización de anuncios</span><input type="checkbox" id="cookie-marketing"></label>
+        <div class="cookie-consent__actions">
+            <button type="button" id="cookie-save">Guardar preferencias</button>
+            <button type="button" id="cookie-close-settings">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    [hidden] { display:none !important; }
+    .cookie-consent { position:fixed; z-index:9999; left:0; right:0; bottom:0; padding:18px 4%; background:#111; border-top:3px solid var(--amarillo,#f7d547); box-shadow:0 -12px 30px rgba(0,0,0,.28); }
+    .cookie-consent__content { max-width:1200px; margin:auto; display:grid; grid-template-columns:minmax(180px,.7fr) minmax(280px,1.4fr) auto auto; align-items:center; gap:14px 18px; }
+    .cookie-consent h2 { margin:0; color:#f7d547; font-size:1.1rem; }
+    .cookie-consent p { margin:0; color:#d1d5db; font-size:.88rem; line-height:1.45; }
+    .cookie-consent__content > a { grid-column:2; color:#f7d547; font-size:.82rem; }
+    .cookie-consent__actions { display:flex; flex-wrap:wrap; gap:8px; }
+    .cookie-consent button { border:1px solid #f7d547; border-radius:7px; padding:10px 12px; cursor:pointer; font-weight:700; }
+    #cookie-accept, #cookie-save { background:#f7d547; color:#111; }
+    #cookie-reject, #cookie-settings, #cookie-close-settings { background:#111; color:#fff; }
+    .cookie-preferences { position:fixed; z-index:10000; inset:0; display:grid; place-items:center; background:rgba(0,0,0,.72); padding:20px; }
+    .cookie-preferences__panel { width:min(520px,100%); background:#fff; color:#1f2937; border-radius:12px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+    .cookie-preferences__panel h2 { margin-top:0; }
+    .cookie-preferences__panel label { display:grid; grid-template-columns:1fr auto; gap:5px 15px; padding:14px 0; border-top:1px solid #e5e7eb; }
+    .cookie-preferences__panel label span { grid-row:2; color:#6b7280; font-size:.85rem; }
+    .cookie-preferences__panel label input { grid-column:2; grid-row:1 / span 2; align-self:center; }
+    @media(max-width:850px) { .cookie-consent__content { grid-template-columns:1fr; } .cookie-consent__content > a { grid-column:1; } }
+</style>
+
+<script>
+(() => {
+    const KEY = 'maquitec_cookie_consent';
+    const banner = document.getElementById('cookie-consent');
+    const preferences = document.getElementById('cookie-preferences');
+    if (!banner || !preferences) return;
+
+    const readConsent = () => {
+        try { return JSON.parse(localStorage.getItem(KEY)); } catch (_) { return null; }
+    };
+    const saveConsent = (analytics = false, marketing = false) => {
+        const value = { necessary:true, analytics:Boolean(analytics), marketing:Boolean(marketing), date:new Date().toISOString() };
+        localStorage.setItem(KEY, JSON.stringify(value));
+        const secure = location.protocol === 'https:' ? '; Secure' : '';
+        document.cookie = `maquitec_cookie_consent=${encodeURIComponent(JSON.stringify(value))}; Max-Age=15552000; Path=/; SameSite=Lax${secure}`;
+        banner.hidden = true;
+        preferences.hidden = true;
+    };
+
+    const consent = readConsent();
+    if (!consent) banner.hidden = false;
+
+    document.querySelectorAll('[data-open-cookie-settings]').forEach((button) => {
+        button.addEventListener('click', () => { preferences.hidden = false; });
+    });
+
+    document.getElementById('cookie-accept')?.addEventListener('click', () => saveConsent(true, true));
+    document.getElementById('cookie-reject')?.addEventListener('click', () => saveConsent(false, false));
+    document.getElementById('cookie-settings')?.addEventListener('click', () => { preferences.hidden = false; });
+    document.getElementById('cookie-close-settings')?.addEventListener('click', () => { preferences.hidden = true; });
+    document.getElementById('cookie-save')?.addEventListener('click', () => {
+        saveConsent(document.getElementById('cookie-analytics')?.checked, document.getElementById('cookie-marketing')?.checked);
+    });
+})();
+</script>
