@@ -417,5 +417,6 @@
         © 2026 MAQUITEC I.S.A.C. — Todos los derechos reservados.
     </footer>
 
+    @include('admin-loading')
 </body>
 </html> 

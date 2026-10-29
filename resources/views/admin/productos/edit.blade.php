@@ -662,5 +662,6 @@
         });
         updateImageLimit();
     </script>
+    @include('admin-loading')
 </body>
 </html>

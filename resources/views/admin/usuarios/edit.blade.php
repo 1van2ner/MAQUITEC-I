@@ -11,11 +11,11 @@
             --negro: #121212; 
             --blanco: #ffffff; 
             --gris-claro: #f8fafc;
-            --gris-borde: #cbd5e1;
-            --gris-input: #f1f5f9;
-            --gris-readonly: #e2e8f0;
-            --texto-muted: #64748b;
-            --texto-dark: #1e293b;
+            --gris-borde: #d7d1ba;
+            --gris-input: #fbfaf4;
+            --gris-readonly: #f5f0d6;
+            --texto-muted: #7a6a2d;
+            --texto-dark: #26230f;
             --rojo-error: #ef4444;
             --verde-exito: #10b981;
         }
@@ -50,7 +50,7 @@
             font-size: 0.85rem; 
             border-bottom: 1px solid rgba(255,255,255,0.08); 
         }
-        .top-bar span { display: inline-flex; align-items: center; gap: 8px; color: #cbd5e1; }
+        .top-bar span { display: inline-flex; align-items: center; gap: 8px; color: #e6dcae; }
         
         nav { 
             display: flex; 
@@ -123,15 +123,17 @@
             transition: all 0.2s ease;
         }
         .btn-back:hover {
-            background: #e2e8f0;
+            background: rgba(255, 215, 0, 0.18);
+            border-color: rgba(255, 215, 0, 0.55);
             color: #000;
             transform: translateX(-3px);
         }
 
         .user-id-badge {
             font-size: 0.8rem;
-            background: #f1f5f9;
-            color: var(--texto-muted);
+            background: rgba(255, 215, 0, 0.16);
+            color: #7a6a2d;
+            border: 1px solid rgba(255, 215, 0, 0.45);
             padding: 6px 12px;
             border-radius: 6px;
             font-weight: 700;
@@ -199,7 +201,7 @@
             font-size: 0.8rem; 
             font-weight: 700; 
             text-transform: uppercase; 
-            color: #475569; 
+            color: #7a6a2d; 
             letter-spacing: 0.05em;
             display: flex;
             justify-content: space-between;
@@ -211,7 +213,8 @@
             font-weight: 600;
             text-transform: none;
             font-size: 0.72rem;
-            background: #e2e8f0;
+            background: rgba(255, 215, 0, 0.18);
+            border: 1px solid rgba(255, 215, 0, 0.35);
             padding: 2px 8px;
             border-radius: 4px;
         }
@@ -236,23 +239,23 @@
         }
 
         input:focus, select:focus { 
-            border-color: var(--negro); 
+            border-color: var(--amarillo); 
             background: var(--blanco);
-            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.22);
         }
 
         /* Estilos específicos para campos estáticos de solo lectura */
         input[readonly], select[disabled] {
             background: var(--gris-readonly);
-            color: #64748b;
-            border-color: #cbd5e1;
+            color: #7a6a2d;
+            border-color: rgba(255, 215, 0, 0.38);
             cursor: not-allowed;
             user-select: none;
         }
 
         input[readonly]:focus {
             box-shadow: none;
-            border-color: #cbd5e1;
+            border-color: rgba(255, 215, 0, 0.38);
         }
 
         .form-actions {
@@ -411,5 +414,6 @@
     <footer>
         © 2026 MAQUITEC I.S.A.C. — Todos los derechos reservados.
     </footer>
+    @include('admin-loading')
 </body>
 </html>

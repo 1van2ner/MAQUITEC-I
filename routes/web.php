@@ -109,6 +109,13 @@ Route::get('/politica-de-privacidad', function () {
     ]);
 })->name('privacy.policy');
 
+Route::get('/aviso-legal', function () {
+    return view('legal', [
+        'pageTitle' => 'Aviso Legal',
+        'pageType' => 'legal',
+    ]);
+})->name('legal.notice');
+
 Route::get('/politica-de-seguridad', function () {
     return view('legal', [
         'pageTitle' => 'Política de Seguridad',
@@ -123,6 +130,51 @@ Route::get('/terminos-y-condiciones', function () {
     ]);
 })->name('terms');
 
+Route::get('/libro-de-reclamaciones', function () {
+    return view('libro-reclamaciones');
+})->name('complaints.index');
+
+Route::post('/libro-de-reclamaciones', function (Request $request) {
+    $validated = $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'document_type' => ['required', 'in:DNI,CE,RUC,Pasaporte'],
+        'document_number' => ['required', 'string', 'max:20'],
+        'email' => ['required', 'email', 'max:255'],
+        'phone' => ['required', 'string', 'max:50'],
+        'address' => ['nullable', 'string', 'max:255'],
+        'claim_type' => ['required', 'in:Reclamo,Queja'],
+        'product' => ['nullable', 'string', 'max:255'],
+        'order_number' => ['nullable', 'string', 'max:100'],
+        'purchase_date' => ['nullable', 'date'],
+        'detail' => ['required', 'string', 'max:5000'],
+        'customer_request' => ['nullable', 'string', 'max:3000'],
+        'consent' => ['accepted'],
+    ]);
+
+    if (in_array(config('mail.default'), ['log', 'array'], true)) {
+        return back()->withInput()->withErrors([
+            'email' => 'El correo no está configurado para envío. Configura SMTP en el archivo .env e inténtalo nuevamente.',
+        ]);
+    }
+
+    $claim = array_merge($validated, [
+        'code' => 'MQT-' . now()->format('Ymd') . '-' . strtoupper(substr(bin2hex(random_bytes(4)), 0, 8)),
+        'received_at' => now()->format('d/m/Y H:i'),
+    ]);
+
+    try {
+        Mail::to(config('mail.quote_to'))->send(new \App\Mail\ComplaintReceived($claim));
+    } catch (\Throwable $exception) {
+        report($exception);
+
+        return back()->withInput()->withErrors([
+            'email' => 'No se pudo enviar el libro de reclamaciones. Inténtalo nuevamente o comunícate con nosotros.',
+        ]);
+    }
+
+    return back()->with('message', "Tu {$claim['claim_type']} fue registrado correctamente con el código {$claim['code']}.");
+})->middleware('throttle:5,1')->name('complaints.store');
+
 Route::get('/aviso-de-seguridad', function () {
     return response("Contact: mailto:maquitec.servicios0601@gmail.com\nExpires: 2027-10-27T00:00:00.000Z\nPreferred-Languages: es, en\nCanonical: ".config('app.url')."/.well-known/security.txt\n", 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
 });
@@ -132,7 +184,7 @@ Route::get('/.well-known/security.txt', function () {
 });
 
 Route::get('/sitemap.xml', function () {
-    $urls = collect(['/','/nosotros','/productos','/servicios','/politica-de-cookies','/politica-de-privacidad','/politica-de-seguridad','/terminos-y-condiciones'])
+    $urls = collect(['/','/nosotros','/productos','/servicios','/politica-de-cookies','/politica-de-privacidad','/politica-de-seguridad','/terminos-y-condiciones','/libro-de-reclamaciones'])
         ->map(fn ($path) => '<url><loc>'.e(url($path)).'</loc><changefreq>weekly</changefreq><priority>'.($path === '/' ? '1.0' : '0.7').'</priority></url>')
         ->implode('');
 

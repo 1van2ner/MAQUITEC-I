@@ -41,30 +41,39 @@
                 <li><a href="{{ url('/nosotros') }}">Nosotros</a></li>
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 <li><a href="{{ url('/servicios') }}">Servicios</a></li>
-                <li><a href="{{ route('terms') }}">Términos</a></li>
-                <li><a href="{{ route('privacy.policy') }}">Privacidad</a></li>
-                <li><a href="{{ route('cookies.policy') }}">Cookies</a></li>
-                <li><a href="{{ route('security.policy') }}">Seguridad</a></li>
-                <li><a href="{{ url('/aviso-de-seguridad') }}">Reporte de vulnerabilidades</a></li>
-                <li><button type="button" class="cookie-settings-link" data-open-cookie-settings>Configurar cookies</button></li>
-                <li><a href="{{ route('privacy.policy') }}">Privacidad</a></li>
-                <li><a href="{{ route('cookies.policy') }}">Cookies</a></li>
-                <li><a href="{{ route('security.policy') }}">Seguridad</a></li>
             </ul>
         </div>
 
         <section class="footer-col footer-social">
-            <h3>Servicios y redes</h3>
-            <p class="footer-services">Asesoría técnica, suministro de equipos, mantenimiento preventivo y correctivo, instalación y gestión de repuestos.</p>
-            <div class="social-links-text" aria-label="Redes sociales">
-                <p><strong>Instagram</strong><span>@maquitec'i s.a.c.</span></p>
-                <p><strong>Facebook</strong><span>@maquitec'i s.a.c.</span></p>
+            <h3>Síguenos</h3>
+            <p class="footer-services">Conoce nuestras soluciones, equipos disponibles, servicios y novedades.</p>
+            <div class="social-links-grid" aria-label="Redes sociales">
+                <a href="https://www.facebook.com/share/1KDAbijQNC/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.5V6.7c0-.9.6-1.1 1-1.1h2.5V2h-3.4C10.5 2 9 4 9 6.5v2H6v3.7h3V22h4.9v-9.8h3.3l.5-3.7H14z"/></svg>
+                </a>
+                <a href="https://www.instagram.com/maquitec.rym?cplk=MW44cGpkZXpycTJzdA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.4" cy="6.6" r="1" class="social-fill"/></svg>
+                </a>
+                <a href="https://wa.me/51995000355" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.8a8.5 8.5 0 0 1-12.6 7.4L3 20.4l1.3-4.7a8.5 8.5 0 1 1 16.2-3.9z"/><path d="M8.1 7.2c.2-.4.4-.4.7-.4l.6.1c.2 0 .4.1.5.4l.8 1.9c.1.3 0 .5-.1.7l-.7.8c-.2.2-.1.4 0 .6.6 1.1 1.4 1.9 2.5 2.5.2.1.4.2.6 0l.9-1.1c.2-.2.4-.2.7-.1l2 1c.3.1.4.3.4.5 0 .5-.2 1.2-.6 1.6-.4.4-1 .7-1.6.7-.5 0-1.7-.3-3.3-1.1-1.4-.7-2.6-1.7-3.5-3-.7-1-1.1-2-1.1-3 0-.6.2-1.1.5-1.5z"/></svg>
+                </a>
+                <a href="https://www.tiktok.com/@maquitec.servis?_r=1&amp;_t=ZS-9Axnk7k0E7S" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3v11.4a4.2 4.2 0 1 1-3-4V13a1.8 1.8 0 1 0 1 1.6V3h2zm0 0c.5 2.7 2.1 4.4 5 4.8V10c-2.1-.1-3.7-.8-5-2.1V3z"/></svg>
+                </a>
             </div>
         </section>
     </div>
 
     <div class="footer-bottom">
-        &copy; {{ date('Y') }} MAQUITEC I.S.A.C. &mdash; Todos los derechos reservados.
+        <span>&copy; {{ date('Y') }} MAQUITEC I.S.A.C. Todos los derechos reservados.</span>
+        <nav class="footer-bottom-links" aria-label="Enlaces legales">
+            <a href="{{ route('legal.notice') }}">Aviso Legal</a>
+            <a href="{{ route('terms') }}">Términos y Condiciones</a>
+            <a href="{{ route('privacy.policy') }}">Política de Privacidad</a>
+            <a href="{{ route('cookies.policy') }}">Política de Cookies</a>
+            <button type="button" class="cookie-settings-link" data-open-cookie-settings>Configurar cookies</button>
+            <a href="{{ route('complaints.index') }}">Libro de Reclamaciones</a>
+        </nav>
     </div>
 </footer>
 
@@ -79,8 +88,8 @@
     }
     .footer-grid {
         display: grid;
-        grid-template-columns: minmax(240px, 1.25fr) repeat(3, minmax(150px, 0.8fr));
-        gap: 32px;
+        grid-template-columns: minmax(260px, 1.35fr) minmax(220px, 1fr) minmax(170px, .75fr) minmax(230px, 1fr);
+        gap: 38px;
         max-width: 1200px;
         margin: 0 auto 40px auto;
     }
@@ -129,7 +138,8 @@
         text-decoration: none;
         transition: color 0.2s;
     }
-    .footer-contact a { overflow-wrap: anywhere; }
+    .footer-contact p:last-child { align-items: flex-start; }
+    .footer-contact p:last-child a { font-size: 0.82rem; overflow-wrap: anywhere; word-break: break-word; }
     .footer-contact a:hover, .footer-links a:hover {
         color: var(--amarillo, #FFD700);
     }
@@ -150,18 +160,29 @@
     }
     .cookie-settings-link { border:0; padding:0; background:transparent; color:#f3f4f6; cursor:pointer; font:inherit; text-align:left; }
     .cookie-settings-link:hover { color:var(--amarillo,#FFD700); }
-    .social-links-text { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
-    .social-links-text p { justify-content: space-between; gap: 12px; margin: 0; color: #e5e7eb; font-size: 0.82rem; }
-    .social-links-text strong { color: var(--amarillo, #FFD700); font-size: 0.76rem; }
+    .social-links-grid { display:grid; grid-template-columns:repeat(4,44px); gap:9px; margin-top:18px; }
+    .social-links-grid a { width:44px; height:44px; display:grid; place-items:center; border:1px solid #30343b; border-radius:8px; background:#17191d; color:#d1d5db; transition:transform .2s, color .2s, border-color .2s, background .2s; }
+    .social-links-grid a:hover { transform:translateY(-3px); color:#111; border-color:#FFD700; background:#FFD700; }
+    .social-links-grid svg { width:20px; height:20px; fill:currentColor; }
+    .social-links-grid svg rect, .social-links-grid svg circle:not(.social-fill) { fill:none; stroke:currentColor; stroke-width:2; }
+    .social-links-grid svg .social-fill { fill:currentColor; }
     .footer-bottom {
-        text-align: center;
-        padding-top: 25px;
-        border-top: 1px solid #27272a;
-        font-size: 0.85rem;
-        color: #6b7280;
-        max-width: 1200px;
-        margin: 0 auto;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:20px;
+        padding-top:20px;
+        border-top:1px solid #27272a;
+        font-size:.78rem;
+        color:#777d87;
+        max-width:1200px;
+        margin:0 auto;
     }
+    .footer-bottom-links { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:8px 14px; }
+    .footer-bottom-links a { color:#777d87; text-decoration:none; }
+    .footer-bottom-links a:hover { color:#FFD700; }
+    .footer-bottom .cookie-settings-link { color:#777d87; font-size:.78rem; }
+    .footer-bottom .cookie-settings-link:hover { color:#FFD700; }
     @media (max-width: 980px) {
         .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 24px; }
     }
@@ -173,7 +194,10 @@
         .footer-contact p { align-items: flex-start; font-size: 0.82rem; }
         .footer-contact svg { margin-top: 2px; }
         .footer-social p.footer-services { display: block; }
-        .footer-bottom { padding-top: 18px; line-height: 1.5; }
+        .footer-bottom { flex-direction:column; align-items:flex-start; padding-top:18px; line-height:1.5; }
+        .footer-bottom-links { justify-content:flex-start; gap:8px 12px; }
+        .social-links-grid { grid-template-columns:repeat(4,42px); }
+        .social-links-grid a { width:42px; height:42px; }
     }
 </style>
 

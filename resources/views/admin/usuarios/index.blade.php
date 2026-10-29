@@ -13,7 +13,6 @@
             --gris-claro: #f8f9fa;
             --gris-borde: #e2e8f0;
             --texto-muted: #64748b;
-            --azul-admin: #2563eb;
         }
         
         * { box-sizing: border-box; }
@@ -232,7 +231,7 @@
             display: inline-block;
             letter-spacing: 0.05em;
         }
-        .badge-admin { background: rgba(37, 99, 235, 0.1); color: var(--azul-admin); border: 1px solid rgba(37, 99, 235, 0.2); }
+        .badge-admin { background: rgba(255, 215, 0, 0.18); color: #8a6910; border: 1px solid rgba(255, 215, 0, 0.55); box-shadow: 0 2px 8px rgba(255, 215, 0, 0.18); }
         .badge-cliente { background: rgba(255, 215, 0, 0.15); color: #b45309; border: 1px solid rgba(255, 215, 0, 0.3); }
 
         .alert-success { 
@@ -355,12 +354,12 @@
 
             <form method="GET" action="{{ route('admin.usuarios.index') }}" class="user-filters">
                 <div>
-                    <label for="search" style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Buscar</label>
+                    <label for="search" style="display: block; font-size: 0.75rem; font-weight: 700; color: #8a6910; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Buscar</label>
                     <input id="search" type="text" name="search" value="{{ request('search') }}" placeholder="Nombre, correo, rol o fecha" style="width: 100%; padding: 11px 12px; border: 2px solid var(--amarillo); border-radius: 10px; font-size: 0.92rem; box-shadow: inset 0 0 0 1px rgba(255, 215, 0, 0.1);">
                 </div>
 
                 <div>
-                    <label for="rol" style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Rol</label>
+                    <label for="rol" style="display: block; font-size: 0.75rem; font-weight: 700; color: #8a6910; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Rol</label>
                     <select id="rol" name="rol" style="width: 100%; padding: 11px 12px; border: 2px solid var(--amarillo); border-radius: 10px; font-size: 0.92rem; background: white;">
                         <option value="todos" {{ request('rol') === 'todos' || !request('rol') ? 'selected' : '' }}>Todos</option>
                         <option value="Administrador" {{ request('rol') === 'Administrador' ? 'selected' : '' }}>Administrador</option>
@@ -369,7 +368,7 @@
                 </div>
 
                 <div>
-                    <label for="dia" style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Fecha</label>
+                    <label for="dia" style="display: block; font-size: 0.75rem; font-weight: 700; color: #8a6910; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Fecha</label>
                     <input id="dia" type="date" name="dia" value="{{ request('dia') }}" style="width: 100%; padding: 11px 12px; border: 2px solid var(--amarillo); border-radius: 10px; font-size: 0.92rem;">
                 </div>
 
@@ -434,5 +433,6 @@
     <footer>
         © 2026 MAQUITEC I.S.A.C. — Todos los derechos reservados.
     </footer>
+    @include('admin-loading')
 </body>
 </html>

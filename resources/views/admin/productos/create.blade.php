@@ -81,7 +81,7 @@
         .admin-card {
             background: var(--blanco);
             width: 100%;
-            max-width: 700px;
+            max-width: 850px;
             padding: 40px 48px;
             border-radius: 20px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
@@ -91,11 +91,34 @@
 
         .admin-header {
             margin-bottom: 25px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 20px;
+        }
+
+        .btn-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 16px;
+            color: var(--texto-muted);
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .btn-back-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .btn-back-link:hover {
+            color: var(--negro);
         }
 
         .admin-card h1 {
             margin: 0 0 6px;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: 800;
             color: var(--negro);
             letter-spacing: -0.02em;
@@ -104,20 +127,24 @@
         .admin-card p.subtitle {
             margin: 0;
             color: var(--texto-muted);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+        }
+
+        /* Estructura del Formulario */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
         }
 
         .form-group {
-            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
 
-        .form-row { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 20px; 
+        .form-group.full-width {
+            grid-column: span 2;
         }
 
         label {
@@ -128,7 +155,10 @@
             letter-spacing: 0.01em;
         }
 
-        input, textarea, select {
+        input[type="text"],
+        input[type="number"],
+        select,
+        textarea {
             width: 100%;
             padding: 12px 14px;
             border: 1.5px solid var(--gris-borde);
@@ -156,18 +186,272 @@
             min-height: 100px;
         }
 
-        /* Botón con estilo corporativo principal (Amarillo MAQUITEC) */
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper select {
+            appearance: none;
+            cursor: pointer;
+            padding-right: 40px;
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            color: var(--texto-muted);
+            pointer-events: none;
+        }
+
+        .input-prefix {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-prefix span {
+            position: absolute;
+            left: 14px;
+            font-weight: 600;
+            color: var(--texto-muted);
+            font-size: 0.92rem;
+        }
+
+        .input-prefix input {
+            padding-left: 42px !important;
+        }
+
+        /* Switch de Producto Destacado */
+        .destacado-toggle-box {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--gris-claro);
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1.5px solid var(--gris-borde);
+        }
+
+        .toggle-switch-container {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch-container input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .toggle-switch-container input:checked + .toggle-slider {
+            background-color: var(--negro);
+        }
+
+        .toggle-switch-container input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .destacado-label-text {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .destacado-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--negro);
+            cursor: pointer;
+        }
+
+        .destacado-desc {
+            margin: 2px 0 0 0;
+            font-size: 0.82rem;
+            color: var(--texto-muted);
+        }
+
+        /* Sección de Imagen */
+        .image-upload-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: var(--gris-claro);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1.5px dashed var(--gris-borde);
+        }
+
+        .current-image-preview {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .current-image-preview img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--gris-borde);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .current-image-preview span, .file-name-display {
+            font-size: 0.75rem;
+            color: var(--texto-muted);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-custom-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--blanco);
+            border: 1.5px solid var(--gris-borde);
+            color: var(--negro);
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: fit-content;
+        }
+
+        .file-custom-btn:hover {
+            background: #f1f5f9;
+            border-color: var(--texto-muted);
+        }
+
+        .gallery-image-grid,
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .gallery-image-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 8px;
+            border: 1px solid var(--gris-borde);
+            border-radius: 8px;
+            background: var(--blanco);
+        }
+
+        .gallery-image-card img,
+        .image-preview-grid img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .image-preview-grid {
+            grid-template-columns: repeat(4, 140px);
+        }
+
+        @media (max-width: 520px) {
+            .image-preview-grid {
+                grid-template-columns: repeat(2, minmax(0, 140px));
+            }
+        }
+
+        .gallery-image-card .delete-image-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: none;
+        }
+
+        /* Botones de Acción */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 14px;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 2px solid #f1f5f9;
+        }
+
+        .btn-cancelar {
+            background: #f1f5f9;
+            color: var(--negro);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-cancelar:hover {
+            background: #e2e8f0;
+        }
+
         .btn-submit {
             background: var(--amarillo);
             color: var(--negro);
-            padding: 13px 24px;
+            padding: 12px 28px;
             border: none;
             border-radius: 10px;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 0.95rem;
             cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             transition: all 0.25s ease;
             box-shadow: 0 4px 12px rgba(255, 215, 0, 0.25);
             letter-spacing: 0.02em;
@@ -177,32 +461,6 @@
             background: var(--amarillo-hover);
             transform: translateY(-1px);
             box-shadow: 0 6px 16px rgba(255, 215, 0, 0.35);
-        }
-
-        .btn-back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 20px;
-            color: var(--texto-muted);
-            font-weight: 600;
-            font-size: 0.88rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .btn-back-link:hover {
-            color: var(--negro);
-        }
-
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 12px 16px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            border: 1px solid #fecaca;
         }
 
         footer {
@@ -215,8 +473,10 @@
         }
 
         @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
             .admin-card { padding: 30px 20px; }
+            .image-upload-container { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -243,100 +503,159 @@
 
     <div class="admin-container">
         <div class="admin-card">
-            <a href="{{ route('admin.productos.index') }}" class="btn-back-link">&larr; Volver a la lista de productos</a>
             
+            <a href="{{ route('admin.productos.index') }}" class="btn-back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Volver al Listado
+            </a>
+
             <div class="admin-header">
                 <h1>Registrar Nuevo Producto / Maquinaria</h1>
-                <p class="subtitle">Complete los datos técnicos y comerciales del equipo</p>
+                <p class="subtitle">Complete los datos técnicos y comerciales del equipo.</p>
             </div>
-
-            @if ($errors->any())
-                <div class="alert-error">
-                    <ul style="margin: 0; padding-left: 18px;">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
             <form action="{{ route('admin.productos.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <div class="form-group">
-                    <label>Nombre del Equipo o Producto *</label>
-                    <input type="text" name="nombre" value="{{ old('nombre') }}" placeholder="Ej. Montacargas Industrial 3 Toneladas" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Categoría del Equipo *</label>
-                    <select name="categoria_id" required>
-                        <option value="">Seleccione una categoría...</option>
-                        @foreach($categorias as $cat)
-                            <option value="{{ $cat->id }}" {{ old('categoria_id') == $cat->id ? 'selected' : '' }}>
-                                {{ $cat->parent ? $cat->parent->nombre . ' > ' . $cat->nombre : $cat->nombre . ' (principal)' }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Stock Disponible *</label>
-                    <input type="number" name="stock" value="{{ old('stock', 1) }}" placeholder="Ej. 5" required>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Código Interno</label>
-                        <input type="text" name="codigo" value="{{ old('codigo') }}" placeholder="Ej. MT-001 (Opcional)">
+                <div class="form-grid">
+                    
+                    <!-- Nombre del Producto -->
+                    <div class="form-group full-width">
+                        <label for="nombre">Nombre del Producto *</label>
+                        <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required placeholder="Ej. Montacargas Industrial de 5T">
                     </div>
+
+                    <!-- Categoría -->
                     <div class="form-group">
-                        <label>Imagen del Producto *</label>
-                        <input type="file" id="imagenes" name="imagenes[]" accept="image/jpeg,image/png,image/webp" multiple required>
-                        <small>Selecciona entre 1 y 4 imágenes. La primera será la imagen principal.</small>
-                        <small id="imagenes-seleccionadas">Ninguna imagen seleccionada</small>
+                        <label for="categoria_id">Categoría *</label>
+                        <div class="select-wrapper">
+                            <select id="categoria_id" name="categoria_id" required>
+                                <option value="">Seleccione una categoría...</option>
+                                @foreach($categorias as $categoria)
+                                    <option value="{{ $categoria->id }}" {{ (old('categoria_id') == $categoria->id) ? 'selected' : '' }}>
+                                        {{ $categoria->parent ? $categoria->parent->nombre . ' > ' . $categoria->nombre : $categoria->nombre . ' (principal)' }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <svg class="select-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </div>
+                    </div>
+
+                    <!-- Código Opcional -->
+                    <div class="form-group">
+                        <label for="codigo">Código (Opcional)</label>
+                        <input type="text" id="codigo" name="codigo" value="{{ old('codigo') }}" placeholder="Ej. MAQ-4853">
+                    </div>
+
+                    <!-- Stock -->
+                    <div class="form-group">
+                        <label for="stock">Stock Disponible *</label>
+                        <input type="number" id="stock" name="stock" value="{{ old('stock', 1) }}" required placeholder="1">
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="form-group full-width">
+                        <label for="descripcion">Descripción *</label>
+                        <textarea id="descripcion" name="descripcion" rows="4" placeholder="Detalles generales del equipo..." required>{{ old('descripcion') }}</textarea>
+                    </div>
+
+                    <!-- Especificaciones -->
+                    <div class="form-group full-width">
+                        <label for="especificaciones">Especificaciones Técnicas (Opcional)</label>
+                        <textarea id="especificaciones" name="especificaciones" rows="4" placeholder="Capacidad de carga, altura de elevación, motor...">{{ old('especificaciones') }}</textarea>
+                    </div>
+
+                    <!-- Interruptor de Producto Destacado -->
+                    <div class="form-group full-width">
+                        <div class="destacado-toggle-box">
+                            <label class="toggle-switch-container">
+                                <input type="checkbox" id="destacado" name="destacado" value="1" {{ old('destacado') ? 'checked' : '' }}>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <div class="destacado-label-text">
+                                <label for="destacado" class="destacado-title">Marcar como Producto Destacado</label>
+                                <p class="destacado-desc">Aparecerá en la sección de destacados de la página principal (Inicio).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Imágenes del producto -->
+                    <div class="form-group full-width">
+                        <label>Imágenes del producto *</label>
+                        <p class="subtitle">Selecciona entre 1 y 4 imágenes. La primera será la imagen principal.</p>
+
+                        <div class="file-input-wrapper">
+                            <label for="imagenes" class="file-custom-btn">Agregar imágenes</label>
+                            <input type="file" id="imagenes" name="imagenes[]" accept="image/jpeg,image/png,image/webp" multiple required>
+                            <span class="file-name-display" id="imagenes-seleccionadas">Ninguna imagen seleccionada</span>
+                        </div>
+                        <small id="limite-imagenes">Puedes agregar hasta 4 imágenes.</small>
                         <div id="imagenes-preview" class="image-preview-grid"></div>
                     </div>
+
                 </div>
 
-                <div class="form-group">
-                    <label>Descripción detallada *</label>
-                    <textarea name="descripcion" placeholder="Escribe las características principales del equipo..." required>{{ old('descripcion') }}</textarea>
+                <!-- Botones de Acción -->
+                <div class="form-actions">
+                    <a href="{{ route('admin.productos.index') }}" class="btn-cancelar">Cancelar</a>
+                    <button type="submit" class="btn-submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        Guardar y Publicar Producto
+                    </button>
                 </div>
-
-                <div class="form-group">
-                    <label>Especificaciones técnicas (Opcional)</label>
-                    <textarea name="especificaciones" placeholder="Capacidad de carga, dimensiones, marca, modelo...">{{ old('especificaciones') }}</textarea>
-                </div>
-
-                <button type="submit" class="btn-submit">Guardar y Publicar Producto</button>
             </form>
+
         </div>
     </div>
 
     <footer>
         © 2026 MAQUITEC I.S.A.C. — Todos los derechos reservados.
     </footer>
+
     <script>
         const imageInput = document.getElementById('imagenes');
         const imagePreview = document.getElementById('imagenes-preview');
         const imageSummary = document.getElementById('imagenes-seleccionadas');
+        const imageLimit = document.getElementById('limite-imagenes');
+        const productForm = imageInput.closest('form');
+        let previewUrls = [];
 
-        imageInput.addEventListener('change', () => {
-            const files = Array.from(imageInput.files);
-            imageInput.setCustomValidity(files.length > 4 ? 'Selecciona un máximo de 4 imágenes.' : '');
-            imageSummary.textContent = files.length
-                ? `${files.length} de 4 imágenes seleccionadas`
+        function updateImagePreview() {
+            const selectedFiles = Array.from(imageInput.files);
+
+            imageInput.setCustomValidity(selectedFiles.length === 0
+                ? 'Selecciona al menos una imagen.'
+                : selectedFiles.length > 4 ? 'Selecciona un máximo de 4 imágenes.' : '');
+
+            imageSummary.textContent = selectedFiles.length
+                ? `${selectedFiles.length} de 4 imágenes seleccionadas`
                 : 'Ninguna imagen seleccionada';
+            imageLimit.textContent = selectedFiles.length
+                ? `${selectedFiles.length} imagen(es) seleccionada(s). Máximo 4.`
+                : 'Puedes agregar hasta 4 imágenes.';
+
+            previewUrls.forEach((url) => URL.revokeObjectURL(url));
+            previewUrls = [];
             imagePreview.replaceChildren();
 
-            files.slice(0, 4).forEach((file) => {
+            selectedFiles.slice(0, 4).forEach((file) => {
+                const card = document.createElement('div');
+                card.className = 'gallery-image-card';
                 const image = document.createElement('img');
                 image.src = URL.createObjectURL(file);
+                previewUrls.push(image.src);
                 image.alt = file.name;
-                imagePreview.append(image);
+                card.appendChild(image);
+                imagePreview.appendChild(card);
             });
-        });
+        }
+
+        imageInput.addEventListener('change', updateImagePreview);
+        productForm.addEventListener('submit', () => updateImagePreview());
+        updateImagePreview();
     </script>
+    @include('admin-loading')
 </body>
 </html>

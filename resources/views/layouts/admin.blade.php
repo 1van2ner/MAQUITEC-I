@@ -22,5 +22,6 @@
     </main>
 
     @include('footer.bottom')
+    @include('admin-loading')
 </body>
 </html>
