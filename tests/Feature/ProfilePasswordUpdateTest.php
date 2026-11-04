@@ -30,7 +30,7 @@ class ProfilePasswordUpdateTest extends TestCase
                 'password_confirmation' => 'clave-nueva-456',
             ])
             ->assertRedirect(route('profile'))
-            ->assertSessionHas('status', 'Tu contraseña se actualizó correctamente.');
+            ->assertSessionHas('status', 'Tu contraseÃ±a se actualizÃ³ correctamente.');
 
         $this->assertTrue(Hash::check('clave-nueva-456', $user->fresh()->password));
     }

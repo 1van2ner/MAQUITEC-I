@@ -257,7 +257,7 @@
 
         @if ($errors->any())
             <div class="alert alert-danger">
-                Por favor, corrige los errores en el formulario para continuar.
+                {{ $errors->first() }}
             </div>
         @endif
 
@@ -302,37 +302,18 @@
         <!-- Módulo Segura de Cambio de Contraseña -->
         <div class="password-section">
             <button type="button" class="password-toggle-btn" onclick="togglePasswordForm()">
-                <span>🔒 Cambiar Contraseña</span>
+                <span>Ã°Å¸â€â€™ Cambiar Contraseña</span>
                 <span id="toggle-icon">▼</span>
             </button>
 
-            <form action="{{ route('password.update.custom') }}" method="POST" id="password-form" class="form-password" style="display: {{ $errors->any() ? 'flex' : 'none' }};">
+            <form action="{{ route('password.email.authenticated') }}" method="POST" id="password-form" class="form-password" style="display: flex;">
                 @csrf
-                @method('PUT')
-
-                <div class="form-group">
-                    <label for="current_password">Contraseña Actual</label>
-                    <input type="password" name="current_password" id="current_password" required placeholder="Ingresa tu contraseña actual">
-                    @error('current_password')
-                        <span class="error-text">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Nueva Contraseña</label>
-                    <input type="password" name="password" id="password" required placeholder="Mínimo 8 caracteres">
-                    @error('password')
-                        <span class="error-text">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="password_confirmation">Confirmar Nueva Contraseña</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" required placeholder="Repite la nueva contraseña">
-                </div>
-
+                <p style="margin:0;color:#64748b;font-size:0.82rem;line-height:1.5;">
+                    Por seguridad, el cambio se confirma mediante un enlace enviado exclusivamente a
+                    <strong>{{ Auth::user()->email }}</strong>.
+                </p>
                 <button type="submit" class="btn-update-password">
-                    Actualizar Contraseña
+                    Enviar enlace de autenticación por correo
                 </button>
             </form>
         </div>
@@ -354,7 +335,7 @@
             const icon = document.getElementById('toggle-icon');
             if (form.style.display === 'none' || form.style.display === '') {
                 form.style.display = 'flex';
-                icon.textContent = '▲';
+                icon.textContent = 'Ã¢â€“Â²';
             } else {
                 form.style.display = 'none';
                 icon.textContent = '▼';

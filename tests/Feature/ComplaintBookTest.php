@@ -31,7 +31,7 @@ class ComplaintBookTest extends TestCase
             'order_number' => 'PED-001',
             'purchase_date' => '2026-10-20',
             'detail' => 'El equipo presenta una falla de funcionamiento.',
-            'customer_request' => 'Solicito revisión técnica.',
+            'customer_request' => 'Solicito revisiÃ³n tÃ©cnica.',
             'consent' => '1',
         ]);
 

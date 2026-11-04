@@ -53,7 +53,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo img { width: 50px; height: 50px; object-fit: cover; border-radius: 50%; border: 2px solid var(--amarillo); }
+        .logo img { width: 112px; height: 62px; object-fit: contain; border: 0; border-radius: 8px; background: transparent; }
         .logo-text strong { font-size: 1.05rem; color: var(--amarillo); letter-spacing: 0.05em; display: block; }
         .logo-text span { color: #94a3b8; font-size: 0.75rem; display: block; }
 
@@ -389,7 +389,7 @@
                                 <a href="{{ route('admin.productos.edit', $prod->id) }}" class="btn btn-edit">Editar</a>
 
                                 <!-- Botón Eliminar -->
-                                <form action="{{ route('admin.productos.destroy', $prod->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
+                                <form action="{{ route('admin.productos.destroy', $prod->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Ãƒâ€š¿Estás seguro de eliminar este producto?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-delete">Eliminar</button>

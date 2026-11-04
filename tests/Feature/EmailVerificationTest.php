@@ -34,7 +34,7 @@ class EmailVerificationTest extends TestCase
         $this->get(route('verification.notice'))
             ->assertOk()
             ->assertSee('cliente-nuevo@example.com')
-            ->assertSee('Reenviar correo de verificación');
+            ->assertSee('Reenviar correo de verificaciÃ³n');
 
         $user = User::where('email', 'cliente-nuevo@example.com')->firstOrFail();
 
@@ -111,7 +111,7 @@ class EmailVerificationTest extends TestCase
     {
         Notification::fake();
         $user = User::create([
-            'name' => 'Cliente reenvío',
+            'name' => 'Cliente reenvÃ­o',
             'email' => 'cliente-reenvio@example.com',
             'password' => 'clave-segura-123',
             'rol' => 'Cliente',

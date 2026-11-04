@@ -31,7 +31,7 @@ class AdminProductIndexTest extends TestCase
             ->assertSee('Destacado de prueba 2')
             ->assertSee('Destacado de prueba 3')
             ->assertSee('Destacado de prueba 4')
-            ->assertSee('Página 1 de 2')
+            ->assertSee('PÃƒÂ¡gina 1 de 2')
             ->assertSee('Siguiente');
 
         $this->get(route('admin.productos.index', ['destacado' => '1']))
@@ -53,9 +53,9 @@ class AdminProductIndexTest extends TestCase
             'codigo' => strtoupper(str_replace(' ', '-', $name)),
             'nombre' => $name,
             'slug' => strtolower(str_replace(' ', '-', $name)),
-            'descripcion' => 'Producto para prueba de administración.',
+            'descripcion' => 'Producto para prueba de administraciÃƒÂ³n.',
             'stock' => 1,
-            'imagen' => 'img/logo_pagina_general/maquitec_2026_new.jpg',
+            'imagen' => 'img/logo_pagina_general/logo_maquiteci_transparente.png',
             'destacado' => $featured,
             'created_at' => $createdAt,
             'updated_at' => $createdAt,

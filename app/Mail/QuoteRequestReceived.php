@@ -20,7 +20,7 @@ class QuoteRequestReceived extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nueva solicitud de cotización: ' . $this->quote['product_name'],
+            subject: 'Nueva solicitud de cotizaciÃ³n: ' . $this->quote['product_name'],
             replyTo: [new Address($this->quote['email'], $this->quote['name'])],
         );
     }

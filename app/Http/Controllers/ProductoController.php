@@ -10,10 +10,10 @@ use Illuminate\Validation\Rule;
 
 class ProductoController extends Controller
 {
-    // Listar productos en la vista pública con filtrado por categoría, barra lateral y paginación
+    // Listar productos en la vista pÃºblica con filtrado por categorÃ­a, barra lateral y paginaciÃ³n
     public function index(Request $request)
     {
-        // Obtenemos todas las categorías con el conteo de sus productos para el sidebar
+        // Obtenemos todas las categorÃ­as con el conteo de sus productos para el sidebar
         $categorias = Categoria::with(['children' => function ($query) {
             $query->withCount('productos')->orderBy('nombre');
         }])
@@ -28,7 +28,7 @@ class ProductoController extends Controller
         // Creamos la consulta base para los productos
         $query = Producto::with('categoria');
 
-        // Si el usuario hizo clic en una categoría del sidebar, filtramos
+        // Si el usuario hizo clic en una categorÃ­a del sidebar, filtramos
         if ($request->has('categoria') && $request->categoria != '') {
             $categoriaActual = Categoria::with('children')->find($request->categoria);
             $categoriaIds = $categoriaActual
@@ -39,13 +39,13 @@ class ProductoController extends Controller
             $categoriaActual = null;
         }
 
-        // Paginación de 12 productos por página para la vista pública
+        // PaginaciÃ³n de 12 productos por pÃ¡gina para la vista pÃºblica
         $productos = $query->orderBy('created_at', 'desc')->paginate(12);
 
         return view('productos', compact('categorias', 'productos', 'totalProductos', 'categoriaActual'));
     }
 
-    // Listar productos en el panel de administración
+    // Listar productos en el panel de administraciÃ³n
     public function adminIndex(Request $request)
     {
         $query = Producto::with('categoria');
@@ -106,7 +106,7 @@ class ProductoController extends Controller
             'estado' => 'Disponible',
         ]);
 
-        return redirect()->route('admin.productos.index')->with('success', '¡Producto agregado exitosamente al catálogo!');
+        return redirect()->route('admin.productos.index')->with('success', 'Â¡Producto agregado exitosamente al catÃ¡logo!');
     }
 
     // Mostrar formulario para editar un producto existente
@@ -166,7 +166,7 @@ class ProductoController extends Controller
             $this->deleteProductImage($imagen);
         }
 
-        return redirect()->route('admin.productos.index')->with('success', '¡Producto actualizado correctamente!');
+        return redirect()->route('admin.productos.index')->with('success', 'Â¡Producto actualizado correctamente!');
     }
 
     // Eliminar producto
@@ -180,7 +180,7 @@ class ProductoController extends Controller
         }
 
         $producto->delete();
-        return back()->with('success', 'Producto eliminado del catálogo.');
+        return back()->with('success', 'Producto eliminado del catÃ¡logo.');
     }
 
     private function storeProductImages(array $uploads): array

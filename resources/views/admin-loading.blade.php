@@ -23,29 +23,40 @@
         align-items: center;
         justify-content: center;
         background: rgba(10, 10, 10, 0.42);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
         opacity: 0;
         visibility: hidden;
+        pointer-events: none;
         transition: opacity 0.18s ease, visibility 0.18s ease;
     }
-    .admin-page-loading.is-visible { opacity: 1; visibility: visible; }
+    .admin-page-loading.is-visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+    }
     .admin-page-loading-box {
-        min-width: 210px;
+        min-width: 220px;
+        max-width: calc(100vw - 32px);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 12px;
-        padding: 18px 22px;
-        border-radius: 12px;
+        gap: 10px;
+        padding: 14px 18px;
+        border: 1px solid rgba(17, 17, 17, 0.08);
+        border-radius: 10px;
         background: #ffffff;
-        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
         color: #121212;
         font-family: "Inter", "Segoe UI", system-ui, sans-serif;
         font-size: 0.95rem;
         font-weight: 700;
+        line-height: 1.2;
+        white-space: nowrap;
     }
     .admin-page-loading-box .admin-action-spinner {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
         margin: 0;
         border-width: 3px;
         color: #f2c800;
@@ -89,6 +100,9 @@
     }
 
     function getNavigationAction(link, url) {
+        if (link.dataset.loadingText) {
+            return [link.dataset.loadingText, link.dataset.loadingText];
+        }
         const path = url.pathname.toLowerCase();
         const name = moduleName(path);
         const moduleLabel = name.charAt(0).toUpperCase() + name.slice(1);
@@ -118,6 +132,11 @@
     }
 
     function getFormAction(form, submitter) {
+        const submitterText = submitter?.dataset?.loadingText;
+        const formText = form.dataset.loadingText;
+        if (submitterText || formText) {
+            return [submitterText || formText, submitterText || formText];
+        }
         const method = (form.querySelector('input[name="_method"]')?.value || form.method || 'post').toLowerCase().trim();
         const actionPath = new URL(form.action, window.location.href).pathname.toLowerCase();
         const entity = singularModule(actionPath);
@@ -141,19 +160,6 @@
         element.dataset.adminLoading = 'true';
         element.classList.add('is-loading');
         element.setAttribute('aria-busy', 'true');
-
-        if (element.matches('button, input[type="submit"]')) {
-            if (!element.dataset.originalHtml && element.tagName === 'BUTTON') {
-                element.dataset.originalHtml = element.innerHTML;
-            }
-            if (element.tagName === 'BUTTON') {
-                element.innerHTML = `<span class="admin-action-spinner"></span>${text}`;
-            }
-        } else if (element.tagName === 'A') {
-            if (!element.dataset.originalHtml) element.dataset.originalHtml = element.innerHTML;
-            element.innerHTML = `<span class="admin-action-spinner"></span>${text}`;
-        }
-
         if ('disabled' in element) element.disabled = true;
     }
 

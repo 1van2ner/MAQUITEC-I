@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('titulo');
             $table->text('subtitulo')->nullable();
             $table->string('imagen'); // Ruta de la imagen del banner
-            $table->string('enlace')->nullable(); // Botón opcional (ej: ver catálogo)
+            $table->string('enlace')->nullable(); // BotÃ³n opcional (ej: ver catÃ¡logo)
             $table->boolean('activo')->default(true);
             $table->timestamps();
         });

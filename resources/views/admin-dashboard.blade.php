@@ -55,7 +55,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo img { width: 50px; height: 50px; object-fit: cover; border-radius: 50%; border: 2px solid var(--amarillo); }
+        .logo img { width: 112px; height: 62px; object-fit: contain; border: 0; border-radius: 8px; background: transparent; }
         .logo-text strong { font-size: 1.05rem; color: var(--amarillo); letter-spacing: 0.05em; display: block; }
         .logo-text span { color: #94a3b8; font-size: 0.75rem; display: block; }
 
@@ -77,7 +77,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 32px;
             flex: 1;
             width: 100%;
         }
@@ -85,8 +85,8 @@
         .admin-card {
             background: var(--blanco);
             width: 100%;
-            max-width: 1100px;
-            padding: 40px 48px;
+            max-width: 1580px;
+            padding: 36px 40px;
             border-radius: 24px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
             border-top: 5px solid var(--amarillo);
@@ -99,6 +99,12 @@
             margin-bottom: 28px; 
             flex-wrap: wrap; 
             gap: 15px; 
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         h1 { 
@@ -124,7 +130,7 @@
         /* SECCIÓN DE CONTADORES (KPIS) */
         .kpi-row {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, minmax(150px, 1fr));
             gap: 18px;
             margin-bottom: 32px;
         }
@@ -134,6 +140,7 @@
             border: 1px solid var(--gris-borde);
             border-radius: 14px;
             padding: 18px 20px;
+            min-height: 82px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -174,10 +181,284 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.04);
         }
 
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.75fr) minmax(320px, 0.75fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .analytics-card {
+            background: var(--gris-claro);
+            border: 1px solid var(--gris-borde);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .analytics-card h2 {
+            margin: 0 0 16px;
+            font-size: 1rem;
+            color: var(--negro);
+        }
+
+        .daily-chart {
+            width: 100%;
+            min-width: 0;
+            height: 260px;
+            min-height: 260px;
+            display: flex;
+            align-items: end;
+            gap: 10px;
+            overflow: hidden;
+            padding-top: 20px;
+            border-bottom: 1px solid var(--gris-borde);
+            background-image: linear-gradient(to bottom, transparent 49%, rgba(100, 116, 139, 0.12) 50%, transparent 51%);
+        }
+
+        .daily-bar-wrap {
+            min-width: 0;
+            height: 238px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chart-scroll {
+            width: 100%;
+            overflow: hidden;
+            height: 265px;
+            padding-bottom: 0;
+            scrollbar-width: thin;
+        }
+
+        .daily-bar {
+            width: 100%;
+            max-width: 26px;
+            min-height: 3px;
+            background: var(--amarillo);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+        }
+
+        .daily-bar.is-zero {
+            background: #d8dee8;
+            height: 3px !important;
+        }
+
+        .daily-bar span {
+            position: absolute;
+            top: -19px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: var(--negro);
+        }
+
+        .daily-bar-wrap small {
+            height: 18px;
+            font-size: 0.62rem;
+            color: var(--texto-muted);
+            white-space: nowrap;
+        }
+
+        .top-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-list li {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 9px 0;
+            border-bottom: 1px solid var(--gris-borde);
+            font-size: 0.82rem;
+        }
+
+        .top-list strong { color: #854d0e; }
+
+        .top-scroll {
+            max-height: 190px;
+            overflow-y: auto;
+            padding-right: 8px;
+            scrollbar-width: thin;
+        }
+
+        .top-consultados-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 265px;
+        }
+
+        .top-consultados-card .top-consultados-grid {
+            flex: 1;
+            min-height: 0;
+        }
+
+        .top-consultados-card .top-consultados-column {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .top-consultados-card .top-scroll {
+            flex: 1;
+            height: 100%;
+            max-height: none;
+        }
+
+        .history-card {
+            margin-bottom: 20px;
+        }
+
+        .history-scroll {
+            max-height: 390px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        .history-scroll table {
+            min-width: 700px;
+        }
+
+        .history-scroll thead {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background: var(--gris-claro);
+        }
+
+        .filter-form {
+            display: grid;
+            grid-template-columns: repeat(6, minmax(110px, 1fr)) auto;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 16px;
+        }
+
+        .filter-form label {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            color: var(--texto-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .filter-form input,
+        .filter-form select {
+            height: 38px;
+            border: 1px solid var(--gris-borde);
+            border-radius: 8px;
+            padding: 0 10px;
+            background: var(--blanco);
+            color: var(--negro);
+            font-size: 0.82rem;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 8px;
+            min-height: 38px;
+        }
+
+        .filter-actions a,
+        .filter-actions button {
+            height: 38px;
+            padding: 0 12px;
+            border-radius: 8px;
+            border: 1px solid var(--gris-borde);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .filter-actions button {
+            background: var(--negro);
+            color: var(--amarillo);
+        }
+
+        .filter-actions button:hover {
+            background: #2a2a2a;
+            transform: translateY(-1px);
+        }
+
+        .filter-actions a {
+            color: var(--negro);
+            background: var(--blanco);
+        }
+
+        .filter-actions a:hover {
+            border-color: var(--amarillo);
+            background: #fffdf0;
+        }
+
+        .week-nav-btn {
+            height: 38px;
+            min-width: 38px;
+            border: 1px solid var(--gris-borde);
+            border-radius: 8px;
+            color: var(--negro);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            padding: 0 11px;
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-weight: 800;
+            background: var(--blanco);
+            transition: all 0.2s ease;
+        }
+
+        .week-nav-btn:hover {
+            border-color: var(--amarillo);
+            background: #fffdf0;
+            transform: translateY(-1px);
+        }
+
+        .history-card {
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--gris-borde);
+            text-align: left;
+        }
+
+        @media (max-width: 900px) {
+            .analytics-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 1200px) {
+            .kpi-row { grid-template-columns: repeat(3, 1fr); }
+            .analytics-grid { grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.8fr); }
+            .modules-grid { grid-template-columns: repeat(2, 1fr); }
+            .filter-form { grid-template-columns: repeat(3, minmax(150px, 1fr)) auto; }
+        }
+
         /* GRID DE MÓDULOS (2x2) */
         .modules-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             margin-bottom: 32px;
         }
@@ -197,7 +478,7 @@
         .module-item:hover {
             background: var(--blanco);
             border-color: var(--amarillo);
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08);
+            box-shadow: 0 10px 24px -8px rgba(255, 215, 0, 0.48);
             transform: translateY(-2px);
         }
 
@@ -248,19 +529,23 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--gris-claro);
+            background: var(--amarillo);
             color: var(--negro);
             padding: 10px 18px;
             border-radius: 10px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 800;
             font-size: 0.85rem;
-            border: 1px solid var(--gris-borde);
+            border: 1px solid #e2b800;
+            box-shadow: 0 6px 16px rgba(255, 215, 0, 0.28);
             transition: all 0.2s ease;
         }
 
         .btn-home:hover {
-            background: #e2e8f0;
+            background: var(--amarillo-hover);
+            border-color: #d4a900;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.42);
+            transform: translateY(-1px);
         }
 
         footer {
@@ -275,10 +560,19 @@
 
         @media (max-width: 768px) {
             .admin-card { padding: 25px 20px; }
+            .admin-container { padding: 20px 12px; }
             .kpi-row { grid-template-columns: repeat(2, 1fr); }
             .modules-grid { grid-template-columns: 1fr; }
             .header-flex { flex-direction: column; align-items: flex-start; }
+            .header-actions { width: 100%; justify-content: space-between; }
+            .btn-home { flex: 1; justify-content: center; }
             .top-bar { display: none; }
+            .filter-form { grid-template-columns: 1fr 1fr; }
+            .filter-actions { grid-column: 1 / -1; }
+            .week-nav-btn { width: 38px; padding: 0; }
+            .week-nav-btn span { display: none; }
+            .week-nav-btn:first-of-type span:first-child { display: inline; }
+            .week-nav-btn:last-of-type span:last-child { display: inline; }
         }
     </style>
 </head>
@@ -315,7 +609,13 @@
                         Bienvenido de nuevo, <strong>{{ Auth::user()->name ?? 'Ivan Koji Rojas Valencia' }}</strong>.
                     </p>
                 </div>
-                <span class="badge-control">Zona de Control</span>
+                <div class="header-actions">
+                    <a href="{{ url('/') }}" class="btn-home" data-loading-text="Volviendo al inicio...">
+                        <span aria-hidden="true">&larr;</span>
+                        <span>Volver al inicio</span>
+                    </a>
+                    <span class="badge-control">Zona de Control</span>
+                </div>
             </div>
 
             <!-- FILA DE CONTADORES (KPIS) -->
@@ -362,6 +662,176 @@
                     <div class="kpi-icon-box">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     </div>
+                </div>
+
+                <!-- Consultas reales registradas -->
+                <div class="kpi-box">
+                    <div>
+                        <div class="kpi-info-title">Consultas reales</div>
+                        <div class="kpi-info-value">{{ $totalInteracciones ?? 0 }}</div>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m18 0V9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10M13 19V5a2 2 0 00-2-2H9a2 2 0 00-2 2v14"/></svg>
+                    </div>
+                </div>
+            </section>
+
+            <section class="analytics-grid">
+                <div class="analytics-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;">
+                        <div>
+                            <h2 style="margin-bottom:4px;">Movimientos por semana</h2>
+                            <div style="color:#64748b; font-size:.78rem;">
+                                {{ $inicioGrafica->format('d/m/Y') }} al {{ $finGrafica->format('d/m/Y') }}
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px;">
+                            <a href="{{ route('admin.dashboard', array_merge(request()->except('semana'), ['semana' => $semanaAnterior])) }}"
+                               data-loading-text="Cargando semana anterior..."
+                               class="week-nav-btn"
+                               aria-label="Ver semana anterior"
+                               title="Ver semana anterior"><span aria-hidden="true">&larr;</span><span>Anterior</span></a>
+                            <a href="{{ route('admin.dashboard', array_merge(request()->except('semana'), ['semana' => $semanaSiguiente])) }}"
+                               data-loading-text="Cargando semana siguiente..."
+                               class="week-nav-btn"
+                               aria-label="Ver semana siguiente"
+                               title="Ver semana siguiente"><span>Siguiente</span><span aria-hidden="true">&rarr;</span></a>
+                        </div>
+                    </div>
+                    @php
+                        $maxSemanal = max(1, collect($diasGrafica ?? [])->max('total'));
+                    @endphp
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin:-8px 0 8px; color:#64748b; font-size:.78rem;">
+                        <span>7 días de la semana</span>
+                        <strong>{{ $totalSemana }} consulta{{ $totalSemana === 1 ? '' : 's' }} reales</strong>
+                    </div>
+                    <div class="chart-scroll">
+                            <div class="daily-chart" aria-label="Gráfico de consultas por día de la semana">
+                                    @foreach($diasGrafica ?? [] as $dia)
+                                        <div class="daily-bar-wrap" title="{{ $dia['dia'] }} {{ $dia['label'] }}: {{ $dia['total'] }} consultas">
+                                            <div class="daily-bar {{ $dia['total'] === 0 ? 'is-zero' : '' }}" style="height: {{ $dia['total'] === 0 ? 3 : max(20, ($dia['total'] / $maxSemanal) * 180) }}px; max-width:60px;">
+                                                @if($dia['total'] > 0)
+                                                    <span>{{ $dia['total'] }}</span>
+                                                @endif
+                                        </div>
+                                            <small>{{ ucfirst($dia['dia']) }} {{ $dia['label'] }}</small>
+                                    </div>
+                                    @endforeach
+                                </div>
+                    </div>
+                </div>
+
+                <div class="analytics-card top-consultados-card">
+                    <h2>Más consultados</h2>
+                    <div class="top-consultados-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                        <div class="top-consultados-column">
+                            <strong style="font-size:.78rem;">Productos</strong>
+                            <div class="top-scroll">
+                                <ul class="top-list">
+                                    @forelse($topProductos ?? [] as $item)
+                                        <li><span>{{ $item->item }}</span><strong>{{ $item->total }}</strong></li>
+                                    @empty
+                                        <li><span>Sin consultas</span></li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="top-consultados-column">
+                            <strong style="font-size:.78rem;">Servicios</strong>
+                            <div class="top-scroll">
+                                <ul class="top-list">
+                                    @forelse($topServicios ?? [] as $item)
+                                        <li><span>{{ $item->item }}</span><strong>{{ $item->total }}</strong></li>
+                                    @empty
+                                        <li><span>Sin consultas</span></li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="analytics-card history-card">
+                <h2>Historial de interacciones recientes</h2>
+                <form method="GET" action="{{ route('admin.dashboard') }}" class="filter-form" data-loading-text="Aplicando filtros...">
+                    <label>
+                        Semana
+                        <select name="semana">
+                            <option value="">Últimas 12 semanas</option>
+                            @foreach($semanasDisponibles ?? [] as $semanaDisponible)
+                                <option value="{{ $semanaDisponible['valor'] }}" @selected(request('semana') === $semanaDisponible['valor'])>
+                                    {{ $semanaDisponible['label'] }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </label>
+                    <label>
+                        Desde
+                        <input type="date" name="desde" value="{{ request('desde') }}">
+                    </label>
+                    <label>
+                        Hasta
+                        <input type="date" name="hasta" value="{{ request('hasta') }}">
+                    </label>
+                    <label>
+                        Tipo
+                        <select name="tipo">
+                            <option value="">Todos</option>
+                            <option value="producto" @selected(request('tipo') === 'producto')>Producto</option>
+                            <option value="servicio" @selected(request('tipo') === 'servicio')>Servicio</option>
+                        </select>
+                    </label>
+                    <label>
+                        Producto o servicio
+                        <select name="item">
+                            <option value="">Todos</option>
+                            @foreach($itemsDisponibles ?? [] as $itemDisponible)
+                                @if(!request('tipo') || request('tipo') === $itemDisponible->tipo)
+                                    <option value="{{ $itemDisponible->item }}" @selected(request('item') === $itemDisponible->item)>
+                                        {{ $itemDisponible->item }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </label>
+                    <label>
+                        Canal
+                        <select name="canal">
+                            <option value="">Todos</option>
+                            <option value="whatsapp" @selected(request('canal') === 'whatsapp')>WhatsApp</option>
+                            <option value="cotizacion" @selected(request('canal') === 'cotizacion')>Cotización</option>
+                        </select>
+                    </label>
+                    <div class="filter-actions">
+                        <button type="submit" data-loading-text="Aplicando filtros...">Filtrar</button>
+                        <a href="{{ route('admin.dashboard') }}" data-loading-text="Limpiando filtros...">Limpiar</a>
+                    </div>
+                </form>
+
+                <div class="history-scroll">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha y hora</th>
+                                <th>Tipo</th>
+                                <th>Producto / Servicio</th>
+                                <th>Canal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($historial ?? [] as $interaccion)
+                                <tr>
+                                    <td>{{ $interaccion->created_at->copy()->timezone('America/Lima')->format('d/m/Y H:i:s') }}</td>
+                                    <td>{{ ucfirst($interaccion->tipo) }}</td>
+                                    <td>{{ $interaccion->item }}</td>
+                                    <td>{{ $interaccion->canal === 'whatsapp' ? 'WhatsApp' : 'Cotización' }}</td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="4">No hay consultas que coincidan con los filtros.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </section>
 
@@ -421,12 +891,6 @@
                 </a>
 
             </section>
-
-            <div>
-                <a href="{{ url('/') }}" class="btn-home">
-                    &larr; Volver al inicio
-                </a>
-            </div>
 
         </div>
     </div>

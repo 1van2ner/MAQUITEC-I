@@ -619,7 +619,7 @@
                 <p>Sistemas de filtración de aire, aceite, combustible e hidráulicos.</p>
             </div>
             <div class="card-insumo">
-                <div class="icon">🧈</div>
+                <div class="icon">🔩</div>
                 <h4>Grasas Multiuso</h4>
                 <p>Grasas complejas de litio para chasis, rodamientos y cadenas de elevación.</p>
             </div>

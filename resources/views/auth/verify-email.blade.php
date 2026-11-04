@@ -47,7 +47,7 @@
         }
 
         .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; }
+        .logo img { width: 118px; height: 64px; border-radius: 8px; object-fit: contain; background: transparent; }
         .logo strong { display: block; color: var(--amarillo); }
         .logo span { color: #94a3b8; font-size: 0.75rem; }
         .back-home { color: var(--blanco); text-decoration: none; font-size: 0.9rem; }
@@ -178,7 +178,7 @@
             @endif
 
             <div class="auth-footer-links">
-                ¿Ya verificaste tu correo? <a href="{{ route('login') }}">Inicia sesión</a>
+                Ãƒâ€š¿Ya verificaste tu correo? <a href="{{ route('login') }}">Inicia sesión</a>
             </div>
         </section>
     </main>

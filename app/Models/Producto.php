@@ -9,7 +9,7 @@ class Producto extends Model
 {
     use HasFactory;
 
-    // Permitir asignación masiva en todos los campos
+    // Permitir asignaciÃ³n masiva en todos los campos
     protected $guarded = [];
 
     protected $casts = [
@@ -27,7 +27,7 @@ class Producto extends Model
         return array_values(array_unique(array_filter($images, 'is_string')));
     }
 
-    // Relación: Un producto pertenece a una categoría
+    // RelaciÃ³n: Un producto pertenece a una categorÃ­a
     public function categoria()
     {
         return $this->belongsTo(Categoria::class);

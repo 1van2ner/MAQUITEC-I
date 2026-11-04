@@ -17,8 +17,8 @@ return new class extends Migration
         });
 
         DB::table('roles')->insert([
-            ['nombre' => 'Administrador', 'descripcion' => 'Control total del sistema, gestión de usuarios, inventario y reportes.'],
-            ['nombre' => 'Tecnico', 'descripcion' => 'Encargado del soporte técnico, mantenimiento de equipos y maquinaria industrial.'],
+            ['nombre' => 'Administrador', 'descripcion' => 'Control total del sistema, gestiÃ³n de usuarios, inventario y reportes.'],
+            ['nombre' => 'Tecnico', 'descripcion' => 'Encargado del soporte tÃ©cnico, mantenimiento de equipos y maquinaria industrial.'],
             ['nombre' => 'Cliente', 'descripcion' => 'Usuario registrado que puede realizar pedidos, cotizaciones y seguimiento de servicios.'],
         ]);
     }

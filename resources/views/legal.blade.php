@@ -27,7 +27,7 @@
     @include('footer.top')
     <main>
         <nav class="breadcrumb" aria-label="Migas de pan"><a href="{{ url('/') }}">Inicio</a> &gt; <span>{{ $pageTitle }}</span></nav>
-        <p class="updated">Última actualización: 29 de octubre de 2026</p>
+        <p class="updated">ÃƒÅ¡ltima actualización: 29 de octubre de 2026</p>
         <h1>{{ $pageTitle }}</h1>
 
         @if ($pageType === 'privacy')

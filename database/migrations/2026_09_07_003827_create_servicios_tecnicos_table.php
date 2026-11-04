@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('tipo_servicio', 100);
             $table->text('descripcion_problema');
             $table->text('diagnostico_tecnico')->nullable();
-            $table->enum('estado_servicio', ['Solicitado', 'Asignado', 'En Ejecución', 'Finalizado'])->default('Solicitado');
+            $table->enum('estado_servicio', ['Solicitado', 'Asignado', 'En EjecuciÃ³n', 'Finalizado'])->default('Solicitado');
             $table->dateTime('fecha_programada')->nullable();
             $table->timestamps();
 

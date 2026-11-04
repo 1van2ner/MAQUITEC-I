@@ -20,7 +20,7 @@ class AdminAuthorizationTest extends TestCase
         $this->put(route('admin.usuarios.update', $user), [
             'rol' => 'Administrador',
             'telefono' => '123456789',
-            'direccion' => 'Dirección de prueba',
+            'direccion' => 'DirecciÃ³n de prueba',
         ])->assertForbidden();
 
         $this->assertSame('Cliente', $user->fresh()->rol);

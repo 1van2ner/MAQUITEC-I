@@ -34,9 +34,9 @@ class ProductImageGalleryTest extends TestCase
         $category = Categoria::query()->firstOrFail();
 
         $this->post(route('admin.productos.store'), [
-            'nombre' => 'Producto con galería',
+            'nombre' => 'Producto con galerÃ­a',
             'stock' => 3,
-            'descripcion' => 'Producto para probar la galería.',
+            'descripcion' => 'Producto para probar la galerÃ­a.',
             'categoria_id' => $category->id,
             'imagenes' => [
                 $this->fakeImage('frente.png'),
@@ -46,7 +46,7 @@ class ProductImageGalleryTest extends TestCase
             ],
         ])->assertRedirect(route('admin.productos.index'));
 
-        $product = Producto::where('nombre', 'Producto con galería')->firstOrFail();
+        $product = Producto::where('nombre', 'Producto con galerÃ­a')->firstOrFail();
         $initialImages = $product->gallery_images;
         $this->imagePaths = $initialImages;
 

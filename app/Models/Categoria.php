@@ -21,7 +21,7 @@ class Categoria extends Model
         return $this->hasMany(Categoria::class, 'parent_id');
     }
 
-    // Relación: Una categoría tiene muchos productos
+    // RelaciÃ³n: Una categorÃ­a tiene muchos productos
     public function productos()
     {
         return $this->hasMany(Producto::class);

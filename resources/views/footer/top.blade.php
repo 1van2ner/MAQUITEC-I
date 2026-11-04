@@ -56,7 +56,7 @@
         box-shadow: none;
     }
     .logo { display: flex; align-items: center; gap: 18px; text-decoration: none; min-width: 0; }
-    .logo img { width: 78px; height: 78px; min-width: 78px; object-fit: cover; border: 0; border-radius: 50%; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
+    .logo img { width: 145px; height: 78px; min-width: 145px; object-fit: contain; border: 0; border-radius: 8px; background: transparent; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
     .logo-text strong { margin: 0; font-size: 1.1rem; color: var(--amarillo); letter-spacing: 0.06em; display: block; }
     .logo-text span { margin: 0; color: var(--blanco); font-size: 0.8rem; display: block; }
 
@@ -276,7 +276,7 @@
             grid-row: 1;
             gap: 10px;
         }
-        .logo img { width: 56px; height: 56px; min-width: 56px; }
+        .logo img { width: 108px; height: 58px; min-width: 108px; }
         .logo-text { min-width: 0; }
         .logo-text strong { font-size: 0.98rem; letter-spacing: 0; }
         .logo-text span { font-size: 0.68rem; }

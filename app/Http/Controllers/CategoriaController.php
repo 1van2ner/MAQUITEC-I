@@ -8,7 +8,7 @@ use App\Models\Categoria;
 
 class CategoriaController extends Controller
 {
-    // Listar todas las categorías (Panel Admin)
+    // Listar todas las categorÃ­as (Panel Admin)
     public function index()
     {
         $categorias = Categoria::with(['parent', 'children' => function ($query) {
@@ -20,21 +20,21 @@ class CategoriaController extends Controller
         return view('admin.categorias.index', compact('categorias'));
     }
 
-    // Mostrar una categoría específica de cara al cliente público
+    // Mostrar una categorÃ­a especÃ­fica de cara al cliente pÃºblico
     public function show($id)
     {
         $categoria = Categoria::with('productos')->findOrFail($id);
         return view('categorias.show', compact('categoria'));
     }
 
-    // Mostrar formulario de creación
+    // Mostrar formulario de creaciÃ³n
     public function create()
     {
         $categoriasPadre = Categoria::whereNull('parent_id')->orderBy('nombre')->get();
         return view('admin.categorias.create', compact('categoriasPadre'));
     }
 
-    // Guardar nueva categoría
+    // Guardar nueva categorÃ­a
     public function store(Request $request)
     {
         $request->validate([
@@ -43,17 +43,17 @@ class CategoriaController extends Controller
             'parent_id' => ['nullable', 'integer', Rule::exists('categorias', 'id')->whereNull('parent_id')],
         ]);
 
-        // Nota: Si generas slugs automáticamente por model o request, asegúrate de incluirlo aquí si es necesario
+        // Nota: Si generas slugs automÃ¡ticamente por model o request, asegÃºrate de incluirlo aquÃ­ si es necesario
         Categoria::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'parent_id' => $request->parent_id,
         ]);
 
-        return redirect()->route('admin.categorias.index')->with('success', '¡Categoría creada exitosamente!');
+        return redirect()->route('admin.categorias.index')->with('success', 'Â¡CategorÃ­a creada exitosamente!');
     }
 
-    // Mostrar formulario de edición
+    // Mostrar formulario de ediciÃ³n
     public function edit($id)
     {
         $categoria = Categoria::findOrFail($id);
@@ -64,7 +64,7 @@ class CategoriaController extends Controller
         return view('admin.categorias.edit', compact('categoria', 'categoriasPadre'));
     }
 
-    // Actualizar categoría
+    // Actualizar categorÃ­a
     public function update(Request $request, $id)
     {
         $categoria = Categoria::findOrFail($id);
@@ -87,24 +87,24 @@ class CategoriaController extends Controller
             'parent_id' => $request->parent_id,
         ]);
 
-        return redirect()->route('admin.categorias.index')->with('success', '¡Categoría actualizada correctamente!');
+        return redirect()->route('admin.categorias.index')->with('success', 'Â¡CategorÃ­a actualizada correctamente!');
     }
 
-    // Eliminar categoría
+    // Eliminar categorÃ­a
     public function destroy($id)
     {
         $categoria = Categoria::findOrFail($id);
         
         if ($categoria->productos()->count() > 0) {
-            return back()->with('error', 'No se puede eliminar la categoría porque tiene productos asignados.');
+            return back()->with('error', 'No se puede eliminar la categorÃ­a porque tiene productos asignados.');
         }
 
         if ($categoria->children()->exists()) {
-            return back()->with('error', 'No se puede eliminar la categoría porque tiene subcategorías asignadas.');
+            return back()->with('error', 'No se puede eliminar la categorÃ­a porque tiene subcategorÃ­as asignadas.');
         }
 
         $categoria->delete();
 
-        return redirect()->route('admin.categorias.index')->with('success', 'Categoría eliminada con éxito.');
+        return redirect()->route('admin.categorias.index')->with('success', 'CategorÃ­a eliminada con Ã©xito.');
     }
 }

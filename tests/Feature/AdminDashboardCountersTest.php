@@ -25,9 +25,9 @@ class AdminDashboardCountersTest extends TestCase
         ]);
 
         $categoria = Categoria::create([
-            'nombre' => 'Categoría de prueba',
+            'nombre' => 'CategorÃƒÂ­a de prueba',
             'slug' => 'categoria-de-prueba',
-            'descripcion' => 'Categoría para validar el contador.',
+            'descripcion' => 'CategorÃƒÂ­a para validar el contador.',
         ]);
 
         Producto::create([
@@ -37,7 +37,7 @@ class AdminDashboardCountersTest extends TestCase
             'slug' => 'producto-de-prueba',
             'descripcion' => 'Producto para validar el contador.',
             'stock' => 1,
-            'imagen' => 'img/logo_pagina_general/maquitec_2026_new.jpg',
+            'imagen' => 'img/logo_pagina_general/logo_maquiteci_transparente.png',
         ]);
 
         Banner::create([

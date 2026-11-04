@@ -16,8 +16,8 @@ class QuoteRequestEmailTest extends TestCase
     public function test_quote_page_receives_the_product_image_gallery(): void
     {
         $categoria = Categoria::create([
-            'nombre' => 'Categoría con galería',
-            'descripcion' => 'Prueba de galería de cotización',
+            'nombre' => 'CategorÃƒÂ­a con galerÃƒÂ­a',
+            'descripcion' => 'Prueba de galerÃƒÂ­a de cotizaciÃƒÂ³n',
         ]);
         $images = [
             'img/productos/producto-principal.jpg',
@@ -27,7 +27,7 @@ class QuoteRequestEmailTest extends TestCase
         $producto = Producto::create([
             'categoria_id' => $categoria->id,
             'codigo' => 'QUOTE-GALLERY-001',
-            'nombre' => 'Producto con varias imágenes',
+            'nombre' => 'Producto con varias imÃƒÂ¡genes',
             'slug' => 'producto-con-varias-imagenes',
             'descripcion' => 'Producto de prueba',
             'stock' => 1,
@@ -50,9 +50,9 @@ class QuoteRequestEmailTest extends TestCase
         Mail::fake();
 
         $categoria = Categoria::create([
-            'nombre' => 'Categoría de cotización',
+            'nombre' => 'CategorÃƒÂ­a de cotizaciÃƒÂ³n',
             'slug' => 'categoria-cotizacion',
-            'descripcion' => 'Prueba de cotización',
+            'descripcion' => 'Prueba de cotizaciÃƒÂ³n',
         ]);
 
         $producto = Producto::create([
@@ -62,7 +62,7 @@ class QuoteRequestEmailTest extends TestCase
             'slug' => 'montacargas-de-prueba',
             'descripcion' => 'Producto de prueba',
             'stock' => 1,
-            'imagen' => 'img/logo_pagina_general/maquitec_2026_new.jpg',
+            'imagen' => 'img/logo_pagina_general/logo_maquiteci_transparente.png',
         ]);
 
         $this->get('/productos/cotizar/' . $producto->slug)
@@ -72,11 +72,11 @@ class QuoteRequestEmailTest extends TestCase
         $response = $this->from('/productos/cotizar/' . $producto->slug)
             ->post('/productos/cotizar', [
                 'product' => $producto->slug,
-                'name' => 'Ana Pérez',
+                'name' => 'Ana PÃƒÂ©rez',
                 'company' => 'Empresa de prueba',
                 'email' => 'ana@example.com',
                 'phone' => '+51 999 111 222',
-                'message' => 'Necesito una cotización para este equipo.',
+                'message' => 'Necesito una cotizaciÃƒÂ³n para este equipo.',
             ]);
 
         $response->assertRedirect('/productos/cotizar/' . $producto->slug)

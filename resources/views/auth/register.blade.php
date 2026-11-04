@@ -52,7 +52,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
         .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-        .logo img { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; }
+        .logo img { width: 128px; height: 70px; object-fit: contain; border-radius: 8px; background: transparent; }
         .logo-text strong { font-size: 1.05rem; color: var(--amarillo); letter-spacing: 0.05em; display: block; }
         .logo-text span { color: #94a3b8; font-size: 0.75rem; display: block; }
 
@@ -345,7 +345,7 @@
                     <span>Soluciones industriales en movimiento</span>
                 </div>
             </a>
-            <a href="{{ url('/') }}" class="back-home">← Volver al inicio</a>
+            <a href="{{ url('/') }}" class="back-home">← Volver al inicio</a>
         </nav>
     </div>
 
@@ -418,7 +418,7 @@
                     <div class="form-group">
                         <label for="password">Contraseña *</label>
                         <div class="password-wrapper">
-                            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢" required>
                             <button type="button" class="toggle-password" onclick="togglePassword('password', this)">
                                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
                             </button>
@@ -428,7 +428,7 @@
                     <div class="form-group">
                         <label for="password_confirmation">Confirmar contraseña *</label>
                         <div class="password-wrapper">
-                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="••••••••" required>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢" required>
                             <button type="button" class="toggle-password" onclick="togglePassword('password_confirmation', this)">
                                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
                             </button>
@@ -445,7 +445,7 @@
                             </div>
 
                     <div class="auth-footer-links">
-                        ¿Ya posees una cuenta? <a href="{{ url('/login') }}">Ingresar aquí</a>
+                        Ãƒâ€š¿Ya posees una cuenta? <a href="{{ url('/login') }}">Ingresar aquí</a>
                     </div>
 
                 </div>

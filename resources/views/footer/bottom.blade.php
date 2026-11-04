@@ -8,9 +8,9 @@
                     <span>Soluciones industriales en movimiento</span>
                 </div>
             </div>
-            <p class="footer-description">Empresa peruana especializada en comercialización, ensamblaje y mantenimiento de equipos industriales, con más de 15 años de experiencia en el sector.</p>
+            <p class="footer-description">Empresa peruana especializada en comercialización, ensamblaje y mantenimiento de equipos industriales, contamos con tecnicos con más de 15 años de experiencia en el sector.</p>
             <div class="footer-facts">
-                <span>Más de 15 años de experiencia</span>
+                <span>Tecnicos con mas de 15 años de experiencia</span>
                 <span>Montacargas y apiladores</span>
                 <span>Lima, Perú</span>
             </div>
@@ -94,7 +94,7 @@
         margin: 0 auto 40px auto;
     }
     .footer-brand-heading { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-    .footer-brand-heading img { width: 76px; height: 76px; flex: 0 0 76px; object-fit: cover; border: 1px solid rgba(255, 215, 0, 0.6); border-radius: 50%; }
+    .footer-brand-heading img { width: 150px; height: 82px; flex: 0 0 150px; object-fit: contain; border: 1px solid rgba(255, 215, 0, 0.6); border-radius: 8px; background: transparent; }
     .footer-brand-heading strong { display: block; color: var(--amarillo, #FFD700); font-size: 1.2rem; }
     .footer-brand-heading span { display: block; margin-top: 4px; color: #d1d5db; font-size: 0.82rem; line-height: 1.4; }
     .footer-description, .footer-services { margin: 0; color: #aeb3bc; font-size: 0.9rem; line-height: 1.6; }
@@ -189,7 +189,7 @@
     @media (max-width: 600px) {
         footer#contacto { padding: 36px 20px 18px; }
         .footer-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; margin-bottom: 30px; }
-        .footer-brand-heading img { width: 68px; height: 68px; flex-basis: 68px; }
+        .footer-brand-heading img { width: 120px; height: 66px; flex-basis: 120px; }
         .footer-col h3 { margin-bottom: 14px; }
         .footer-contact p { align-items: flex-start; font-size: 0.82rem; }
         .footer-contact svg { margin-top: 2px; }
