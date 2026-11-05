@@ -27,9 +27,9 @@ class AppServiceProvider extends ServiceProvider
 
         VerifyEmail::toMailUsing(static function (object $notifiable, string $url): MailMessage {
             return (new MailMessage())
-                ->subject('Verifica tu correo electrÃ³nico - MAQUITEC I.S.A.C.')
+                ->subject('Verifica tu correo electrónico - MAQUITEC I.S.A.C.')
                 ->greeting('Hola, ' . $notifiable->name)
-                ->line('Gracias por crear una cuenta en MAQUITEC I.S.A.C. Confirma tu correo para activar la cuenta y poder iniciar sesiÃ³n.')
+                ->line('Gracias por crear una cuenta en MAQUITEC I.S.A.C. Confirma tu correo para activar la cuenta y poder iniciar sesión.')
                 ->action('Verificar mi correo', $url)
                 ->line('Si no solicitaste crear esta cuenta, puedes ignorar este mensaje.');
         });

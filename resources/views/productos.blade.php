@@ -229,6 +229,62 @@
             color: var(--amarillo);
         }
 
+        .catalog-toolbar {
+            display: grid;
+            grid-template-columns: minmax(220px, 1fr) auto;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid rgba(247, 213, 71, 0.16);
+            border-radius: 16px;
+            background:
+                radial-gradient(circle at 100% 0%, rgba(247, 213, 71, 0.08), transparent 32%),
+                rgba(255, 255, 255, 0.035);
+        }
+
+        .catalog-search {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .catalog-search input,
+        .catalog-sort {
+            height: 46px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            background: #17191d;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .catalog-search input {
+            flex: 1;
+            min-width: 0;
+            padding: 0 15px;
+        }
+
+        .catalog-search input:focus,
+        .catalog-sort:focus {
+            border-color: var(--amarillo);
+            box-shadow: 0 0 0 3px rgba(247, 213, 71, 0.1);
+        }
+
+        .catalog-search button {
+            height: 46px;
+            border: 0;
+            border-radius: 10px;
+            padding: 0 18px;
+            background: var(--amarillo);
+            color: #111111;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .catalog-sort {
+            min-width: 190px;
+            padding: 0 38px 0 12px;
+        }
+
         .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -290,6 +346,32 @@
             font-weight: 800;
             color: var(--amarillo);
             letter-spacing: 0.08em;
+        }
+
+        .product-card {
+            position: relative;
+        }
+
+        .product-featured-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            z-index: 3;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: var(--amarillo);
+            color: #111111;
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        .product-code {
+            color: var(--texto-muted);
+            font-size: 0.78rem;
+            font-weight: 700;
         }
 
         .product-title {
@@ -410,7 +492,11 @@
 
         @media (max-width: 900px) {
             .catalog-container { grid-template-columns: 1fr; }
-            .sidebar { position: static; }
+            .sidebar { display: none; }
+        }
+
+        .mobile-category-chips {
+            display: none;
         }
 
         @media (max-width: 600px) {
@@ -418,6 +504,33 @@
             .catalog-container { gap: 16px; margin: 16px auto; padding: 0 3%; }
             .sidebar { padding: 18px 14px; border-radius: 12px; }
             .product-image-container { height: 150px; padding: 6px; }
+            .catalog-toolbar { grid-template-columns: 1fr; padding: 10px; }
+            .catalog-sort { width: 100%; }
+            .catalog-header-bar { padding: 12px 14px; }
+            .mobile-category-chips {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                padding: 2px 0 8px;
+                scrollbar-width: none;
+            }
+            .mobile-category-chips::-webkit-scrollbar { display: none; }
+            .mobile-category-chip {
+                flex: 0 0 auto;
+                padding: 9px 14px;
+                border-radius: 999px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                background: rgba(255, 255, 255, 0.04);
+                color: #ffffff;
+                text-decoration: none;
+                font-size: 0.78rem;
+                font-weight: 800;
+            }
+            .mobile-category-chip.active {
+                background: var(--amarillo);
+                border-color: var(--amarillo);
+                color: #111111;
+            }
         }
     </style>
 </head>
@@ -481,6 +594,28 @@
 
         <!-- CONTENIDO PRINCIPAL DE PRODUCTOS -->
         <main class="catalog-content">
+            <div class="mobile-category-chips">
+                <a href="{{ route('productos.index') }}" class="mobile-category-chip {{ !request('categoria') ? 'active' : '' }}">Todos</a>
+                @foreach($categorias ?? [] as $cat)
+                    <a href="{{ route('productos.index', ['categoria' => $cat->id]) }}" class="mobile-category-chip {{ request('categoria') == $cat->id ? 'active' : '' }}">{{ $cat->nombre }}</a>
+                @endforeach
+            </div>
+
+            <form method="GET" action="{{ route('productos.index') }}" class="catalog-toolbar">
+                @if(request('categoria'))
+                    <input type="hidden" name="categoria" value="{{ request('categoria') }}">
+                @endif
+                <div class="catalog-search">
+                    <input type="search" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar por nombre, código o descripción" aria-label="Buscar productos">
+                    <button type="submit">Buscar</button>
+                </div>
+                <select class="catalog-sort" name="orden" aria-label="Ordenar productos" onchange="this.form.submit()">
+                    <option value="destacado" {{ request('orden', 'destacado') === 'destacado' ? 'selected' : '' }}>Destacados primero</option>
+                    <option value="nombre" {{ request('orden') === 'nombre' ? 'selected' : '' }}>Nombre A-Z</option>
+                    <option value="antiguos" {{ request('orden') === 'antiguos' ? 'selected' : '' }}>Más antiguos</option>
+                </select>
+            </form>
+
             <div class="catalog-header-bar">
                 <span>
                     @if(isset($categoriaActual) && $categoriaActual)
@@ -496,6 +631,9 @@
                 @forelse($productos as $producto)
                     <div class="product-card">
                         <div class="product-image-container">
+                            @if($producto->destacado)
+                                <span class="product-featured-badge">Destacado</span>
+                            @endif
                             @if(!empty($producto->imagen) && file_exists(public_path($producto->imagen)))
                                 <img src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}">
                             @else
@@ -505,6 +643,12 @@
                         <div class="product-info">
                             <span class="product-category-tag">{{ $producto->categoria->nombre ?? 'Maquinaria' }}</span>
                             <h4 class="product-title">{{ $producto->nombre }}</h4>
+                            @if(!empty($producto->codigo))
+                                <span class="product-code">Código: {{ $producto->codigo }}</span>
+                            @endif
+                            @if(!empty($producto->presentacion))
+                                <span class="product-code">Presentación: {{ $producto->presentacion }}</span>
+                            @endif
                         </div>
                         <div class="product-action">
                             <a href="{{ url('/productos/cotizar/' . ($producto->slug ?? 'montacargas')) }}" class="btn-cotizar">Cotizar Producto</a>

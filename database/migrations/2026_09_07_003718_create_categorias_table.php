@@ -18,10 +18,10 @@ return new class extends Migration
         });
 
         DB::table('categorias')->insert([
-            ['nombre' => 'Apiladores ElÃ©ctricos', 'descripcion' => 'Equipos de carga y elevaciÃ³n de alta eficiencia para almacenes logÃ­sticos.'],
-            ['nombre' => 'Montacargas', 'descripcion' => 'VehÃ­culos industriales de carga pesada para movimiento y apilamiento.'],
-            ['nombre' => 'Transpaletas', 'descripcion' => 'Equipos manuales y elÃ©ctricos para el transporte horizontal de pallets.'],
-            ['nombre' => 'Repuestos y Accesorios', 'descripcion' => 'Componentes mecÃ¡nicos, elÃ©ctricos e hidrÃ¡ulicos originales.'],
+            ['nombre' => 'Apiladores Eléctricos', 'descripcion' => 'Equipos de carga y elevación de alta eficiencia para almacenes logísticos.'],
+            ['nombre' => 'Montacargas', 'descripcion' => 'Vehículos industriales de carga pesada para movimiento y apilamiento.'],
+            ['nombre' => 'Transpaletas', 'descripcion' => 'Equipos manuales y eléctricos para el transporte horizontal de pallets.'],
+            ['nombre' => 'Repuestos y Accesorios', 'descripcion' => 'Componentes mecánicos, eléctricos e hidráulicos originales.'],
         ]);
     }
 

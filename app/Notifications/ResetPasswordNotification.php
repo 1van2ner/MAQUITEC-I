@@ -21,7 +21,7 @@ class ResetPasswordNotification extends Notification
         $resetUrl = url(route('password.reset', ['token' => $this->token], false).'?email='.urlencode($notifiable->email));
 
         return (new MailMessage())
-            ->subject('Restablece tu contraseÃ±a - MAQUITEC I.S.A.C.')
+            ->subject('Restablece tu contraseña - MAQUITEC I.S.A.C.')
             ->view(
                 [
                     'html' => 'emails.password-reset',

@@ -45,9 +45,9 @@
         .hero-slider {
             position: relative;
             width: 100%;
-            height: 80vh;
-            min-height: 520px;
-            max-height: 720px;
+            height: 88vh;
+            min-height: 620px;
+            max-height: 820px;
         }
 
         .hero-slider.is-draggable {
@@ -114,7 +114,7 @@
         }
 
         .hero-content {
-            max-width: 650px;
+            max-width: 760px;
         }
 
         .hero-slide.active .hero-content {
@@ -127,11 +127,11 @@
         }
 
         .hero-content h1 {
-            font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+            font-size: clamp(3rem, 5vw, 5rem);
             font-weight: 900;
             color: #ffffff;
             line-height: 1.05;
-            margin: 0 0 18px 0;
+            margin: 0 0 22px 0;
             letter-spacing: -0.02em;
             text-transform: uppercase;
             text-shadow: 0 4px 12px rgba(0,0,0,0.5);
@@ -143,10 +143,10 @@
         }
 
         .hero-content p {
-            font-size: clamp(1rem, 1.5vw, 1.25rem);
+            font-size: clamp(1.05rem, 1.65vw, 1.35rem);
             color: #e2e8f0;
             line-height: 1.5;
-            margin: 0 0 32px 0;
+            margin: 0 0 36px 0;
             font-weight: 500;
             text-shadow: 0 2px 8px rgba(0,0,0,0.6);
         }
@@ -154,11 +154,11 @@
         .btn-hero {
             background: var(--amarillo);
             color: #000000;
-            padding: 16px 36px;
+            padding: 18px 40px;
             border-radius: 8px;
             font-weight: 800;
             text-decoration: none;
-            font-size: 1.05rem;
+            font-size: 1.12rem;
             display: inline-flex;
             align-items: center;
             gap: 12px;
@@ -560,6 +560,218 @@
             transform: scale(1.05);
         }
 
+        .static-banner-section {
+            width: 100%;
+            background: #121316;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .static-banner {
+            width: 100%;
+            aspect-ratio: 1557 / 672;
+            height: auto;
+            overflow: hidden;
+        }
+
+        .static-banner img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        .managed-banner-section .hero-slider {
+            aspect-ratio: 16 / 9;
+            height: auto;
+            min-height: 0;
+            max-height: none;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .circular-banner-carousel {
+            width: min(1200px, 96vw);
+            height: clamp(420px, 54vw, 680px);
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            perspective: 1500px;
+            touch-action: pan-y;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .circular-banner-carousel.is-dragging {
+            cursor: grabbing;
+        }
+
+        .circular-banner-stage {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        .circular-banner-card {
+            position: absolute;
+            width: clamp(360px, 58vw, 680px);
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #17191d;
+            border: 1px solid rgba(247, 213, 71, 0.18);
+            box-shadow:
+                0 18px 36px rgba(0, 0, 0, 0.38),
+                0 0 0 8px rgba(255, 255, 255, 0.025);
+            transform-origin: center center;
+            transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), opacity 700ms ease, filter 700ms ease;
+            will-change: transform, opacity;
+        }
+
+        .circular-banner-card img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        .circular-banner-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.48));
+            pointer-events: none;
+        }
+
+        .circular-banner-card.is-active {
+            filter: none;
+            z-index: 10;
+            border-color: rgba(247, 213, 71, 0.82);
+            box-shadow:
+                0 28px 54px rgba(0, 0, 0, 0.58),
+                0 0 0 8px rgba(247, 213, 71, 0.09),
+                0 0 30px rgba(247, 213, 71, 0.12);
+        }
+
+        .circular-banner-card.is-active::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 58px;
+            height: 3px;
+            z-index: 7;
+            border-radius: 999px;
+            background: var(--amarillo);
+            box-shadow: 0 0 12px rgba(247, 213, 71, 0.8);
+        }
+
+        .circular-banner-card:not(.is-active) {
+            filter: brightness(0.68) saturate(0.82);
+        }
+
+        .circular-banner-caption {
+            position: absolute;
+            left: 18px;
+            right: 18px;
+            bottom: 14px;
+            z-index: 2;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+            pointer-events: none;
+        }
+
+        .circular-banner-caption strong {
+            display: block;
+            font-size: clamp(0.85rem, 2vw, 1.15rem);
+            line-height: 1.15;
+            text-transform: uppercase;
+        }
+
+        .circular-banner-caption span {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.76rem;
+            opacity: 0.86;
+        }
+
+        .circular-banner-dots {
+            position: absolute;
+            left: 50%;
+            bottom: 16px;
+            z-index: 20;
+            display: flex;
+            gap: 7px;
+            transform: translateX(-50%);
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.62);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+        }
+
+        .circular-banner-dots .dot {
+            position: static;
+            background: rgba(255, 255, 255, 0.48);
+            cursor: pointer;
+        }
+
+        .circular-banner-dots .dot.active {
+            width: 28px;
+            background: var(--amarillo);
+            box-shadow: 0 0 10px rgba(247, 213, 71, 0.6);
+        }
+
+        .managed-banner-section {
+            width: 100%;
+            padding: 34px 3%;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            background:
+                linear-gradient(135deg, rgba(247, 213, 71, 0.06), transparent 22%, transparent 78%, rgba(247, 213, 71, 0.05)),
+                radial-gradient(circle at 50% 45%, rgba(247, 213, 71, 0.13), transparent 34%),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 54px),
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 54px),
+                #0b0c0f;
+            border-top: 1px solid rgba(247, 213, 71, 0.12);
+            border-bottom: 1px solid rgba(247, 213, 71, 0.12);
+        }
+
+        .managed-banner-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 50% 100%, rgba(247, 213, 71, 0.22), transparent 38%);
+            pointer-events: none;
+        }
+
+        .managed-banner-section::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 18px;
+            width: min(820px, 78%);
+            height: 34px;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: rgba(247, 213, 71, 0.08);
+            filter: blur(18px);
+            pointer-events: none;
+        }
+
+        .managed-banner-section .hero-bg-img {
+            object-fit: cover;
+            object-position: center;
+        }
+
         /* BARRA DE MÉTODOS DE PAGO Y FACTURACIÓN */
         .payment-bar-section {
             background: #17191d;
@@ -735,11 +947,19 @@
             .features-container { grid-template-columns: repeat(2, 1fr); }
             .feature-item { border-right: none; border-bottom: 1px solid #e2e8f0; }
             .feature-item:nth-child(3), .feature-item:nth-child(4) { border-bottom: none; }
-            .hero-slider { height: 60vh; min-height: 450px; }
+            .hero-slider { height: 72vh; min-height: 520px; max-height: 760px; }
         }
 
         @media (max-width: 768px) {
             .seccion { padding-left: 3%; padding-right: 3%; }
+            .static-banner {
+                height: clamp(280px, 72vw, 360px);
+                aspect-ratio: auto;
+            }
+            .static-banner img {
+                object-fit: cover;
+                object-position: center;
+            }
             .cards, .grid-categorias { gap: 12px; }
             .card img { height: 140px; object-fit: contain; }
             .card-content { padding: 12px; gap: 8px; }
@@ -754,8 +974,15 @@
             .features-container { grid-template-columns: 1fr; }
             .feature-item { border-bottom: 1px solid #e2e8f0; }
             .feature-item:last-child { border-bottom: none; }
-            .hero-slider { height: 50vh; min-height: 400px; }
+            .hero-slider { height: 58vh; min-height: 460px; max-height: 620px; }
             .brand-box { width: 120px; }
+            .circular-banner-carousel {
+                width: 100%;
+                height: 300px;
+            }
+            .circular-banner-card {
+                width: min(82vw, 520px);
+            }
             .payment-container {
                 flex-direction: column;
                 text-align: center;
@@ -790,48 +1017,9 @@
 
     @include('footer.top')
 
-    <!-- SECCIÓN DE BANNER HERO DINÁMICO IMPRESIONANTE -->
-    <section class="hero-banner-section" id="inicio">
-        <div class="hero-slider {{ isset($banners) && $banners->count() > 1 ? 'is-draggable' : '' }}">
-            @forelse($banners as $index => $banner)
-                <div class="hero-slide {{ $index === 0 ? 'active' : '' }}">
-                    <img src="{{ asset($banner->imagen) }}" alt="{{ $banner->titulo }}" class="hero-bg-img">
-                    <div class="hero-overlay"></div>
-                    
-                    <div class="hero-container">
-                        <div class="hero-content">
-                            <h1>{!! nl2br(e($banner->titulo)) !!}</h1>
-                            @if($banner->subtitulo)
-                                <p>{{ $banner->subtitulo }}</p>
-                            @endif
-                            @if($banner->enlace)
-                                <a href="{{ $banner->enlace }}" class="btn-hero">Conocer más &rarr;</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            @empty
-                <div class="hero-slide active">
-                    <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Maquitec Banner" class="hero-bg-img">
-                    <div class="hero-overlay"></div>
-                    
-                    <div class="hero-container">
-                        <div class="hero-content">
-                            <h1>POTENCIA Y PROTECCIÓN <span>EN MAQUINARIA Y LOGÍSTICA</span></h1>
-                            <p>Equipos de alto rendimiento, repuestos originales y soporte técnico especializado para garantizar la operatividad de su empresa.</p>
-                            <a href="/productos" class="btn-hero">Ver catálogo completo &rarr;</a>
-                        </div>
-                    </div>
-                </div>
-            @endforelse
-
-            @if(isset($banners) && $banners->count() > 1)
-                <div class="slider-controls">
-                    @foreach($banners as $index => $banner)
-                        <span class="dot {{ $index === 0 ? 'active' : '' }}" onclick="currentSlide({{ $index }})"></span>
-                    @endforeach
-                </div>
-            @endif
+    <section class="static-banner-section" aria-label="Banner principal de servicios especializados">
+        <div class="static-banner">
+            <img src="{{ asset('img/logo_pagina_general/fondo_servicios_2.jpg') }}" alt="Servicios especializados para maquinaria pesada">
         </div>
     </section>
 
@@ -974,6 +1162,41 @@
         </div>
     </section>
 
+    @if(isset($banners) && $banners->isNotEmpty())
+        <section class="managed-banner-section hero-banner-section" aria-label="Banners destacados">
+            <div class="circular-banner-carousel {{ $banners->count() > 1 ? 'is-draggable' : '' }}" tabindex="0">
+                <div class="circular-banner-stage">
+                @foreach($banners as $index => $banner)
+                    <article class="circular-banner-card {{ $index === 0 ? 'is-active' : '' }}" data-index="{{ $index }}">
+                        @if($banner->enlace)
+                            <a href="{{ $banner->enlace }}" aria-label="{{ $banner->titulo }}" style="position:absolute; inset:0; z-index:5;"></a>
+                        @endif
+                        <img src="{{ asset($banner->imagen) }}" alt="{{ $banner->titulo }}" draggable="false">
+                        @if($banner->titulo || $banner->subtitulo)
+                            <div class="circular-banner-caption">
+                                @if($banner->titulo)
+                                    <strong>{!! nl2br(e($banner->titulo)) !!}</strong>
+                                @endif
+                                @if($banner->subtitulo)
+                                    <span>{{ $banner->subtitulo }}</span>
+                                @endif
+                            </div>
+                        @endif
+                    </article>
+                @endforeach
+                </div>
+
+                @if($banners->count() > 1)
+                    <div class="circular-banner-dots" aria-label="Controles del carrusel circular">
+                        @foreach($banners as $index => $banner)
+                            <span class="dot {{ $index === 0 ? 'active' : '' }}" role="button" tabindex="0" aria-label="Mostrar banner {{ $index + 1 }}" data-slide="{{ $index }}"></span>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </section>
+    @endif
+
     <!-- BARRA DE MEDIOS DE PAGO Y FACTURACIÓN -->
     <section class="payment-bar-section">
         <div class="payment-container">
@@ -1037,75 +1260,111 @@
 
     @include('footer.bottom')
 
-    <!-- Script para el carrusel de banners -->
     <script>
-        let slideIndex = 0;
-        const slides = document.querySelectorAll('.hero-slide');
-        const dots = document.querySelectorAll('.dot');
+        document.querySelectorAll('.circular-banner-carousel').forEach((carousel) => {
+            const cards = Array.from(carousel.querySelectorAll('.circular-banner-card'));
+            const dots = Array.from(carousel.querySelectorAll('.dot'));
+            if (!cards.length) return;
 
-        function showSlide(index) {
-            if (slides.length === 0) return;
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-            
-            slideIndex = (index + slides.length) % slides.length;
-            slides[slideIndex].classList.add('active');
-            if(dots.length > 0) dots[slideIndex].classList.add('active');
-        }
-
-        function currentSlide(index) {
-            showSlide(index);
-        }
-
-        function moveSlide(step) {
-            showSlide(slideIndex + step);
-        }
-
-        const heroSlider = document.querySelector('.hero-slider.is-draggable');
-        if (heroSlider) {
+            let currentIndex = 0;
+            let timer = null;
             let dragStart = null;
-            let suppressNextClick = false;
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            heroSlider.addEventListener('pointerdown', event => {
-                if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
-                dragStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
-                heroSlider.setPointerCapture(event.pointerId);
-                heroSlider.classList.add('is-dragging');
-            });
+            const wrapOffset = (index) => {
+                let offset = index - currentIndex;
+                const half = cards.length / 2;
+                if (offset > half) offset -= cards.length;
+                if (offset < -half) offset += cards.length;
+                return offset;
+            };
 
-            heroSlider.addEventListener('pointerup', event => {
-                if (!dragStart || dragStart.pointerId !== event.pointerId) return;
+            const render = () => {
+                cards.forEach((card, index) => {
+                    const offset = wrapOffset(index);
+                    const absoluteOffset = Math.abs(offset);
+                    const cardWidth = card.offsetWidth || 680;
+                    const x = offset * cardWidth * 0.62;
+                    const y = absoluteOffset * 10;
+                    const z = -absoluteOffset * 220;
+                    const rotateY = offset * -24;
+                    const scale = Math.max(0.58, 1 - absoluteOffset * 0.16);
+                    const opacity = absoluteOffset > 2 ? 0.15 : 1 - absoluteOffset * 0.16;
 
-                const deltaX = event.clientX - dragStart.x;
-                const deltaY = event.clientY - dragStart.y;
-                if (Math.abs(deltaX) >= 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
-                    suppressNextClick = true;
-                    moveSlide(deltaX < 0 ? 1 : -1);
-                    setTimeout(() => { suppressNextClick = false; }, 0);
+                    card.style.transform = `translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotateY}deg) scale(${scale})`;
+                    card.style.opacity = opacity;
+                    card.style.zIndex = String(100 - absoluteOffset * 10);
+                    card.classList.toggle('is-active', index === currentIndex);
+                });
+                dots.forEach((dot, index) => dot.classList.toggle('active', index === currentIndex));
+            };
+
+            const showSlide = (index) => {
+                currentIndex = (index + cards.length) % cards.length;
+                render();
+            };
+
+            const startTimer = () => {
+                clearInterval(timer);
+                if (cards.length > 1 && !prefersReducedMotion && !document.hidden) {
+                    timer = setInterval(() => showSlide(currentIndex + 1), 6000);
                 }
+            };
 
-                dragStart = null;
-                heroSlider.classList.remove('is-dragging');
+            cards.forEach((card, index) => {
+                card.addEventListener('click', () => {
+                    if (index !== currentIndex) {
+                        showSlide(index);
+                        startTimer();
+                    }
+                });
             });
 
-            heroSlider.addEventListener('pointercancel', () => {
-                dragStart = null;
-                heroSlider.classList.remove('is-dragging');
+            dots.forEach((dot, index) => {
+                const activate = () => {
+                    showSlide(index);
+                    startTimer();
+                };
+                dot.addEventListener('click', activate);
+                dot.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        activate();
+                    }
+                });
             });
 
-            heroSlider.addEventListener('click', event => {
-                if (!suppressNextClick) return;
-                event.preventDefault();
-                event.stopPropagation();
-                suppressNextClick = false;
-            }, true);
-        }
+            carousel.addEventListener('pointerdown', (event) => {
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                dragStart = event.clientX;
+                carousel.classList.add('is-dragging');
+                clearInterval(timer);
+            });
+            carousel.addEventListener('pointerup', (event) => {
+                if (dragStart === null) return;
+                const distance = event.clientX - dragStart;
+                if (Math.abs(distance) > 50) showSlide(currentIndex + (distance < 0 ? 1 : -1));
+                dragStart = null;
+                carousel.classList.remove('is-dragging');
+                startTimer();
+            });
+            carousel.addEventListener('pointercancel', () => {
+                dragStart = null;
+                carousel.classList.remove('is-dragging');
+            });
+            carousel.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowLeft') showSlide(currentIndex - 1);
+                if (event.key === 'ArrowRight') showSlide(currentIndex + 1);
+                if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') startTimer();
+            });
+            carousel.addEventListener('mouseenter', () => clearInterval(timer));
+            carousel.addEventListener('mouseleave', startTimer);
+            document.addEventListener('visibilitychange', startTimer);
+            window.addEventListener('resize', render);
 
-        if (slides.length > 1) {
-            setInterval(() => {
-                showSlide(slideIndex + 1);
-            }, 6000);
-        }
+            render();
+            startTimer();
+        });
 
         const revealElements = document.querySelectorAll(
             '.seccion-header, .card, .tarjeta-categoria, .feature-item, .section-highlight .brand-box, .payment-info, .payment-card-badge'

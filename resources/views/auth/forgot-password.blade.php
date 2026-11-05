@@ -47,7 +47,7 @@
                 <button type="submit">Enviar enlace de recuperación</button>
             </form>
 
-            <div class="links"><a href="{{ route('login') }}">Ã¢â€ Â Volver a iniciar sesión</a></div>
+            <div class="links"><a href="{{ route('login') }}">← Volver a iniciar sesión</a></div>
         </section>
     </main>
 </body>

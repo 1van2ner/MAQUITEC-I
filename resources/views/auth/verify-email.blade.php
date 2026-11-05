@@ -132,20 +132,7 @@
     </style>
 </head>
 <body>
-    <div>
-        <div class="top-bar">
-            <span>Av. San Agustín SMP, Lima, Perú</span>
-            <span>963 727 185 | 955 081 815</span>
-            <span>maquitec.servicios0601@gmail.com</span>
-        </div>
-        <nav>
-            <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
-                <span><strong>MAQUITEC´I</strong>Soluciones industriales en movimiento</span>
-            </a>
-            <a href="{{ url('/') }}" class="back-home">Volver al inicio</a>
-        </nav>
-    </div>
+    @include('footer.top')
 
     <main class="auth-container">
         <section class="auth-card" aria-labelledby="verification-title">
@@ -178,7 +165,7 @@
             @endif
 
             <div class="auth-footer-links">
-                Ãƒâ€š¿Ya verificaste tu correo? <a href="{{ route('login') }}">Inicia sesión</a>
+                ¿Ya verificaste tu correo? <a href="{{ route('login') }}">Inicia sesión</a>
             </div>
         </section>
     </main>

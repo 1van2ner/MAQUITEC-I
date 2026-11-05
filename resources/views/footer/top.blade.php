@@ -11,8 +11,6 @@
     nav,
     .logo,
     .logo img,
-    .logo-text strong,
-    .logo-text span,
     .menu,
     .menu a,
     .nav-auth {
@@ -56,18 +54,18 @@
         box-shadow: none;
     }
     .logo { display: flex; align-items: center; gap: 18px; text-decoration: none; min-width: 0; }
-    .logo img { width: 145px; height: 78px; min-width: 145px; object-fit: contain; border: 0; border-radius: 8px; background: transparent; box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
-    .logo-text strong { margin: 0; font-size: 1.1rem; color: var(--amarillo); letter-spacing: 0.06em; display: block; }
-    .logo-text span { margin: 0; color: var(--blanco); font-size: 0.8rem; display: block; }
+    .logo img { width: 240px; height: 78px; min-width: 240px; object-fit: contain; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 
     /* Menú central */
     .menu {
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 32px;
         flex-wrap: wrap;
-        margin-right: auto; 
-        margin-left: 20px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
         padding: 0;
         list-style: none;
     }
@@ -87,7 +85,7 @@
         align-items: center;
         justify-content: center;
         min-width: 0;
-        padding: 8px 16px;
+        padding: 9px 24px;
         font-weight: 600;
         color: var(--blanco);
         background: transparent;
@@ -232,6 +230,7 @@
             position: absolute;
             top: calc(100% + 4px);
             left: 0;
+            transform: none;
             width: 100%;
             flex-direction: column;
             align-items: stretch;
@@ -276,10 +275,7 @@
             grid-row: 1;
             gap: 10px;
         }
-        .logo img { width: 108px; height: 58px; min-width: 108px; }
-        .logo-text { min-width: 0; }
-        .logo-text strong { font-size: 0.98rem; letter-spacing: 0; }
-        .logo-text span { font-size: 0.68rem; }
+        .logo img { width: 176px; height: 58px; min-width: 176px; }
         .menu-toggle { grid-column: 3; grid-row: 1; justify-self: end; }
         .menu { grid-column: 1 / -1; grid-row: 2; }
         .nav-auth-user {
@@ -318,19 +314,9 @@
     }
 </style>
 
-<div class="top-bar">
-    <span>📍 Av. San Agustín SMP, Lima, Perú</span>
-    <span>📞 963 727 185 | 955 081 815</span>
-    <span>✉ maquitec.servicios0601@gmail.com</span>
-</div>
-
 <nav>
     <a href="{{ url('/') }}" class="logo">
-        <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
-        <div class="logo-text">
-            <strong>MAQUITEC´I</strong>
-            <span>Soluciones industriales en movimiento</span>
-        </div>
+        <img src="{{ asset('img/logo_pagina_general/logo_maquiteci_2_transparente.png') }}" alt="MAQUITEC - Mantenimiento de maquinaria pesada y logística">
     </a>
 
     <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">

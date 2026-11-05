@@ -32,7 +32,7 @@ return new class extends Migration
             'password' => Hash::make('password'),
             'rol' => 'Administrador',
             'telefono' => '963727185',
-            'direccion' => 'Av. San AgustÃ­n SMP, Lima',
+            'direccion' => 'Av. San Agustín SMP, Lima',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

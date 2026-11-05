@@ -11,7 +11,7 @@ class MaquitecController extends Controller
 {
     public function index()
     {
-        // Obtenemos las categorÃ­as principales y el conteo de sus subcategorÃ­as
+        // Obtenemos las categorías principales y el conteo de sus subcategorías
         $categorias = Categoria::with(['children' => function ($query) {
             $query->withCount('productos');
         }])
@@ -26,7 +26,7 @@ class MaquitecController extends Controller
         // 2. Obtenemos los banners activos de la base de datos
         $banners = Banner::where('activo', true)->get();
 
-        // Retornamos la vista 'maquitec' enviÃ¡ndole todas las variables (incluyendo '$banners')
+        // Retornamos la vista 'maquitec' enviándole todas las variables (incluyendo '$banners')
         return view('maquitec', compact('categorias', 'productosDestacados', 'banners'));
     }
 }

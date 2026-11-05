@@ -248,24 +248,7 @@
 </head>
 <body>
 
-    <div>
-        <div class="top-bar">
-            <span>Av. San Agustín SMP, Lima, Perú</span>
-            <span>📞 963 727 185 | 955 081 815</span>
-            <span>✉ maquitec.servicios0601@gmail.com</span>
-        </div>
-        
-        <nav>
-            <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
-                <div class="logo-text">
-                    <strong>MAQUITEC´I</strong>
-                    <span>Soluciones industriales en movimiento</span>
-                </div>
-            </a>
-            <a href="{{ url('/') }}" class="back-home">← Volver al inicio</a>
-        </nav>
-    </div>
+    @include('footer.top')
 
     <div class="auth-container">
         <div class="auth-card">
@@ -294,7 +277,7 @@
                 <div class="form-group">
                     <label for="password">Contraseña *</label>
                     <div class="password-wrapper">
-                        <input type="password" id="password" name="password" class="form-control" placeholder="ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢ÃƒÂ¢Ã¢â€šÂ¬¢" autocomplete="current-password" required>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" autocomplete="current-password" required>
                         <button type="button" class="toggle-password" onclick="togglePassword('password', this)">
                             <!-- Ícono de Ojo Cerrado (por defecto) -->
                             <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
@@ -303,14 +286,14 @@
                 </div>
 
                 <div style="text-align:right;margin:-2px 0 4px;">
-                    <a href="{{ route('password.request') }}" style="color:#854d0e;font-size:0.82rem;font-weight:700;text-decoration:none;">Ãƒâ€š¿Olvidaste tu contraseña?</a>
+                    <a href="{{ route('password.request') }}" style="color:#854d0e;font-size:0.82rem;font-weight:700;text-decoration:none;">¿Olvidaste tu contraseña?</a>
                 </div>
 
                 <button type="submit" class="btn-submit">Ingresar al Sistema</button>
             </form>
 
             <div class="auth-footer-links">
-                Ãƒâ€š¿Aún no tienes una cuenta? <a href="{{ url('/register') }}">Regístrate aquí</a>
+                ¿Aún no tienes una cuenta? <a href="{{ url('/register') }}">Regístrate aquí</a>
             </div>
         </div>
     </div>

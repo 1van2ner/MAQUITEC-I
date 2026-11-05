@@ -309,26 +309,7 @@
 </head>
 <body>
 
-    <div class="header-wrapper">
-        <div class="top-bar">
-            <span>Av. San Agustín SMP, Lima, Perú</span>
-            <span>📞 963 727 185 | 955 081 815</span>
-            <span>✉ maquitec.servicios0601@gmail.com</span>
-        </div>
-        
-        <nav>
-            <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
-                <div class="logo-text">
-                    <strong>MAQUITEC´I</strong>
-                    <span>Soluciones industriales en movimiento</span>
-                </div>
-            </a>
-            <div class="user-pill">
-                Hola, <span>{{ Auth::user()->name }}</span>
-            </div>
-        </nav>
-    </div>
+    <div>@include('footer.top')</div>
 
     <div class="admin-container">
         <main class="admin-card">
@@ -342,13 +323,13 @@
 
             @if(session('success'))
                 <div class="alert alert-success">
-                    ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“ {{ session('success') }}
+                    ✓ {{ session('success') }}
                 </div>
             @endif
 
             @if ($errors->any())
                 <div class="alert alert-danger">
-                    ÃƒÂ¢Ã…Â¡ ÃƒÂ¯¸ Ocurrió un problema con los datos ingresados. Por favor verifica los campos.
+                    ⚠️ Ocurrió un problema con los datos ingresados. Por favor verifica los campos.
                 </div>
             @endif
 
@@ -365,7 +346,7 @@
 
                     <!-- Número de DNI o RUC (SÓLO LECTURA) -->
                     <div class="form-group">
-                        <label>NÃƒâ€š° Documento (DNI / RUC) <span class="badge-static">No modificable</span></label>
+                        <label>N° Documento (DNI / RUC) <span class="badge-static">No modificable</span></label>
                         <input type="text" value="{{ $usuario->numero_documento ?? $usuario->dni ?? $usuario->ruc }}" readonly tabindex="-1">
                     </div>
 

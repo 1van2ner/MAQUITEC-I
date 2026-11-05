@@ -312,26 +312,7 @@
 </head>
 <body>
 
-    <div class="header-wrapper">
-        <div class="top-bar">
-            <span>Av. San Agustín SMP, Lima, Perú</span>
-            <span>📞 963 727 185 | 955 081 815</span>
-            <span>✉ maquitec.servicios0601@gmail.com</span>
-        </div>
-        
-        <nav>
-            <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
-                <div class="logo-text">
-                    <strong>MAQUITEC´I</strong>
-                    <span>Soluciones industriales en movimiento</span>
-                </div>
-            </a>
-            <div class="user-pill">
-                Hola, <span>{{ Auth::user()->name }}</span>
-            </div>
-        </nav>
-    </div>
+    <div>@include('footer.top')</div>
 
     <div class="admin-container">
         <div class="admin-card">
@@ -370,7 +351,7 @@
                                 <td data-label="Descripción">{{ $cat->descripcion ?? 'Sin descripción' }}</td>
                                 <td data-label="Acciones" style="text-align: right;">
                                     <a href="{{ route('admin.categorias.edit', $cat->id) }}" class="btn btn-edit">Editar</a>
-                                    <form action="{{ route('admin.categorias.destroy', $cat->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Ãƒâ€š¿Estás seguro de eliminar esta categoría?');">
+                                    <form action="{{ route('admin.categorias.destroy', $cat->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -379,11 +360,11 @@
                             </tr>
                             @foreach($cat->children as $subcategoria)
                                 <tr>
-                                    <td data-label="Categoría"><span style="padding-left: 18px;">←³ {{ $subcategoria->nombre }}</span><small style="display:block; padding-left: 18px; color:var(--texto-muted);">Subcategoría de {{ $cat->nombre }}</small></td>
+                                    <td data-label="Categoría"><span style="padding-left: 18px;">↳ {{ $subcategoria->nombre }}</span><small style="display:block; padding-left: 18px; color:var(--texto-muted);">Subcategoría de {{ $cat->nombre }}</small></td>
                                     <td data-label="Descripción">{{ $subcategoria->descripcion ?? 'Sin descripción' }}</td>
                                     <td data-label="Acciones" style="text-align: right;">
                                         <a href="{{ route('admin.categorias.edit', $subcategoria->id) }}" class="btn btn-edit">Editar</a>
-                                        <form action="{{ route('admin.categorias.destroy', $subcategoria->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Ãƒâ€š¿Estás seguro de eliminar esta categoría?');">
+                                        <form action="{{ route('admin.categorias.destroy', $subcategoria->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Eliminar</button>

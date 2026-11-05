@@ -472,24 +472,7 @@
 </head>
 <body>
 
-    <div>
-        <div class="top-bar">
-            <span>Av. San Agustín SMP, Lima, Perú</span>
-            <span>📞 963 727 185 | 955 081 815</span>
-            <span>✉ maquitec.servicios0601@gmail.com</span>
-        </div>
-        
-        <nav>
-            <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
-                <div class="logo-text">
-                    <strong>MAQUITEC´I</strong>
-                    <span>Soluciones industriales en movimiento</span>
-                </div>
-            </a>
-            <div class="user-pill">Hola, <span>{{ Auth::user()->name }}</span></div>
-        </nav>
-    </div>
+    <div>@include('footer.top')</div>
 
     <div class="admin-container">
         <div class="admin-card">
@@ -538,6 +521,13 @@
                     <div class="form-group">
                         <label for="codigo">Código (Opcional)</label>
                         <input type="text" id="codigo" name="codigo" value="{{ old('codigo', $producto->codigo) }}" placeholder="Ej. MAQ-4853">
+                    </div>
+
+                    <!-- Presentación -->
+                    <div class="form-group">
+                        <label for="presentacion">Presentación</label>
+                        <input type="text" id="presentacion" name="presentacion" value="{{ old('presentacion', $producto->presentacion) }}" placeholder="Ej. Pequeña, Mediana, Grande">
+                        <small style="display:block;margin-top:6px;color:#64748b;">Permite reutilizar el código en otras presentaciones.</small>
                     </div>
 
                     <!-- Stock -->

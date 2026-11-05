@@ -162,6 +162,17 @@
             color: #d97706;
         }
 
+        .password-toggle-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .password-lock-icon {
+            color: #b45309;
+            font-size: 1rem;
+        }
+
         .form-password {
             margin-top: 20px;
             display: flex;
@@ -302,7 +313,10 @@
         <!-- Módulo Segura de Cambio de Contraseña -->
         <div class="password-section">
             <button type="button" class="password-toggle-btn" onclick="togglePasswordForm()">
-                <span>Ã°Å¸â€â€™ Cambiar Contraseña</span>
+                <span class="password-toggle-label">
+                    <span class="password-lock-icon" aria-hidden="true">&#128274;</span>
+                    Cambiar contraseña
+                </span>
                 <span id="toggle-icon">▼</span>
             </button>
 
@@ -335,7 +349,7 @@
             const icon = document.getElementById('toggle-icon');
             if (form.style.display === 'none' || form.style.display === '') {
                 form.style.display = 'flex';
-                icon.textContent = 'Ã¢â€“Â²';
+                icon.textContent = '▲';
             } else {
                 form.style.display = 'none';
                 icon.textContent = '▼';

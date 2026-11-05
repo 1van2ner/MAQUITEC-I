@@ -67,7 +67,7 @@
             <span>Los <b>reclamos</b> se relacionan con disconformidades sobre productos o servicios; las <b>quejas</b> se refieren al trato recibido o al funcionamiento interno.</span>
         </div>
 
-        @if(session('message'))<div class="alert alert-success" role="status">Ã¢Å“â€œ {{ session('message') }}</div>@endif
+        @if(session('message'))<div class="alert alert-success" role="status">✓ {{ session('message') }}</div>@endif
         @if($errors->any())
             <div class="alert alert-error" role="alert"><strong>No pudimos registrar tu solicitud.</strong><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>
         @endif

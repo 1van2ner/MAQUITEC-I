@@ -304,24 +304,7 @@
 </head>
 <body>
 
-    <div>
-        <div class="top-bar">
-            <span>Av. San Agustín SMP, Lima, Perú</span>
-            <span>📞 963 727 185 | 955 081 815</span>
-            <span>✉ maquitec.servicios0601@gmail.com</span>
-        </div>
-        
-        <nav>
-            <a href="{{ url('/') }}" class="logo">
-                <img src="{{ asset('img/logo_pagina_general/maquitec_2026_new.jpg') }}" alt="Logo Maquitec">
-                <div class="logo-text">
-                    <strong>MAQUITEC´I</strong>
-                    <span>Soluciones industriales en movimiento</span>
-                </div>
-            </a>
-            <div class="user-pill">Hola, <span>{{ Auth::user()->name }}</span></div>
-        </nav>
-    </div>
+    <div>@include('footer.top')</div>
 
     <div class="main-container">
         <div class="admin-card">
@@ -375,6 +358,9 @@
                             <td data-label="Código"><code style="background: var(--gris-claro); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--gris-borde);">{{ $prod->codigo }}</code></td>
                             <td data-label="Nombre">
                                 <strong>{{ $prod->nombre }}</strong>
+                                @if(!empty($prod->presentacion))
+                                    <small style="display:block; margin-top:4px; color:#475569; font-weight:700;">Presentación: {{ $prod->presentacion }}</small>
+                                @endif
                                 @if($prod->destacado)
                                     <small style="display:block; margin-top:4px; color:#9a6700; font-weight:700;">Destacado en portada</small>
                                 @endif
@@ -389,7 +375,7 @@
                                 <a href="{{ route('admin.productos.edit', $prod->id) }}" class="btn btn-edit">Editar</a>
 
                                 <!-- Botón Eliminar -->
-                                <form action="{{ route('admin.productos.destroy', $prod->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Ãƒâ€š¿Estás seguro de eliminar este producto?');">
+                                <form action="{{ route('admin.productos.destroy', $prod->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de eliminar este producto?');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-delete">Eliminar</button>

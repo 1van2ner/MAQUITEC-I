@@ -484,6 +484,53 @@
         }
 
         @media (max-width: 600px) {
+            .hero-section {
+                padding: 20px 12px 28px;
+            }
+            .hero-card {
+                gap: 20px;
+                padding: 24px 16px;
+                border-radius: 16px;
+            }
+            .hero-badge {
+                max-width: 100%;
+                margin-bottom: 14px;
+                padding: 8px 12px;
+                font-size: 0.68rem;
+                line-height: 1.25;
+                letter-spacing: 0.04em;
+            }
+            .hero-content h1 {
+                font-size: clamp(1.55rem, 7vw, 2rem);
+                line-height: 1.12;
+                margin-bottom: 14px;
+            }
+            .hero-content p {
+                margin-bottom: 18px;
+                font-size: 0.92rem;
+                line-height: 1.55;
+            }
+            .hero-stats {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 8px;
+                padding-top: 16px;
+            }
+            .stat-item h4 {
+                font-size: 1.25rem;
+            }
+            .stat-item p {
+                font-size: 0.62rem;
+                line-height: 1.25;
+            }
+            .hero-image-wrapper {
+                width: 100%;
+                margin-top: 2px;
+            }
+            .hero-image-wrapper img {
+                width: 150px;
+                height: 150px;
+                border-width: 4px;
+            }
             .grid-servicios-core, .grid-insumos { grid-template-columns: 1fr; }
             .brand-box { width: 125px; height: 70px; }
             .maps-section { padding: 44px 3%; }
@@ -507,7 +554,7 @@
             <div class="hero-content">
                 <span class="hero-badge">Especialistas en Soporte Logístico e Industrial</span>
                 <h1>Potencia, Disponibilidad y <span>Ingeniería de Mantenimiento</span></h1>
-                <p>Respaldados por tecnicos con más de 15 años de experiencia técnica en el sector. En MAQUITEC I.S.A.C. garantizamos la operatividad continua de su flota de montacargas y maquinaria pesada mediante soluciones de mantenimiento de alto rendimiento y suministro integral de repuestos.</p>
+                <p>Respaldados por técnicos con más de 15 años de experiencia técnica en el sector. En MAQUITEC I.S.A.C. garantizamos la operatividad continua de su flota de montacargas y maquinaria pesada mediante soluciones de mantenimiento de alto rendimiento y suministro integral de repuestos.</p>
                 
                 <div class="hero-stats">
                     <div class="stat-item">

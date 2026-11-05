@@ -45,10 +45,35 @@
             padding: 60px 20px;
             text-align: center;
             color: var(--texto-claro);
-            background: linear-gradient(180deg, rgba(18, 19, 22, 0.82), rgba(18, 19, 22, 0.96)), 
-                        url("{{ asset('img/marcas/heli.jpg') }}") center/cover no-repeat;
+            background: #120f17;
             border-bottom: 2px solid var(--borde-card);
             position: relative;
+            overflow: hidden;
+        }
+
+        .micro-slats {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.48;
+            filter: saturate(0.78) contrast(0.82);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(10, 10, 12, 0.18) 0%, rgba(10, 10, 12, 0.58) 78%, rgba(10, 10, 12, 0.72) 100%);
+            z-index: 1;
+            pointer-events: none;
         }
 
         .hero-badge {
@@ -83,7 +108,7 @@
             max-width: 820px; 
             margin: 18px auto 0; 
             line-height: 1.7; 
-            color: var(--texto-muted); 
+            color: rgba(255, 255, 255, 0.92); 
             font-size: 1.12rem;
             font-weight: 500;
         }
@@ -466,7 +491,8 @@
 
     <!-- BANNER HERO -->
     <section class="hero">
-        <div>
+        <canvas class="micro-slats" aria-hidden="true"></canvas>
+        <div class="hero-content">
             <span class="hero-badge">Soporte Técnico de Nivel Industrial</span>
             <h1>Servicios Especializados para <span>Maquinaria Pesada</span></h1>
             <p>Mantenimiento preventivo, diagnóstico avanzado, reparación de sistemas hidráulicos y soluciones integrales para garantizar la operatividad continua de su flota.</p>
@@ -513,8 +539,8 @@
             <article class="service-card" data-category="soporte">
                 <div>
                     <span class="service-tag">Puesta en Marcha</span>
-                    <h3>Ã¢Å¡â„¢Ã¯Â¸Â Instalación de Equipos</h3>
-                    <p>Colocación, calibración y configuración técnica en sitio de maquinaria pesada y logística para asegurar una integración limpia, segura y productiva.</p>
+                    <h3>🔧 Instalación de accesorios de equipos</h3>
+                    <p>Colocación, calibración y configuración técnica de accesorios para maquinaria pesada y logística para asegurar una integración limpia, segura y productiva.</p>
                 </div>
                 <div class="service-gallery" role="region" aria-label="Galería de instalación de equipos" data-service-gallery>
                     <div class="service-gallery-frame">
@@ -530,7 +556,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Instalación%20de%20Equipos" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Instalación de Equipos">
+                <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Instalación%20de%20accesorios%20de%20equipos" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Instalación de accesorios de equipos">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                     Consultar por WhatsApp
                 </a>
@@ -565,7 +591,7 @@
             <article class="service-card" data-category="core">
                 <div>
                     <span class="service-tag">Respuesta Inmediata</span>
-                    <h3>⚡ Reparación Rápida & Correctiva</h3>
+                    <h3>⚡ Reparación y diagnósticos de equipos</h3>
                     <p>Atención de urgencia ante averías críticas. Diagnóstico especializado de motor, sistema hidráulico y transmisión para restaurar sus operaciones sin pérdidas de tiempo.</p>
                 </div>
                 <div class="service-gallery" role="region" aria-label="Galería de reparación rápida" data-service-gallery>
@@ -582,7 +608,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Reparación%20Rápida" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Reparación Rápida y Correctiva">
+                <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Reparación%20y%20diagnósticos%20de%20equipos" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Reparación y diagnósticos de equipos">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                     Consultar por WhatsApp
                 </a>
@@ -638,6 +664,94 @@
     @include('footer.bottom')
 
     <script>
+        // Fondo animado Micro Slats: canvas nativo para que funcione sin React ni WebGL externo.
+        (() => {
+            const canvas = document.querySelector('.micro-slats');
+            if (!canvas) return;
+
+            const context = canvas.getContext('2d');
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let width = 0;
+            let height = 0;
+            let animationFrame = 0;
+
+            function resize() {
+                const bounds = canvas.getBoundingClientRect();
+                const scale = Math.min(window.devicePixelRatio || 1, 2);
+                width = bounds.width;
+                height = bounds.height;
+                canvas.width = Math.round(width * scale);
+                canvas.height = Math.round(height * scale);
+                context.setTransform(scale, 0, 0, scale, 0, 0);
+            }
+
+            function draw(time = 0) {
+                context.clearRect(0, 0, width, height);
+
+                const background = context.createLinearGradient(0, 0, width, height);
+                background.addColorStop(0, '#17131d');
+                background.addColorStop(0.48, '#2a262f');
+                background.addColorStop(1, '#0c0b10');
+                context.fillStyle = background;
+                context.fillRect(0, 0, width, height);
+
+                const spacing = width < 600 ? 30 : 44;
+                const speed = reducedMotion ? 0 : time * 0.00010;
+                const slatCount = Math.ceil(width / spacing) + 4;
+
+                for (let index = -2; index < slatCount; index++) {
+                    const baseX = index * spacing;
+                    const wave = Math.sin(index * 0.62 + speed * 8) * 14;
+                    const secondWave = Math.cos(index * 0.29 - speed * 5) * 8;
+                    const slatWidth = spacing * 0.32;
+                    const colorIndex = index % 7;
+                    let color = 'rgba(247, 213, 71, 0.46)';
+
+                    if (colorIndex === 0 || colorIndex === 4) color = 'rgba(255, 255, 255, 0.40)';
+                    if (colorIndex === 2) color = 'rgba(18, 15, 23, 0.62)';
+                    if (colorIndex === 5) color = 'rgba(247, 213, 71, 0.20)';
+
+                    context.beginPath();
+                    context.moveTo(baseX + wave, -30);
+                    context.lineTo(baseX + slatWidth + wave, -30);
+                    context.lineTo(baseX + slatWidth + secondWave, height + 30);
+                    context.lineTo(baseX + secondWave, height + 30);
+                    context.closePath();
+                    context.fillStyle = color;
+                    context.fill();
+
+                    context.beginPath();
+                    context.moveTo(baseX + slatWidth + 1 + wave, -30);
+                    context.lineTo(baseX + slatWidth + 5 + wave, -30);
+                    context.lineTo(baseX + slatWidth + 6 + secondWave, height + 30);
+                    context.lineTo(baseX + slatWidth + 1 + secondWave, height + 30);
+                    context.closePath();
+                    context.fillStyle = 'rgba(255, 255, 255, 0.09)';
+                    context.fill();
+                }
+
+                const glow = context.createRadialGradient(width * 0.5, height * 0.52, 0, width * 0.5, height * 0.52, width * 0.48);
+                glow.addColorStop(0, 'rgba(247, 213, 71, 0.12)');
+                glow.addColorStop(0.65, 'rgba(247, 213, 71, 0.03)');
+                glow.addColorStop(1, 'rgba(0, 0, 0, 0.34)');
+                context.fillStyle = glow;
+                context.fillRect(0, 0, width, height);
+
+                if (!reducedMotion) animationFrame = requestAnimationFrame(draw);
+            }
+
+            resize();
+            draw();
+            window.addEventListener('resize', () => {
+                resize();
+                if (reducedMotion) draw();
+            });
+            document.addEventListener('visibilitychange', () => {
+                if (!reducedMotion && document.hidden) cancelAnimationFrame(animationFrame);
+                if (!reducedMotion && !document.hidden) animationFrame = requestAnimationFrame(draw);
+            });
+        })();
+
         document.querySelectorAll('[data-service-interaction]').forEach((link) => {
             link.addEventListener('click', () => {
                 fetch('{{ route("interacciones.registrar") }}', {

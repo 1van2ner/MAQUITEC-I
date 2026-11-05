@@ -10,10 +10,10 @@ use Illuminate\Validation\Rule;
 
 class ProductoController extends Controller
 {
-    // Listar productos en la vista pÃºblica con filtrado por categorÃ­a, barra lateral y paginaciÃ³n
+    // Listar productos en la vista pública con filtrado por categoría, barra lateral y paginación
     public function index(Request $request)
     {
-        // Obtenemos todas las categorÃ­as con el conteo de sus productos para el sidebar
+        // Obtenemos todas las categorías con el conteo de sus productos para el sidebar
         $categorias = Categoria::with(['children' => function ($query) {
             $query->withCount('productos')->orderBy('nombre');
         }])
@@ -28,7 +28,7 @@ class ProductoController extends Controller
         // Creamos la consulta base para los productos
         $query = Producto::with('categoria');
 
-        // Si el usuario hizo clic en una categorÃ­a del sidebar, filtramos
+        // Si el usuario hizo clic en una categoría del sidebar, filtramos
         if ($request->has('categoria') && $request->categoria != '') {
             $categoriaActual = Categoria::with('children')->find($request->categoria);
             $categoriaIds = $categoriaActual
@@ -39,13 +39,38 @@ class ProductoController extends Controller
             $categoriaActual = null;
         }
 
-        // PaginaciÃ³n de 12 productos por pÃ¡gina para la vista pÃºblica
-        $productos = $query->orderBy('created_at', 'desc')->paginate(12);
+        if ($request->filled('buscar')) {
+            $buscar = trim($request->input('buscar'));
+            $query->where(function ($query) use ($buscar) {
+                $query->where('nombre', 'like', '%' . $buscar . '%')
+                    ->orWhere('codigo', 'like', '%' . $buscar . '%')
+                    ->orWhere('presentacion', 'like', '%' . $buscar . '%')
+                    ->orWhere('descripcion', 'like', '%' . $buscar . '%');
+            });
+        }
+
+        switch ($request->input('orden')) {
+            case 'nombre':
+                $query->orderBy('nombre');
+                break;
+            case 'antiguos':
+                $query->orderBy('created_at');
+                break;
+            case 'destacado':
+                $query->orderByDesc('destacado')->orderByDesc('created_at');
+                break;
+            default:
+                $query->orderByDesc('destacado')->orderByDesc('created_at');
+                break;
+        }
+
+        // Paginación de 12 productos por página para la vista pública
+        $productos = $query->paginate(12)->withQueryString();
 
         return view('productos', compact('categorias', 'productos', 'totalProductos', 'categoriaActual'));
     }
 
-    // Listar productos en el panel de administraciÃ³n
+    // Listar productos en el panel de administración
     public function adminIndex(Request $request)
     {
         $query = Producto::with('categoria');
@@ -54,7 +79,8 @@ class ProductoController extends Controller
             $buscar = trim($request->input('buscar'));
             $query->where(function ($query) use ($buscar) {
                 $query->where('nombre', 'like', '%' . $buscar . '%')
-                    ->orWhere('codigo', 'like', '%' . $buscar . '%');
+                    ->orWhere('codigo', 'like', '%' . $buscar . '%')
+                    ->orWhere('presentacion', 'like', '%' . $buscar . '%');
             });
         }
 
@@ -82,6 +108,8 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'codigo' => ['nullable', 'string', 'max:100', Rule::unique('productos', 'codigo')->where(fn ($query) => $query->where('presentacion', $request->input('presentacion'))) ],
+            'presentacion' => 'nullable|string|max:100',
             'stock' => 'required|integer|min:0',
             'descripcion' => 'required|string',
             'categoria_id' => 'required|exists:categorias,id',
@@ -92,10 +120,19 @@ class ProductoController extends Controller
 
         $imagenes = $this->storeProductImages($request->file('imagenes', []));
 
+        $slugBase = Str::slug($request->nombre . ' ' . $request->presentacion);
+        $slug = $slugBase;
+        $counter = 2;
+        while (Producto::where('slug', $slug)->exists()) {
+            $slug = $slugBase . '-' . $counter;
+            $counter++;
+        }
+
         Producto::create([
             'nombre' => $request->nombre,
-            'slug' => Str::slug($request->nombre),
+            'slug' => $slug,
             'codigo' => $request->codigo ?? 'MAQ-' . rand(1000, 9999),
+            'presentacion' => $request->filled('presentacion') ? trim($request->presentacion) : null,
             'categoria_id' => $request->categoria_id,
             'stock' => $request->stock,
             'descripcion' => $request->descripcion,
@@ -106,7 +143,7 @@ class ProductoController extends Controller
             'estado' => 'Disponible',
         ]);
 
-        return redirect()->route('admin.productos.index')->with('success', 'Â¡Producto agregado exitosamente al catÃ¡logo!');
+        return redirect()->route('admin.productos.index')->with('success', '¡Producto agregado exitosamente al catálogo!');
     }
 
     // Mostrar formulario para editar un producto existente
@@ -134,6 +171,8 @@ class ProductoController extends Controller
 
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'codigo' => ['nullable', 'string', 'max:100', Rule::unique('productos', 'codigo')->where(fn ($query) => $query->where('presentacion', $request->input('presentacion')))->ignore($producto->id)],
+            'presentacion' => 'nullable|string|max:100',
             'stock' => 'required|integer|min:0',
             'descripcion' => 'required|string',
             'categoria_id' => 'required|exists:categorias,id',
@@ -149,10 +188,19 @@ class ProductoController extends Controller
             $this->storeProductImages($request->file('imagenes', []))
         );
 
+        $slugBase = Str::slug($request->nombre . ' ' . $request->presentacion);
+        $slug = $slugBase;
+        $counter = 2;
+        while (Producto::where('slug', $slug)->where('id', '!=', $producto->id)->exists()) {
+            $slug = $slugBase . '-' . $counter;
+            $counter++;
+        }
+
         $producto->update([
             'nombre' => $request->nombre,
-            'slug' => Str::slug($request->nombre),
+            'slug' => $slug,
             'codigo' => $request->codigo ?? $producto->codigo,
+            'presentacion' => $request->filled('presentacion') ? trim($request->presentacion) : null,
             'categoria_id' => $request->categoria_id,
             'stock' => $request->stock,
             'descripcion' => $request->descripcion,
@@ -166,7 +214,7 @@ class ProductoController extends Controller
             $this->deleteProductImage($imagen);
         }
 
-        return redirect()->route('admin.productos.index')->with('success', 'Â¡Producto actualizado correctamente!');
+        return redirect()->route('admin.productos.index')->with('success', '¡Producto actualizado correctamente!');
     }
 
     // Eliminar producto
@@ -180,7 +228,7 @@ class ProductoController extends Controller
         }
 
         $producto->delete();
-        return back()->with('success', 'Producto eliminado del catÃ¡logo.');
+        return back()->with('success', 'Producto eliminado del catálogo.');
     }
 
     private function storeProductImages(array $uploads): array
