@@ -1242,16 +1242,16 @@
                     </h2>
                     <p class="maps-address">Encuéntranos en Lima, Perú. Visítanos en nuestras oficinas y talleres para atender tus consultas.</p>
                 </div>
-                <a class="maps-link" href="https://www.google.com/maps?q=-12.046374,-77.042793" target="_blank" rel="noopener noreferrer">
+                <a class="maps-link" href="https://www.google.com/maps?q=-11.97648588056262,-77.09879588161199" target="_blank" rel="noopener noreferrer">
                     Abrir en Google Maps <span aria-hidden="true">&rarr;</span>
                 </a>
             </div>
             <div class="maps-container">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.954625895318!2d-77.042793!3d-12.046374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDAyJzQ3LjAiUyA3N8KwMDInMzQuMSJX!5e0!3m2!1ses!2spe!4v1600000000000!5m2!1ses!2spe"
-                    title="Mapa de ubicación de MAQUITEC en Lima"
+                    src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d243.93565657886091!2d-77.09912613985315!3d-11.976542734818327!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1smaquitec'i%20sac!5e0!3m2!1ses-419!2spe!4v1793945057393!5m2!1ses-419!2spe"
+                    title="Mapa de ubicación de MAQUITEC"
                     loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
+                    referrerpolicy="strict-origin-when-cross-origin"
                     allowfullscreen>
                 </iframe>
             </div>

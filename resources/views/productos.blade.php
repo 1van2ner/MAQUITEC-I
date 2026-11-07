@@ -32,27 +32,69 @@
             min-height: 100vh;
         }
 
-        .top-nav-bar {
-            background: rgba(18, 19, 22, 0.85);
-            padding: 16px 4%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 0.95rem;
-            color: var(--texto-muted);
-            backdrop-filter: blur(10px);
+        .products-hero {
+            position: relative;
+            display: grid;
+            min-height: 360px;
+            padding: 60px 20px;
+            overflow: hidden;
+            place-items: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+            background: radial-gradient(ellipse at 50% 45%, #28231a 0%, #111216 60%, #090a0d 100%);
+            text-align: center;
+            isolation: isolate;
         }
-        .top-nav-bar a {
+        .products-hero-canvas {
+            position: absolute;
+            z-index: 0;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        .products-hero::after {
+            position: absolute;
+            z-index: 1;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(10, 10, 12, 0.18) 0%, rgba(10, 10, 12, 0.58) 78%, rgba(10, 10, 12, 0.72) 100%);
+            content: "";
+            pointer-events: none;
+        }
+        .products-hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        .products-hero-badge {
+            display: inline-block;
+            margin-bottom: 16px;
+            padding: 6px 18px;
+            border: 1px solid rgba(247, 213, 71, 0.3);
+            border-radius: 30px;
+            background: rgba(247, 213, 71, 0.12);
             color: var(--amarillo);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
-        .top-nav-bar a:hover {
-            color: var(--amarillo-hover);
-            text-decoration: underline;
-        }
-        .top-nav-bar span {
+        .products-hero h1 {
+            margin: 0;
             color: var(--texto-claro);
+            font-size: clamp(2.3rem, 4.8vw, 3.6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+        .products-hero h1 span { color: var(--amarillo); }
+        .products-hero p {
+            max-width: 820px;
+            margin: 18px auto 0;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 1.12rem;
             font-weight: 500;
+            line-height: 1.7;
         }
 
         /* --- CONTENEDOR EQUILIBRADO Y MENOS PEGADO A LOS EXTREMOS --- */
@@ -500,6 +542,7 @@
         }
 
         @media (max-width: 600px) {
+            .products-hero { padding: 60px 6%; }
             .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
             .catalog-container { gap: 16px; margin: 16px auto; padding: 0 3%; }
             .sidebar { padding: 18px 14px; border-radius: 12px; }
@@ -538,9 +581,14 @@
 
     @include('footer.top')
 
-    <div class="top-nav-bar">
-        <a href="{{ url('/') }}">Inicio</a> &gt; <span>Productos y Equipos</span>
-    </div>
+    <section class="products-hero" aria-labelledby="products-hero-title">
+        <canvas class="products-hero-canvas" aria-hidden="true"></canvas>
+        <div class="products-hero-content">
+            <span class="products-hero-badge">Catálogo industrial</span>
+            <h1 id="products-hero-title">Productos y <span>Repuestos</span></h1>
+            <p>Encuentra insumos, repuestos y equipos para mantener tu operación en marcha.</p>
+        </div>
+    </section>
 
     <div class="catalog-container">
         <!-- BARRA LATERAL DE CATEGORÍAS FLOTANTE CON SCROLL -->
@@ -669,6 +717,151 @@
     </div>
 
     @include('footer.bottom')
+
+    <script>
+        (() => {
+            const canvas = document.querySelector('.products-hero-canvas');
+            const hero = canvas?.closest('.products-hero');
+            if (!canvas || !hero) return;
+
+            const context = canvas.getContext('2d');
+            if (!context) return;
+
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let width = 0;
+            let height = 0;
+            let animationFrame = 0;
+            let isVisible = false;
+            let isPageVisible = !document.hidden;
+            const pointer = { x: 0, y: 0, active: false };
+
+            function resize() {
+                const bounds = canvas.getBoundingClientRect();
+                const scale = Math.min(window.devicePixelRatio || 1, 2);
+                width = bounds.width;
+                height = bounds.height;
+                canvas.width = Math.round(width * scale);
+                canvas.height = Math.round(height * scale);
+                context.setTransform(scale, 0, 0, scale, 0, 0);
+            }
+
+            function draw(time = 0) {
+                context.clearRect(0, 0, width, height);
+
+                const background = context.createLinearGradient(0, 0, width, height);
+                background.addColorStop(0, '#17151a');
+                background.addColorStop(0.52, '#211e19');
+                background.addColorStop(1, '#090a0d');
+                context.fillStyle = background;
+                context.fillRect(0, 0, width, height);
+
+                const slatWidth = 9;
+                const slatHeight = 19;
+                const stepX = slatWidth + 5;
+                const stepY = slatHeight + 9;
+                const phase = reducedMotion ? 0 : time * 0.001;
+
+                for (let row = -1; row < Math.ceil(height / stepY) + 1; row++) {
+                    for (let column = -1; column < Math.ceil(width / stepX) + 1; column++) {
+                        const wave = Math.sin(column * 0.22 + row * 0.3 - phase) * 0.5
+                            + Math.cos(column * 0.09 + row * 0.18 + phase * 0.65) * 0.5;
+                        const baseX = column * stepX;
+                        const baseY = row * stepY + wave * 6;
+                        const distance = pointer.active ? Math.hypot(baseX - pointer.x, baseY - pointer.y) : Infinity;
+                        const influence = Math.max(0, 1 - distance / 140);
+                        const x = baseX + (pointer.x - baseX) * influence * 0.12;
+                        const y = baseY + (pointer.y - baseY) * influence * 0.12;
+                        const alpha = Math.min(0.9, 0.14 + (wave + 1) * 0.17 + influence * 0.42);
+
+                        context.beginPath();
+                        context.roundRect(x, y, slatWidth, slatHeight, 5);
+                        context.fillStyle = influence > 0.25
+                            ? `rgba(255, 244, 190, ${alpha})`
+                            : `rgba(247, 213, 71, ${alpha})`;
+                        context.fill();
+                    }
+                }
+
+                const glow = context.createRadialGradient(width * 0.5, height * 0.45, 0, width * 0.5, height * 0.45, width * 0.62);
+                glow.addColorStop(0, 'rgba(247, 213, 71, 0.13)');
+                glow.addColorStop(0.65, 'rgba(247, 213, 71, 0.035)');
+                glow.addColorStop(1, 'rgba(0, 0, 0, 0.42)');
+                context.fillStyle = glow;
+                context.fillRect(0, 0, width, height);
+
+                if (pointer.active) {
+                    const pointerGlow = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 140);
+                    pointerGlow.addColorStop(0, 'rgba(255, 244, 190, 0.22)');
+                    pointerGlow.addColorStop(1, 'rgba(247, 213, 71, 0)');
+                    context.fillStyle = pointerGlow;
+                    context.fillRect(0, 0, width, height);
+                }
+
+                if (!reducedMotion && isVisible && isPageVisible) {
+                    animationFrame = requestAnimationFrame(draw);
+                }
+            }
+
+            function startAnimation() {
+                if (!reducedMotion && isVisible && isPageVisible && !animationFrame) {
+                    animationFrame = requestAnimationFrame((time) => {
+                        animationFrame = 0;
+                        draw(time);
+                    });
+                }
+            }
+
+            function stopAnimation() {
+                if (animationFrame) cancelAnimationFrame(animationFrame);
+                animationFrame = 0;
+            }
+
+            resize();
+            draw();
+
+            hero.addEventListener('pointermove', (event) => {
+                if (event.pointerType === 'touch') return;
+
+                const bounds = hero.getBoundingClientRect();
+                pointer.x = event.clientX - bounds.left;
+                pointer.y = event.clientY - bounds.top;
+                pointer.active = true;
+
+                if (reducedMotion) draw(performance.now());
+                else startAnimation();
+            });
+
+            hero.addEventListener('pointerleave', () => {
+                pointer.active = false;
+                if (reducedMotion) draw(performance.now());
+                else startAnimation();
+            });
+
+            const resizeObserver = new ResizeObserver(() => {
+                resize();
+                draw();
+            });
+            resizeObserver.observe(canvas);
+
+            if ('IntersectionObserver' in window) {
+                const visibilityObserver = new IntersectionObserver(([entry]) => {
+                    isVisible = entry.isIntersecting;
+                    if (isVisible) startAnimation();
+                    else stopAnimation();
+                });
+                visibilityObserver.observe(canvas);
+            } else {
+                isVisible = true;
+                startAnimation();
+            }
+
+            document.addEventListener('visibilitychange', () => {
+                isPageVisible = !document.hidden;
+                if (isPageVisible) startAnimation();
+                else stopAnimation();
+            });
+        })();
+    </script>
 
 </body>
 </html>

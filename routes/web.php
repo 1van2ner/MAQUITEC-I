@@ -12,11 +12,13 @@ use App\Models\Categoria;
 use Illuminate\Support\Facades\URL;
 use App\Models\Producto;
 use App\Models\Banner;
+use App\Models\Alquiler;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MaquitecController; // <-- 1. Importamos el controlador nuevo
-use App\Http\Controllers\BannerController; // <-- AÃ±ade esto arriba con los demÃ¡s controladores
+use App\Http\Controllers\BannerController; // <-- Añade esto arriba con los demás controladores
+use App\Http\Controllers\AlquilerController;
 use App\Models\Interaccion;
 use Carbon\Carbon;
 
@@ -28,7 +30,7 @@ Route::get('/nosotros', function () {
 });
 
 // ==========================================
-// RUTA PÃšBLICA DE CATEGORÃAS (Detalle por ID)
+// RUTA PÚBLICA DE CATEGORÍAS (Detalle por ID)
 // ==========================================
 Route::get('/categorias/{id}', [CategoriaController::class, 'show'])
     ->whereNumber('id')
@@ -70,7 +72,7 @@ Route::post('/productos/cotizar', function (Request $request) {
 
     if (in_array(config('mail.default'), ['log', 'array'], true)) {
         return back()->withInput()->withErrors([
-            'quote' => 'El correo no estÃ¡ configurado para envÃ­o. Configura SMTP en el archivo .env e intÃ©ntalo nuevamente.',
+            'quote' => 'El correo no está configurado para envío. Configura SMTP en el archivo .env e inténtalo nuevamente.',
         ]);
     }
 
@@ -88,7 +90,7 @@ Route::post('/productos/cotizar', function (Request $request) {
         report($exception);
 
         return back()->withInput()->withErrors([
-            'quote' => 'No se pudo enviar la solicitud. Revisa la configuraciÃ³n del correo e intÃ©ntalo nuevamente.',
+            'quote' => 'No se pudo enviar la solicitud. Revisa la configuración del correo e inténtalo nuevamente.',
         ]);
     }
 
@@ -106,7 +108,7 @@ Route::post('/productos/cotizar', function (Request $request) {
 
 Route::post('/interacciones/registrar', function (Request $request) {
     $validated = $request->validate([
-        'tipo' => ['required', 'in:producto,servicio'],
+        'tipo' => ['required', 'in:producto,servicio,alquiler'],
         'item' => ['required', 'string', 'max:255'],
         'canal' => ['required', 'in:cotizacion,whatsapp'],
     ]);
@@ -125,16 +127,22 @@ Route::get('/servicios', function () {
     return view('servicios');
 });
 
+Route::get('/alquileres', [AlquilerController::class, 'index'])->name('alquileres.index');
+Route::get('/alquileres/{slug}', [AlquilerController::class, 'show'])->name('alquileres.show');
+Route::post('/alquileres/{slug}/consultar', [AlquilerController::class, 'consultar'])
+    ->middleware('throttle:5,1')
+    ->name('alquileres.consultar');
+
 Route::get('/politica-de-cookies', function () {
     return view('legal', [
-        'pageTitle' => 'PolÃ­tica de Cookies',
+        'pageTitle' => 'Política de Cookies',
         'pageType' => 'cookies',
     ]);
 })->name('cookies.policy');
 
 Route::get('/politica-de-privacidad', function () {
     return view('legal', [
-        'pageTitle' => 'PolÃ­tica de Privacidad',
+        'pageTitle' => 'Política de Privacidad',
         'pageType' => 'privacy',
     ]);
 })->name('privacy.policy');
@@ -148,14 +156,14 @@ Route::get('/aviso-legal', function () {
 
 Route::get('/politica-de-seguridad', function () {
     return view('legal', [
-        'pageTitle' => 'PolÃ­tica de Seguridad',
+        'pageTitle' => 'Política de Seguridad',
         'pageType' => 'security',
     ]);
 })->name('security.policy');
 
 Route::get('/terminos-y-condiciones', function () {
     return view('legal', [
-        'pageTitle' => 'TÃ©rminos y Condiciones de Uso',
+        'pageTitle' => 'Términos y Condiciones de Uso',
         'pageType' => 'terms',
     ]);
 })->name('terms');
@@ -183,7 +191,7 @@ Route::post('/libro-de-reclamaciones', function (Request $request) {
 
     if (in_array(config('mail.default'), ['log', 'array'], true)) {
         return back()->withInput()->withErrors([
-            'email' => 'El correo no estÃ¡ configurado para envÃ­o. Configura SMTP en el archivo .env e intÃ©ntalo nuevamente.',
+            'email' => 'El correo no está configurado para envío. Configura SMTP en el archivo .env e inténtalo nuevamente.',
         ]);
     }
 
@@ -198,11 +206,11 @@ Route::post('/libro-de-reclamaciones', function (Request $request) {
         report($exception);
 
         return back()->withInput()->withErrors([
-            'email' => 'No se pudo enviar el libro de reclamaciones. IntÃ©ntalo nuevamente o comunÃ­cate con nosotros.',
+            'email' => 'No se pudo enviar el libro de reclamaciones. Inténtalo nuevamente o comunícate con nosotros.',
         ]);
     }
 
-    return back()->with('message', "Tu {$claim['claim_type']} fue registrado correctamente con el cÃ³digo {$claim['code']}.");
+    return back()->with('message', "Tu {$claim['claim_type']} fue registrado correctamente con el código {$claim['code']}.");
 })->middleware('throttle:5,1')->name('complaints.store');
 
 Route::get('/aviso-de-seguridad', function () {
@@ -230,7 +238,7 @@ Route::get('/contacto', function () {
 });
 
 // ==========================================
-// RUTA DE CIERRE DE SESIÃ“N
+// RUTA DE CIERRE DE SESIÓN
 // ==========================================
 Route::post('/logout', function (Request $request) {
     Auth::logout();
@@ -259,7 +267,7 @@ Route::post('/forgot-password', function (Request $request) {
     } catch (Throwable $exception) {
         report($exception);
         return back()->withErrors([
-            'email' => 'No se pudo enviar el correo de recuperaciÃ³n. Verifica la configuraciÃ³n del servidor de correo.',
+            'email' => 'No se pudo enviar el correo de recuperación. Verifica la configuración del servidor de correo.',
         ])->withInput(['email' => $email]);
     }
 
@@ -282,19 +290,19 @@ Route::post('/perfil/password/email', function (Request $request) {
     } catch (Throwable $exception) {
         report($exception);
         return back()->withErrors([
-            'email' => 'No se pudo enviar el correo de recuperaciÃ³n. Verifica la configuraciÃ³n SMTP del servidor.',
+            'email' => 'No se pudo enviar el correo de recuperación. Verifica la configuración SMTP del servidor.',
         ]);
     }
 
     if ($status !== Password::RESET_LINK_SENT) {
         return back()->withErrors([
-            'email' => 'El enlace no pudo generarse. Espera un momento e intÃ©ntalo nuevamente.',
+            'email' => 'El enlace no pudo generarse. Espera un momento e inténtalo nuevamente.',
         ]);
     }
 
     return back()->with(
         'status',
-        "Enlace de recuperaciÃ³n enviado al correo registrado: {$email}"
+        "Enlace de recuperación enviado al correo registrado: {$email}"
     );
 })->middleware(['auth', 'throttle:6,1'])->name('password.email.authenticated');
 
@@ -311,8 +319,8 @@ Route::post('/reset-password', function (Request $request) {
         'email' => ['required', 'email', 'max:255'],
         'password' => ['required', 'string', 'min:8', 'confirmed', 'different:email'],
     ], [
-        'password.confirmed' => 'La confirmaciÃ³n de la contraseÃ±a no coincide.',
-        'password.min' => 'La contraseÃ±a debe tener al menos 8 caracteres.',
+        'password.confirmed' => 'La confirmación de la contraseña no coincide.',
+        'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
     ]);
 
     $status = Password::reset(
@@ -336,12 +344,12 @@ Route::post('/reset-password', function (Request $request) {
 
         return redirect()->route('login')->with(
             'status',
-            'Tu contraseÃ±a fue restablecida correctamente. Ya puedes iniciar sesiÃ³n.'
+            'Tu contraseña fue restablecida correctamente. Ya puedes iniciar sesión.'
         );
     }
 
     return back()->withErrors([
-        'email' => 'El enlace expirÃ³ o la solicitud no es vÃ¡lida. Solicita uno nuevo.',
+        'email' => 'El enlace expiró o la solicitud no es válida. Solicita uno nuevo.',
     ])->withInput($request->only('email'));
 })->middleware(['throttle:6,1'])->name('password.update');
 
@@ -355,19 +363,19 @@ Route::put('/perfil/password', function (Request $request) {
     } catch (Throwable $exception) {
         report($exception);
         return back()->withErrors([
-            'email' => 'No se pudo enviar el correo de recuperaciÃ³n. Verifica la configuraciÃ³n SMTP del servidor.',
+            'email' => 'No se pudo enviar el correo de recuperación. Verifica la configuración SMTP del servidor.',
         ]);
     }
 
     if ($status !== Password::RESET_LINK_SENT) {
         return back()->withErrors([
-            'email' => 'No se pudo enviar el enlace. IntÃ©ntalo nuevamente.',
+            'email' => 'No se pudo enviar el enlace. Inténtalo nuevamente.',
         ]);
     }
 
     return back()->with(
         'status',
-        'Enlace de autenticaciÃ³n enviado al correo registrado: '.$request->user()->email
+        'Enlace de autenticación enviado al correo registrado: '.$request->user()->email
     );
 })->middleware('auth')->name('password.update.custom');
 
@@ -387,7 +395,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request, string $id, 
         $user->markEmailAsVerified();
     }
 
-    return redirect()->route('login')->with('status', 'Tu correo fue verificado. Ya puedes iniciar sesiÃ³n.');
+    return redirect()->route('login')->with('status', 'Tu correo fue verificado. Ya puedes iniciar sesión.');
 })->middleware('throttle:6,1')->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {
@@ -396,7 +404,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     if (! $user || $user->hasVerifiedEmail()) {
         return redirect()->route('login')->withErrors([
-            'email' => 'No hay una cuenta pendiente de verificaciÃ³n en esta sesiÃ³n. Inicia sesiÃ³n o regÃ­strate nuevamente.',
+            'email' => 'No hay una cuenta pendiente de verificación en esta sesión. Inicia sesión o regístrate nuevamente.',
         ]);
     }
 
@@ -407,12 +415,12 @@ Route::post('/email/verification-notification', function (Request $request) {
 
         return redirect()->route('verification.notice')
             ->with('verification_email', $user->email)
-            ->with('verification_error', 'No se pudo enviar el correo. IntÃ©ntalo nuevamente mÃ¡s tarde.');
+            ->with('verification_error', 'No se pudo enviar el correo. Inténtalo nuevamente más tarde.');
     }
 
     return redirect()->route('verification.notice')
         ->with('verification_email', $user->email)
-        ->with('status', 'Te enviamos un nuevo enlace de verificaciÃ³n.');
+        ->with('status', 'Te enviamos un nuevo enlace de verificación.');
 })->middleware('throttle:6,1')->name('verification.send');
 
 Route::get('/admin/dashboard', function (Request $request) {
@@ -424,6 +432,7 @@ Route::get('/admin/dashboard', function (Request $request) {
     $totalProductos = Producto::count();
     $totalCategorias = Categoria::count();
     $totalBanners = Banner::count();
+    $totalAlquileres = Alquiler::count();
     $totalUsuarios = User::count();
     $totalInteracciones = Interaccion::count();
 
@@ -452,7 +461,7 @@ Route::get('/admin/dashboard', function (Request $request) {
             $filtradas->where('created_at', '>=', $inicioSemana->copy()->timezone('UTC'));
             $filtradas->where('created_at', '<=', $finSemana->copy()->timezone('UTC'));
         } catch (\Throwable $exception) {
-            // Ignorar una semana invÃ¡lida y mantener el dashboard accesible.
+            // Ignorar una semana inválida y mantener el dashboard accesible.
         }
     } else {
         $finSemanaActual = $semanaActual->copy()->endOfWeek(Carbon::SUNDAY)->endOfDay();
@@ -477,6 +486,7 @@ Route::get('/admin/dashboard', function (Request $request) {
 
     $topProductos = $resumenItems->where('tipo', 'producto')->take(10)->values();
     $topServicios = $resumenItems->where('tipo', 'servicio')->take(10)->values();
+    $topAlquileres = $resumenItems->where('tipo', 'alquiler')->take(10)->values();
     $itemsDisponibles = Interaccion::query()
         ->select('tipo', 'item')
         ->distinct()
@@ -509,7 +519,7 @@ Route::get('/admin/dashboard', function (Request $request) {
     }
 
     $diasGrafica = collect();
-    $nombresDias = ['Lun', 'Mar', 'MiÃ©', 'Jue', 'Vie', 'SÃ¡b', 'Dom'];
+    $nombresDias = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
     for ($offset = 0; $offset < 7; $offset++) {
         $dia = $inicioGrafica->copy()->addDays($offset);
         $inicioDiaUtc = $dia->copy()->startOfDay()->timezone('UTC');
@@ -531,15 +541,23 @@ Route::get('/admin/dashboard', function (Request $request) {
     $semanaAnterior = $inicioGrafica->copy()->subWeek()->format('Y-m-d');
     $semanaSiguiente = $inicioGrafica->copy()->addWeek()->format('Y-m-d');
     $totalSemana = $diasGrafica->sum('total');
+    $consultasPorTipo = [
+        'producto' => (clone $filtradas)->where('tipo', 'producto')->count(),
+        'servicio' => (clone $filtradas)->where('tipo', 'servicio')->count(),
+        'alquiler' => (clone $filtradas)->where('tipo', 'alquiler')->count(),
+    ];
 
     return view('admin-dashboard', compact(
         'totalProductos',
         'totalCategorias',
         'totalBanners',
+        'totalAlquileres',
         'totalUsuarios',
         'totalInteracciones',
         'topProductos',
         'topServicios',
+        'topAlquileres',
+        'consultasPorTipo',
         'historial',
         'diasGrafica',
         'semanasDisponibles',
@@ -554,7 +572,7 @@ Route::get('/admin/dashboard', function (Request $request) {
 
 
 // ==========================================
-// RUTAS DE GESTIÃ“N DE USUARIOS (Solo Administradores)
+// RUTAS DE GESTIÓN DE USUARIOS (Solo Administradores)
 // ==========================================
 Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::get('/admin/usuarios', [UserController::class, 'index'])->name('admin.usuarios.index');
@@ -564,7 +582,7 @@ Route::middleware(['auth', 'can:manage-admin'])->group(function () {
 });
 
 // ==========================================
-// RUTAS DE GESTIÃ“N DE PRODUCTOS (Solo Administradores)
+// RUTAS DE GESTIÓN DE PRODUCTOS (Solo Administradores)
 // ==========================================
 Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::get('/admin/productos', [ProductoController::class, 'adminIndex'])->name('admin.productos.index');
@@ -576,7 +594,7 @@ Route::middleware(['auth', 'can:manage-admin'])->group(function () {
 });
 
 // ==========================================
-// RUTAS DE GESTIÃ“N DE CATEGORÃAS (Solo Administradores)
+// RUTAS DE GESTIÓN DE CATEGORÍAS (Solo Administradores)
 // ==========================================
 Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::get('/admin/categorias', [CategoriaController::class, 'index'])->name('admin.categorias.index');
@@ -588,7 +606,7 @@ Route::middleware(['auth', 'can:manage-admin'])->group(function () {
 });
 
 // ==========================================
-// RUTAS DE GESTIÃ“N DE BANNERS (Solo Administradores)
+// RUTAS DE GESTIÓN DE BANNERS (Solo Administradores)
 // ==========================================
 Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::get('/admin/banners', [BannerController::class, 'index'])->name('admin.banners.index');
@@ -598,6 +616,13 @@ Route::middleware(['auth', 'can:manage-admin'])->group(function () {
     Route::put('/admin/banners/{id}', [BannerController::class, 'update'])->name('admin.banners.update');
     Route::delete('/admin/banners/{id}', [BannerController::class, 'destroy'])->name('admin.banners.destroy');
 
+    Route::get('/admin/alquileres', [AlquilerController::class, 'adminIndex'])->name('admin.alquileres.index');
+    Route::get('/admin/alquileres/crear', [AlquilerController::class, 'create'])->name('admin.alquileres.create');
+    Route::post('/admin/alquileres', [AlquilerController::class, 'store'])->name('admin.alquileres.store');
+    Route::get('/admin/alquileres/{alquiler}/edit', [AlquilerController::class, 'edit'])->name('admin.alquileres.edit');
+    Route::put('/admin/alquileres/{alquiler}', [AlquilerController::class, 'update'])->name('admin.alquileres.update');
+    Route::delete('/admin/alquileres/{alquiler}', [AlquilerController::class, 'destroy'])->name('admin.alquileres.destroy');
+
     Route::get('/admin/configuracion', function () {
         return view('admin.configuracion');
     })->name('admin.configuracion');
@@ -605,11 +630,11 @@ Route::middleware(['auth', 'can:manage-admin'])->group(function () {
 
 
 // ==========================================
-// RUTAS DE AUTENTICACIÃ“N (Solo para invitados)
+// RUTAS DE AUTENTICACIÓN (Solo para invitados)
 // ==========================================
 Route::middleware(['guest'])->group(function () {
     
-    // Vistas de AutenticaciÃ³n (GET)
+    // Vistas de Autenticación (GET)
     Route::get('/login', function () {
         return view('auth.login');
     })->name('login');
@@ -635,9 +660,9 @@ Route::middleware(['guest'])->group(function () {
             'legal_acceptance' => ['required', 'accepted'],
         ], [
             'documento.digits' => $request->input('tipo_usuario') === 'empresa'
-                ? 'El RUC debe contener exactamente 11 dÃ­gitos.'
-                : 'El DNI debe contener exactamente 8 dÃ­gitos.',
-            'documento.unique' => 'Este documento ya estÃ¡ registrado.',
+                ? 'El RUC debe contener exactamente 11 dígitos.'
+                : 'El DNI debe contener exactamente 8 dígitos.',
+            'documento.unique' => 'Este documento ya está registrado.',
             'fecha_nacimiento.required_if' => 'La fecha de nacimiento es obligatoria para personas.',
         ]);
 
@@ -664,7 +689,7 @@ Route::middleware(['guest'])->group(function () {
 
         return redirect()->route('verification.notice')
             ->with('verification_email', $user->email)
-            ->with('status', 'Cuenta creada. Revisa tu correo y confirma la direcciÃ³n para poder iniciar sesiÃ³n.');
+            ->with('status', 'Cuenta creada. Revisa tu correo y confirma la dirección para poder iniciar sesión.');
     })->middleware('throttle:3,1');
 
     // Procesar Login (POST)
@@ -676,7 +701,7 @@ Route::middleware(['guest'])->group(function () {
                 Auth::logout();
 
                 return back()->withErrors([
-                    'email' => 'Debes verificar tu correo antes de iniciar sesiÃ³n. Revisa el enlace que te enviamos.',
+                    'email' => 'Debes verificar tu correo antes de iniciar sesión. Revisa el enlace que te enviamos.',
                 ])->withInput($request->only('email'));
             }
 

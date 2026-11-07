@@ -37,6 +37,7 @@
                 <li><a href="{{ url('/nosotros') }}">Nosotros</a></li>
                 <li><a href="{{ url('/productos') }}">Productos</a></li>
                 <li><a href="{{ url('/servicios') }}">Servicios</a></li>
+                <li><a href="{{ url('/alquileres') }}">Alquileres</a></li>
             </ul>
         </div>
 

@@ -41,11 +41,11 @@
         .hero {
             display: grid;
             place-items: center;
-            min-height: 420px;
+            min-height: 360px;
             padding: 60px 20px;
             text-align: center;
             color: var(--texto-claro);
-            background: #120f17;
+            background: radial-gradient(ellipse at 50% 45%, #28231a 0%, #111216 60%, #090a0d 100%);
             border-bottom: 2px solid var(--borde-card);
             position: relative;
             overflow: hidden;
@@ -54,11 +54,10 @@
         .micro-slats {
             position: absolute;
             inset: 0;
+            z-index: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.48;
-            filter: saturate(0.78) contrast(0.82);
         }
 
         .hero-content {
@@ -113,43 +112,11 @@
             font-weight: 500;
         }
 
-        /* METRICAS DE IMPACTO EN HERO */
-        .hero-metrics {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 35px;
-            flex-wrap: wrap;
-        }
-
-        .metric-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 24px;
-            border-radius: 14px;
-            backdrop-filter: blur(10px);
-        }
-
-        .metric-box strong {
-            display: block;
-            font-size: 1.5rem;
-            color: var(--amarillo);
-            font-weight: 900;
-        }
-
-        .metric-box span {
-            font-size: 0.8rem;
-            color: var(--texto-muted);
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 0.04em;
-        }
-
         /* CONTENIDO PRINCIPAL */
         .content { 
-            max-width: 1320px; 
+            max-width: 1440px; 
             margin: 0 auto; 
-            padding: 60px 4% 80px; 
+            padding: 70px 3% 90px; 
             width: 100%;
         }
 
@@ -209,8 +176,8 @@
         .service-grid { 
             display: grid; 
             grid-template-columns: repeat(2, 1fr); 
-            gap: 32px; 
-            align-items: start;
+            gap: 26px; 
+            align-items: stretch;
         }
 
         .service-card {
@@ -219,13 +186,26 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            padding: 38px;
-            background: var(--negro-card);
+            padding: 34px;
+            background:
+                linear-gradient(145deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018)),
+                var(--negro-card);
             border: 1px solid var(--borde-card);
             border-radius: 22px;
             box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
             backdrop-filter: blur(10px);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 34px;
+            width: 72px;
+            height: 3px;
+            background: var(--amarillo);
         }
 
         .service-card:hover {
@@ -252,86 +232,99 @@
 
         .service-card h3 { 
             margin: 0 0 14px; 
-            font-size: 1.45rem; 
+            font-size: clamp(1.55rem, 2vw, 1.85rem);
             font-weight: 800;
             color: var(--texto-claro);
             display: flex;
             align-items: center;
             gap: 12px;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
         }
 
         .service-card p { 
             margin: 0 0 24px; 
             color: var(--texto-muted); 
             line-height: 1.7; 
-            font-size: 0.98rem;
+            font-size: 1.05rem;
         }
 
-        /* GALERÍA DESPLEGABLE / INTERACTIVA */
-        .service-gallery {
-            max-height: 0;
-            margin: 0;
-            overflow: hidden;
-            opacity: 0;
-            pointer-events: none;
-            transition: max-height 0.4s ease, margin 0.4s ease, opacity 0.3s ease;
+        .service-details {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+            margin: 4px 0 22px;
         }
 
-        .service-gallery-frame {
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            background: #090a0b;
-            cursor: grab;
-            touch-action: pan-y;
-        }
-
-        .service-gallery-frame.is-dragging { cursor: grabbing; }
-
-        .service-gallery-slide {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.35s ease, transform 0.6s ease;
-        }
-
-        .service-gallery-slide.is-active { opacity: 1; transform: scale(1.02); }
-
-        .service-gallery-controls {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-            left: 10px;
+        .service-details span {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            color: #dedede;
+            text-align: center;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
-        .service-gallery-dots { display: flex; align-items: center; justify-content: center; gap: 7px; }
-        .service-gallery-dot {
-            width: 7px;
-            height: 7px;
-            padding: 0;
-            border: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.65);
-            cursor: pointer;
-            transition: all 0.25s ease;
+        .service-photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin: 4px 0 22px;
         }
-        .service-gallery-dot.is-active { width: 18px; border-radius: 8px; background: var(--amarillo); }
 
-        .service-card.is-gallery-open .service-gallery {
-            max-height: 240px;
-            margin: 0 0 24px;
-            opacity: 1;
-            pointer-events: auto;
+        .service-photo-grid figure {
+            min-width: 0;
+            height: 260px;
+            margin: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.35);
+            position: relative;
         }
+
+        .service-photo-grid img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.45s ease, filter 0.45s ease;
+        }
+
+        .service-photo-grid figure::after {
+            content: "";
+            position: absolute;
+            inset: 48% 0 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+            pointer-events: none;
+        }
+
+        .service-photo-grid figcaption {
+            position: absolute;
+            z-index: 2;
+            left: 12px;
+            right: 12px;
+            bottom: 10px;
+            color: #fff;
+            font-size: 0.76rem;
+            font-weight: 900;
+            letter-spacing: 0.055em;
+            text-transform: uppercase;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+        }
+
+        .service-photo-grid .portrait img {
+            object-position: center 42%;
+        }
+
+        .service-card:hover .service-photo-grid img {
+            transform: scale(1.025);
+            filter: brightness(1.08);
+        }
+
 
         /* BOTÓN WHATSAPP */
         .btn-whatsapp {
@@ -475,9 +468,37 @@
             .content { 
                 padding: 40px 20px 60px; 
             }
-            .hero-metrics {
-                gap: 16px;
+        }
+
+        @media (max-width: 620px) {
+            .service-card {
+                padding: 28px 22px;
             }
+
+            .service-card::before {
+                left: 22px;
+            }
+
+            .service-card h3 {
+                font-size: 1.45rem;
+            }
+
+            .service-card p {
+                font-size: 1rem;
+            }
+
+            .service-photo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-photo-grid figure {
+                height: 230px;
+            }
+
+            .service-details {
+                grid-template-columns: 1fr;
+            }
+
         }
 
         @media (hover: none) {
@@ -497,20 +518,6 @@
             <h1>Servicios Especializados para <span>Maquinaria Pesada</span></h1>
             <p>Mantenimiento preventivo, diagnóstico avanzado, reparación de sistemas hidráulicos y soluciones integrales para garantizar la operatividad continua de su flota.</p>
 
-            <div class="hero-metrics">
-                <div class="metric-box">
-                    <strong>+15 Años</strong>
-                    <span>De Experiencia Técnica</span>
-                </div>
-                <div class="metric-box">
-                    <strong>+500</strong>
-                    <span>Intervenciones Exitosas</span>
-                </div>
-                <div class="metric-box">
-                    <strong>100%</strong>
-                    <span>Garantía de Servicio</span>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -527,35 +534,24 @@
             <button class="tab-btn" data-filter="soporte">Soporte y Asesoría</button>
         </div>
 
-        @php
-            $serviceGalleryImages = [
-                ['src' => asset('img/montacarga_reparcion.jpg'), 'alt' => 'Montacargas en proceso de reparación técnica'],
-                ['src' => asset('img/montacarga_reparcion2.jpg'), 'alt' => 'Mantenimiento especializado de maquinaria'],
-            ];
-        @endphp
-
         <!-- GRILLA DE SERVICIOS -->
         <div class="service-grid">
             <article class="service-card" data-category="soporte">
                 <div>
                     <span class="service-tag">Puesta en Marcha</span>
-                    <h3>🔧 Instalación de accesorios de equipos</h3>
+                    <h3>Instalación de accesorios de equipos</h3>
                     <p>Colocación, calibración y configuración técnica de accesorios para maquinaria pesada y logística para asegurar una integración limpia, segura y productiva.</p>
                 </div>
-                <div class="service-gallery" role="region" aria-label="Galería de instalación de equipos" data-service-gallery>
-                    <div class="service-gallery-frame">
-                        @foreach($serviceGalleryImages as $imageIndex =>$image)
-                            <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
-                        @endforeach
-                        <div class="service-gallery-controls">
-                            <div class="service-gallery-dots">
-                                @foreach($serviceGalleryImages as $imageIndex =>$image)
-                                    <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="service-photo-grid" aria-label="Modelos de montacargas">
+                    <figure>
+                        <img src="{{ asset('img/servicios/montacarga_modelo_2.jpg') }}" alt="Instalación de faros" loading="lazy">
+                        <figcaption>Instalación de faros</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="{{ asset('img/servicios/montacarga_modelo_3.jpg') }}" alt="Instalación de panel de control" loading="lazy">
+                        <figcaption>Instalación de panel de control</figcaption>
+                    </figure>
+                </div>  
                 <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Instalación%20de%20accesorios%20de%20equipos" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Instalación de accesorios de equipos">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                     Consultar por WhatsApp
@@ -565,24 +561,20 @@
             <article class="service-card" data-category="core">
                 <div>
                     <span class="service-tag">Prevención de Fallas</span>
-                    <h3>🛠️ Mantenimiento Preventivo</h3>
+                    <h3>Mantenimiento y diagnóstico</h3>
                     <p>Planes programados de inspección, cambio de fluidos (aceites, refrigerantes, líquidos de freno) y filtros para maximizar la vida útil y prevenir paradas imprevistas.</p>
                 </div>
-                <div class="service-gallery" role="region" aria-label="Galería de mantenimiento preventivo" data-service-gallery>
-                    <div class="service-gallery-frame">
-                        @foreach($serviceGalleryImages as $imageIndex =>$image)
-                            <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
-                        @endforeach
-                        <div class="service-gallery-controls">
-                            <div class="service-gallery-dots">
-                                @foreach($serviceGalleryImages as $imageIndex =>$image)
-                                    <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
+                <div class="service-photo-grid" aria-label="Ejemplos de mantenimiento preventivo">
+                    <figure>
+                        <img src="{{ asset('img/servicios/revision.jpg') }}" alt="Revisión técnica de mantenimiento preventivo" loading="lazy">
+                        <figcaption>Inspeccion del cableado</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="{{ asset('img/servicios/cigüeñal.jpg') }}" alt="Inspección de cigüeñal" loading="lazy">
+                        <figcaption>Inspección de cigüeñal</figcaption>
+                    </figure>
                 </div>
-                <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Mantenimiento%20Preventivo" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Mantenimiento Preventivo">
+                <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Mantenimiento%20y%20diagn%C3%B3stico" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Mantenimiento y diagnóstico">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                     Consultar por WhatsApp
                 </a>
@@ -591,24 +583,20 @@
             <article class="service-card" data-category="core">
                 <div>
                     <span class="service-tag">Respuesta Inmediata</span>
-                    <h3>⚡ Reparación y diagnósticos de equipos</h3>
+                    <h3>Reparación y overhaul</h3>
                     <p>Atención de urgencia ante averías críticas. Diagnóstico especializado de motor, sistema hidráulico y transmisión para restaurar sus operaciones sin pérdidas de tiempo.</p>
                 </div>
-                <div class="service-gallery" role="region" aria-label="Galería de reparación rápida" data-service-gallery>
-                    <div class="service-gallery-frame">
-                        @foreach($serviceGalleryImages as $imageIndex =>$image)
-                            <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
-                        @endforeach
-                        <div class="service-gallery-controls">
-                            <div class="service-gallery-dots">
-                                @foreach($serviceGalleryImages as $imageIndex =>$image)
-                                    <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
+                <div class="service-photo-grid" aria-label="Ejemplos de reparación y diagnóstico">
+                    <figure>
+                        <img src="{{ asset('img/servicios/partes_motor.jpg') }}" alt="Partes internas de motor" loading="lazy">
+                        <figcaption>Componentes del motor</figcaption>
+                    </figure>
+                    <figure class="portrait">
+                        <img src="{{ asset('img/servicios/partes_motor_2.jpg') }}" alt="Componentes de motor durante diagnóstico" loading="lazy">
+                        <figcaption>Diagnóstico de motor</figcaption>
+                    </figure>
                 </div>
-                <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Reparación%20y%20diagnósticos%20de%20equipos" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Reparación y diagnósticos de equipos">
+                <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Reparaci%C3%B3n%20y%20overhaul" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Reparación y overhaul">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
                     Consultar por WhatsApp
                 </a>
@@ -617,22 +605,8 @@
             <article class="service-card" data-category="soporte">
                 <div>
                     <span class="service-tag">Optimización Operativa</span>
-                    <h3>📋 Asesoría Técnica Especializada</h3>
+                    <h3>Asesoría Técnica Especializada</h3>
                     <p>Evaluación integral del estado de su flota, recomendación de insumos correctos (fluidos, repuestos originales) y asesoramiento para reducir costos operativos.</p>
-                </div>
-                <div class="service-gallery" role="region" aria-label="Galería de asesoría técnica" data-service-gallery>
-                    <div class="service-gallery-frame">
-                        @foreach($serviceGalleryImages as $imageIndex =>$image)
-                            <img src="{{ $image['src'] }}" alt="{{ $image['alt'] }}" class="service-gallery-slide {{ $imageIndex === 0 ? 'is-active' : '' }}" aria-hidden="{{ $imageIndex === 0 ? 'false' : 'true' }}">
-                        @endforeach
-                        <div class="service-gallery-controls">
-                            <div class="service-gallery-dots">
-                                @foreach($serviceGalleryImages as $imageIndex =>$image)
-                                    <button class="service-gallery-dot {{ $imageIndex === 0 ? 'is-active' : '' }}" type="button" data-gallery-dot="{{ $imageIndex }}" aria-label="Mostrar imagen {{ $imageIndex + 1 }}" aria-pressed="{{ $imageIndex === 0 ? 'true' : 'false' }}"></button>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <a href="https://wa.me/51995000355?text=Hola%20MAQUITEC,%20deseo%20consultar%20sobre%20el%20servicio%20de%20Asesoría%20Técnica" target="_blank" rel="noopener" class="btn-whatsapp" data-service-interaction data-service-name="Asesoría Técnica Especializada">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
@@ -664,16 +638,21 @@
     @include('footer.bottom')
 
     <script>
-        // Fondo animado Micro Slats: canvas nativo para que funcione sin React ni WebGL externo.
         (() => {
-            const canvas = document.querySelector('.micro-slats');
-            if (!canvas) return;
+            const canvas = document.querySelector('.hero .micro-slats');
+            const hero = canvas?.closest('.hero');
+            if (!canvas || !hero) return;
 
             const context = canvas.getContext('2d');
+            if (!context) return;
+
             const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             let width = 0;
             let height = 0;
             let animationFrame = 0;
+            let isVisible = false;
+            let isPageVisible = !document.hidden;
+            const pointer = { x: 0, y: 0, active: false };
 
             function resize() {
                 const bounds = canvas.getBoundingClientRect();
@@ -689,66 +668,118 @@
                 context.clearRect(0, 0, width, height);
 
                 const background = context.createLinearGradient(0, 0, width, height);
-                background.addColorStop(0, '#17131d');
-                background.addColorStop(0.48, '#2a262f');
-                background.addColorStop(1, '#0c0b10');
+                background.addColorStop(0, '#17151a');
+                background.addColorStop(0.52, '#211e19');
+                background.addColorStop(1, '#090a0d');
                 context.fillStyle = background;
                 context.fillRect(0, 0, width, height);
 
-                const spacing = width < 600 ? 30 : 44;
-                const speed = reducedMotion ? 0 : time * 0.00010;
-                const slatCount = Math.ceil(width / spacing) + 4;
+                const slatWidth = 9;
+                const slatHeight = 19;
+                const gapX = 5;
+                const gapY = 9;
+                const stepX = slatWidth + gapX;
+                const stepY = slatHeight + gapY;
+                const phase = reducedMotion ? 0 : time * 0.001;
 
-                for (let index = -2; index < slatCount; index++) {
-                    const baseX = index * spacing;
-                    const wave = Math.sin(index * 0.62 + speed * 8) * 14;
-                    const secondWave = Math.cos(index * 0.29 - speed * 5) * 8;
-                    const slatWidth = spacing * 0.32;
-                    const colorIndex = index % 7;
-                    let color = 'rgba(247, 213, 71, 0.46)';
+                for (let row = -1; row < Math.ceil(height / stepY) + 1; row++) {
+                    for (let column = -1; column < Math.ceil(width / stepX) + 1; column++) {
+                        const wave = Math.sin(column * 0.22 + row * 0.3 - phase) * 0.5
+                            + Math.cos(column * 0.09 + row * 0.18 + phase * 0.65) * 0.5;
+                        const baseX = column * stepX;
+                        const baseY = row * stepY + wave * 6;
+                        const distance = pointer.active ? Math.hypot(baseX - pointer.x, baseY - pointer.y) : Infinity;
+                        const influence = Math.max(0, 1 - distance / 140);
+                        const x = baseX + (pointer.x - baseX) * influence * 0.12;
+                        const y = baseY + (pointer.y - baseY) * influence * 0.12;
+                        const alpha = Math.min(0.9, 0.14 + (wave + 1) * 0.17 + influence * 0.42);
 
-                    if (colorIndex === 0 || colorIndex === 4) color = 'rgba(255, 255, 255, 0.40)';
-                    if (colorIndex === 2) color = 'rgba(18, 15, 23, 0.62)';
-                    if (colorIndex === 5) color = 'rgba(247, 213, 71, 0.20)';
-
-                    context.beginPath();
-                    context.moveTo(baseX + wave, -30);
-                    context.lineTo(baseX + slatWidth + wave, -30);
-                    context.lineTo(baseX + slatWidth + secondWave, height + 30);
-                    context.lineTo(baseX + secondWave, height + 30);
-                    context.closePath();
-                    context.fillStyle = color;
-                    context.fill();
-
-                    context.beginPath();
-                    context.moveTo(baseX + slatWidth + 1 + wave, -30);
-                    context.lineTo(baseX + slatWidth + 5 + wave, -30);
-                    context.lineTo(baseX + slatWidth + 6 + secondWave, height + 30);
-                    context.lineTo(baseX + slatWidth + 1 + secondWave, height + 30);
-                    context.closePath();
-                    context.fillStyle = 'rgba(255, 255, 255, 0.09)';
-                    context.fill();
+                        context.beginPath();
+                        context.roundRect(x, y, slatWidth, slatHeight, 5);
+                        context.fillStyle = influence > 0.25
+                            ? `rgba(255, 244, 190, ${alpha})`
+                            : `rgba(247, 213, 71, ${alpha})`;
+                        context.fill();
+                    }
                 }
 
-                const glow = context.createRadialGradient(width * 0.5, height * 0.52, 0, width * 0.5, height * 0.52, width * 0.48);
-                glow.addColorStop(0, 'rgba(247, 213, 71, 0.12)');
-                glow.addColorStop(0.65, 'rgba(247, 213, 71, 0.03)');
-                glow.addColorStop(1, 'rgba(0, 0, 0, 0.34)');
+                const glow = context.createRadialGradient(width * 0.5, height * 0.45, 0, width * 0.5, height * 0.45, width * 0.62);
+                glow.addColorStop(0, 'rgba(247, 213, 71, 0.13)');
+                glow.addColorStop(0.65, 'rgba(247, 213, 71, 0.035)');
+                glow.addColorStop(1, 'rgba(0, 0, 0, 0.42)');
                 context.fillStyle = glow;
                 context.fillRect(0, 0, width, height);
 
-                if (!reducedMotion) animationFrame = requestAnimationFrame(draw);
+                if (pointer.active) {
+                    const pointerGlow = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 140);
+                    pointerGlow.addColorStop(0, 'rgba(255, 244, 190, 0.22)');
+                    pointerGlow.addColorStop(1, 'rgba(247, 213, 71, 0)');
+                    context.fillStyle = pointerGlow;
+                    context.fillRect(0, 0, width, height);
+                }
+
+                if (!reducedMotion && isVisible && isPageVisible) {
+                    animationFrame = requestAnimationFrame(draw);
+                }
+            }
+
+            function startAnimation() {
+                if (!reducedMotion && isVisible && isPageVisible && !animationFrame) {
+                    animationFrame = requestAnimationFrame((time) => {
+                        animationFrame = 0;
+                        draw(time);
+                    });
+                }
+            }
+
+            function stopAnimation() {
+                if (animationFrame) cancelAnimationFrame(animationFrame);
+                animationFrame = 0;
             }
 
             resize();
             draw();
-            window.addEventListener('resize', () => {
-                resize();
-                if (reducedMotion) draw();
+
+            hero.addEventListener('pointermove', (event) => {
+                if (event.pointerType === 'touch') return;
+
+                const bounds = hero.getBoundingClientRect();
+                pointer.x = event.clientX - bounds.left;
+                pointer.y = event.clientY - bounds.top;
+                pointer.active = true;
+
+                if (reducedMotion) draw(performance.now());
+                else startAnimation();
             });
+
+            hero.addEventListener('pointerleave', () => {
+                pointer.active = false;
+                if (reducedMotion) draw(performance.now());
+                else startAnimation();
+            });
+
+            const resizeObserver = new ResizeObserver(() => {
+                resize();
+                draw();
+            });
+            resizeObserver.observe(canvas);
+
+            if ('IntersectionObserver' in window) {
+                const visibilityObserver = new IntersectionObserver(([entry]) => {
+                    isVisible = entry.isIntersecting;
+                    if (isVisible) startAnimation();
+                    else stopAnimation();
+                });
+                visibilityObserver.observe(canvas);
+            } else {
+                isVisible = true;
+                startAnimation();
+            }
+
             document.addEventListener('visibilitychange', () => {
-                if (!reducedMotion && document.hidden) cancelAnimationFrame(animationFrame);
-                if (!reducedMotion && !document.hidden) animationFrame = requestAnimationFrame(draw);
+                isPageVisible = !document.hidden;
+                if (isPageVisible) startAnimation();
+                else stopAnimation();
             });
         })();
 
@@ -775,37 +806,6 @@
         const tabBtns = document.querySelectorAll('.tab-btn');
         const serviceCards = document.querySelectorAll('.service-card');
 
-        const openServiceGallery = selectedCard => {
-            serviceCards.forEach(card => {
-                card.classList.toggle('is-gallery-open', card === selectedCard);
-            });
-        };
-
-        const closeServiceGallery = card => {
-            if (!card.matches(':hover') && !card.contains(document.activeElement)) {
-                card.classList.remove('is-gallery-open');
-            }
-        };
-
-        serviceCards.forEach(card => {
-            card.addEventListener('pointerenter', event => {
-                if (event.pointerType === 'mouse') openServiceGallery(card);
-            });
-
-            card.addEventListener('pointerleave', event => {
-                if (event.pointerType === 'mouse') closeServiceGallery(card);
-            });
-
-            card.addEventListener('pointerdown', event => {
-                if (event.pointerType === 'touch') openServiceGallery(card);
-            });
-
-            card.addEventListener('focusin', () => openServiceGallery(card));
-            card.addEventListener('focusout', event => {
-                if (!card.contains(event.relatedTarget)) closeServiceGallery(card);
-            });
-        });
-
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 tabBtns.forEach(b => b.classList.remove('is-active'));
@@ -820,76 +820,6 @@
                         card.style.display = 'none';
                     }
                 });
-            });
-        });
-
-        // GALERÍA DE IMÁGENES DENTRO DE LAS TARJETAS
-        const serviceGalleries = document.querySelectorAll('[data-service-gallery]');
-        const reduceGalleryMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        serviceGalleries.forEach(gallery => {
-            const card = gallery.closest('.service-card');
-            const slides = [...gallery.querySelectorAll('.service-gallery-slide')];
-            const dots = [...gallery.querySelectorAll('[data-gallery-dot]')];
-            let activeIndex = 0;
-            let rotationTimer = null;
-
-            const showSlide = index => {
-                activeIndex = (index + slides.length) % slides.length;
-                slides.forEach((slide, slideIndex) => {
-                    const isActive = slideIndex === activeIndex;
-                    slide.classList.toggle('is-active', isActive);
-                    slide.setAttribute('aria-hidden', String(!isActive));
-                    dots[slideIndex].classList.toggle('is-active', isActive);
-                    dots[slideIndex].setAttribute('aria-pressed', String(isActive));
-                });
-            };
-
-            const stopRotation = () => {
-                clearInterval(rotationTimer);
-                rotationTimer = null;
-            };
-
-            const startRotation = () => {
-                if (reduceGalleryMotion || rotationTimer || slides.length < 2) return;
-                rotationTimer = setInterval(() => showSlide(activeIndex + 1), 3500);
-            };
-
-            dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
-
-            const frame = gallery.querySelector('.service-gallery-frame');
-            let dragStart = null;
-
-            frame.addEventListener('pointerdown', event => {
-                if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
-                dragStart = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
-                frame.setPointerCapture(event.pointerId);
-                frame.classList.add('is-dragging');
-            });
-
-            frame.addEventListener('pointerup', event => {
-                if (!dragStart || dragStart.pointerId !== event.pointerId) return;
-                const deltaX = event.clientX - dragStart.x;
-                const deltaY = event.clientY - dragStart.y;
-                if (Math.abs(deltaX) >= 40 && Math.abs(deltaX) > Math.abs(deltaY)) {
-                    showSlide(activeIndex + (deltaX < 0 ? 1 : -1));
-                }
-                dragStart = null;
-                frame.classList.remove('is-dragging');
-            });
-
-            frame.addEventListener('pointercancel', () => {
-                dragStart = null;
-                frame.classList.remove('is-dragging');
-            });
-
-            card.addEventListener('pointerenter', event => {
-                if (event.pointerType === 'mouse') startRotation();
-            });
-            card.addEventListener('pointerleave', stopRotation);
-            card.addEventListener('focusin', startRotation);
-            card.addEventListener('focusout', event => {
-                if (!card.contains(event.relatedTarget)) stopRotation();
             });
         });
 

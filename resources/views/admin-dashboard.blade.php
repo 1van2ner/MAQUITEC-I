@@ -298,12 +298,28 @@
         .top-consultados-card .top-consultados-grid {
             flex: 1;
             min-height: 0;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
         }
 
         .top-consultados-card .top-consultados-column {
             display: flex;
             flex-direction: column;
             min-height: 0;
+            min-width: 0;
+        }
+
+        .top-consultados-card .top-list li {
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .top-consultados-card .top-list li span {
+            min-width: 0;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            line-height: 1.35;
         }
 
         .top-consultados-card .top-scroll {
@@ -446,6 +462,7 @@
 
         @media (max-width: 900px) {
             .analytics-grid { grid-template-columns: 1fr; }
+            .top-consultados-card .top-consultados-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 1200px) {
@@ -634,6 +651,17 @@
                     </div>
                 </div>
 
+                <!-- Alquileres -->
+                <div class="kpi-box">
+                    <div>
+                        <div class="kpi-info-title">Alquileres</div>
+                        <div class="kpi-info-value">{{ $totalAlquileres ?? 0 }}</div>
+                    </div>
+                    <div class="kpi-icon-box">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17h18M5 17l1-7h12l1 7M8 10l1-3h6l1 3M7 17v2m10-2v2"/></svg>
+                    </div>
+                </div>
+
                 <!-- Usuarios (Silueta Persona) -->
                 <div class="kpi-box">
                     <div>
@@ -686,6 +714,11 @@
                         <span>7 días de la semana</span>
                         <strong>{{ $totalSemana }} consulta{{ $totalSemana === 1 ? '' : 's' }} reales</strong>
                     </div>
+                    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+                        <span style="padding:6px 10px;border-radius:999px;background:#eff6ff;color:#1d4ed8;">Productos: {{ $consultasPorTipo['producto'] ?? 0 }}</span>
+                        <span style="padding:6px 10px;border-radius:999px;background:#ecfdf5;color:#166534;">Servicios: {{ $consultasPorTipo['servicio'] ?? 0 }}</span>
+                        <span style="padding:6px 10px;border-radius:999px;background:#fefce8;color:#854d0e;">Alquileres: {{ $consultasPorTipo['alquiler'] ?? 0 }}</span>
+                    </div>
                     <div class="chart-scroll">
                             <div class="daily-chart" aria-label="Gráfico de consultas por día de la semana">
                                     @foreach($diasGrafica ?? [] as $dia)
@@ -704,7 +737,7 @@
 
                 <div class="analytics-card top-consultados-card">
                     <h2>Más consultados</h2>
-                    <div class="top-consultados-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div class="top-consultados-grid">
                         <div class="top-consultados-column">
                             <strong style="font-size:.78rem;">Productos</strong>
                             <div class="top-scroll">
@@ -722,6 +755,18 @@
                             <div class="top-scroll">
                                 <ul class="top-list">
                                     @forelse($topServicios ?? [] as $item)
+                                        <li><span>{{ $item->item }}</span><strong>{{ $item->total }}</strong></li>
+                                    @empty
+                                        <li><span>Sin consultas</span></li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="top-consultados-column">
+                            <strong style="font-size:.78rem;">Alquileres</strong>
+                            <div class="top-scroll">
+                                <ul class="top-list">
+                                    @forelse($topAlquileres ?? [] as $item)
                                         <li><span>{{ $item->item }}</span><strong>{{ $item->total }}</strong></li>
                                     @empty
                                         <li><span>Sin consultas</span></li>
@@ -761,10 +806,11 @@
                             <option value="">Todos</option>
                             <option value="producto" @selected(request('tipo') === 'producto')>Producto</option>
                             <option value="servicio" @selected(request('tipo') === 'servicio')>Servicio</option>
+                            <option value="alquiler" @selected(request('tipo') === 'alquiler')>Alquiler</option>
                         </select>
                     </label>
                     <label>
-                        Producto o servicio
+                        Producto, servicio o equipo
                         <select name="item">
                             <option value="">Todos</option>
                             @foreach($itemsDisponibles ?? [] as $itemDisponible)
@@ -796,7 +842,7 @@
                             <tr>
                                 <th>Fecha y hora</th>
                                 <th>Tipo</th>
-                                <th>Producto / Servicio</th>
+                                <th>Producto / Servicio / Alquiler</th>
                                 <th>Canal</th>
                             </tr>
                         </thead>
@@ -869,6 +915,19 @@
                         </div>
                     </div>
                     <div class="module-link">Ver usuarios &rarr;</div>
+                </a>
+
+                <a href="{{ route('admin.alquileres.index') }}" class="module-item">
+                    <div class="module-top">
+                        <div class="module-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17h18M5 17l1-7h12l1 7M8 10l1-3h6l1 3M7 17v2m10-2v2M4 20h16"/></svg>
+                        </div>
+                        <div class="module-content">
+                            <h3>Gestión de Alquileres</h3>
+                            <p>Administra los equipos disponibles para alquiler, su estado, características y consultas.</p>
+                        </div>
+                    </div>
+                    <div class="module-link">Administrar alquileres &rarr;</div>
                 </a>
 
             </section>

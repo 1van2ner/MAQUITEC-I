@@ -8,7 +8,7 @@
     }
 
     .top-bar,
-    nav,
+    .main-nav,
     .logo,
     .logo img,
     .menu,
@@ -37,7 +37,7 @@
     }
 
     /* Estructura general de la barra de navegación */
-    nav {
+    .main-nav {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -223,7 +223,7 @@
     /* Responsive */
     @media (max-width: 1024px) {
         .top-bar { justify-content: center; font-size: 0.8rem; text-align: center; }
-        nav { flex-wrap: wrap; }
+        .main-nav { flex-wrap: wrap; }
         .menu-toggle { display: inline-flex; }
         .menu {
             display: none;
@@ -264,7 +264,7 @@
     @media (max-width: 680px) {
         .top-bar { display: none; }
 
-        nav {
+        .main-nav {
             display: grid;
             grid-template-columns: minmax(0, 1fr) 36px 36px;
             gap: 8px;
@@ -314,7 +314,7 @@
     }
 </style>
 
-<nav>
+<nav class="main-nav">
     <a href="{{ url('/') }}" class="logo">
         <img src="{{ asset('img/logo_pagina_general/logo_maquiteci_2_transparente.png') }}" alt="MAQUITEC - Mantenimiento de maquinaria pesada y logística">
     </a>
@@ -328,6 +328,7 @@
         <a href="{{ url('/nosotros') }}" class="{{ request()->is('nosotros') ? 'active' : '' }}">Nosotros</a>
         <a href="{{ url('/productos') }}" class="{{ request()->is('productos') || request()->is('productos/*') ? 'active' : '' }}">Productos</a>
         <a href="{{ url('/servicios') }}" class="{{ request()->is('servicios') ? 'active' : '' }}">Servicios</a>
+        <a href="{{ url('/alquileres') }}" class="{{ request()->is('alquileres') || request()->is('alquileres/*') ? 'active' : '' }}">Alquileres</a>
     </div>
 
     <!-- Sección de Autenticación Condicional -->

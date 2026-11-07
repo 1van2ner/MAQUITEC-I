@@ -34,29 +34,18 @@
             min-height: 100vh;
         }
 
-        /* NAVEGACIÓN SUPERIOR / BREADCRUMB */
-        .top-nav-bar {
-            background: rgba(18, 19, 22, 0.85);
-            padding: 18px 6%;
-            border-bottom: 1px solid var(--borde-card);
-            font-size: 0.95rem;
-            color: var(--texto-muted);
-            backdrop-filter: blur(10px);
-        }
-        .top-nav-bar a {
-            color: var(--amarillo);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-        .top-nav-bar a:hover {
-            color: var(--amarillo-hover);
-            text-decoration: underline;
-        }
-        .top-nav-bar span {
-            color: var(--texto-claro);
-            font-weight: 500;
-        }
+        /* BOTÓN DE RETROCESO */
+        .back-button-wrap { max-width: 1200px; width: 92%; margin: 28px auto 0; }
+        .back-button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--borde-card); border-radius: 10px; background: rgba(255,255,255,.06); color: var(--texto-claro); text-decoration: none; font-weight: 800; transition: .2s ease; }
+        .back-button:hover { background: var(--amarillo); border-color: var(--amarillo); color: var(--negro); transform: translateX(-3px); }
+
+        /* INDICADOR DE ENVÍO */
+        .quote-loading { position: fixed; inset: 0; z-index: 10050; display: flex; align-items: center; justify-content: center; background: rgba(10,10,10,.58); backdrop-filter: blur(3px); opacity: 0; visibility: hidden; pointer-events: none; transition: .18s ease; }
+        .quote-loading.is-visible { opacity: 1; visibility: visible; pointer-events: auto; }
+        .quote-loading-box { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 12px; background: #fff; color: #111; font-weight: 800; box-shadow: 0 16px 40px rgba(0,0,0,.35); }
+        .loading-spinner { width: 22px; height: 22px; border: 3px solid #d1d5db; border-top-color: var(--amarillo); border-radius: 50%; animation: quoteSpin .7s linear infinite; }
+        .btn-send-quote.is-loading { opacity: .78; cursor: wait; pointer-events: none; }
+        @keyframes quoteSpin { to { transform: rotate(360deg); } }
 
         /* BANNER CABECERA DE COTIZACIÓN */
         .quote-hero {
@@ -312,10 +301,8 @@
 
     @include('footer.top')
 
-    <div class="top-nav-bar">
-        <a href="{{ url('/') }}">Inicio</a> &gt; 
-        <a href="{{ route('productos.index') }}">Productos</a> &gt; 
-        <span>Cotizar</span>
+    <div class="back-button-wrap">
+        <a class="back-button" href="{{ route('productos.index') }}" aria-label="Volver al listado de productos">&larr; Volver a Productos</a>
     </div>
 
     <section class="quote-hero">
@@ -367,7 +354,7 @@
             <div class="quote-form-card">
                 <h2>Datos de Contacto</h2>
                 
-                <form method="POST" action="{{ url('/productos/cotizar') }}">
+                <form class="quote-send-form" method="POST" action="{{ url('/productos/cotizar') }}">
                     @csrf
                     <input type="hidden" name="product" value="{{ old('product', $slug) }}">
 
@@ -398,13 +385,17 @@
                         <textarea id="message" name="message" placeholder="Cuéntanos qué requerimientos específicos o tiempo de alquiler/compra necesitas..." required>{{ old('message') }}</textarea>
                     </div>
 
-                    <button type="submit" class="btn-send-quote">Enviar Solicitud de Cotización</button>
+                    <button type="submit" class="btn-send-quote" data-loading-text="Enviando cotización...">Enviar Solicitud de Cotización</button>
                 </form>
             </div>
         </div>
     </section>
 
     @include('footer.bottom')
+
+    <div class="quote-loading" id="quoteLoading" aria-live="polite" aria-label="Enviando cotización">
+        <div class="quote-loading-box"><span class="loading-spinner"></span><span>Enviando cotización...</span></div>
+    </div>
 
     <script>
         const mainProductImage = document.getElementById('main-product-image');
@@ -415,6 +406,19 @@
                 document.querySelectorAll('.product-image-thumbnail').forEach((item) => {
                     item.setAttribute('aria-pressed', String(item === thumbnail));
                 });
+            });
+        });
+
+        document.querySelectorAll('.quote-send-form').forEach((form) => {
+            form.addEventListener('submit', () => {
+                const button = form.querySelector('[type="submit"]');
+                const loading = document.getElementById('quoteLoading');
+                if (button) {
+                    button.disabled = true;
+                    button.classList.add('is-loading');
+                    button.textContent = button.dataset.loadingText || 'Enviando...';
+                }
+                if (loading) loading.classList.add('is-visible');
             });
         });
     </script>
