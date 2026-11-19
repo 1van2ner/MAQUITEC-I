@@ -16,6 +16,22 @@
         .card-actions{display:grid;grid-template-columns:1fr 48px;gap:9px;margin-top:auto}.button{display:block;text-align:center;padding:13px;border-radius:10px;background:var(--yellow);color:#111;text-decoration:none;font-weight:900;font-size:.88rem;text-transform:uppercase;letter-spacing:.03em;box-shadow:0 5px 14px rgba(247,213,71,.16);transition:.2s}.button:hover{background:var(--yellow-hover);transform:translateY(-2px)}.whatsapp-card{width:48px;border-radius:10px;background:#25d366;color:white!important;text-decoration:none;display:grid;place-items:center;font-size:1.1rem;font-weight:900}.empty{grid-column:1/-1;text-align:center;padding:70px 20px;background:var(--card);border:1px solid var(--border);border-radius:16px;color:var(--muted)}.empty h2{color:white}.pagination{margin-top:34px;display:flex;justify-content:center}
         @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){.hero{padding:60px 6%}.container{width:92%;margin-top:24px}.grid{grid-template-columns:1fr}.media{height:240px}.specs{grid-template-columns:repeat(2,minmax(0,1fr))}}
     </style>
+    <style>
+        :root {
+            --muted: #c2c3ca;
+            --border: rgba(247, 213, 71, 0.18);
+        }
+
+        .card {
+            border-color: var(--border);
+        }
+
+        .spec {
+            background: rgba(255, 255, 255, 0.075);
+            border-color: rgba(247, 213, 71, 0.12);
+            color: #c2c3ca;
+        }
+    </style>
 </head>
 <body>
     @include('footer.top')

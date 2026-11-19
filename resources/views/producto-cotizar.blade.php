@@ -10,9 +10,9 @@
             --amarillo-hover: #e5c338;
             --negro: #000000;
             --negro-card: rgba(255, 255, 255, 0.03);
-            --borde-card: rgba(255, 255, 255, 0.08);
+            --borde-card: rgba(247, 213, 71, 0.17);
             --texto-claro: #ffffff;
-            --texto-muted: #a1a1aa;
+            --texto-muted: #c2c3ca;
         }
 
         * { box-sizing: border-box; }
@@ -245,6 +245,12 @@
             font-family: inherit;
             outline: none;
             transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .quote-form-card input::placeholder,
+        .quote-form-card textarea::placeholder {
+            color: #aeb3bc;
+            opacity: 1;
         }
 
         .quote-form-card input:focus, 

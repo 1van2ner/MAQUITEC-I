@@ -11,9 +11,9 @@
             --amarillo-oscuro: #caaa2b;
             --negro: #000000;
             --negro-card: rgba(255, 255, 255, 0.03);
-            --borde-card: rgba(255, 255, 255, 0.08);
+            --borde-card: rgba(247, 213, 71, 0.17);
             --texto-claro: #ffffff;
-            --texto-muted: #a1a1aa;
+            --texto-muted: #c2c3ca;
             --whatsapp: #25d366;
             --whatsapp-hover: #20ba5a;
         }
@@ -410,7 +410,7 @@
             background: rgba(255, 255, 255, 0.02);
             padding: 50px 30px;
             border-radius: 24px;
-            border: 1px dashed rgba(255, 255, 255, 0.12);
+            border: 1px dashed rgba(247, 213, 71, 0.32);
         }
 
         .cta h3 {

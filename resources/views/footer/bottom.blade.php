@@ -2,7 +2,7 @@
     <div class="footer-grid">
         <section class="footer-col footer-brand" aria-label="Acerca de Maquitec">
             <div class="footer-brand-heading">
-                <img src="{{ asset('img/logo_pagina_general/logo_maquiteci_2_transparente.png') }}" alt="MAQUITEC - Mantenimiento de maquinaria pesada y logística">
+                <img src="{{ asset('img/logo_pagina_general/logo_maquiteci_2_transparente.jpg') }}" alt="MAQUITEC - Mantenimiento de maquinaria pesada y logística">
             </div>
             <p class="footer-description">Empresa peruana especializada en comercialización, ensamblaje y mantenimiento de equipos industriales, contamos con tecnicos con más de 15 años de experiencia en el sector.</p>
             <div class="footer-facts">

@@ -316,7 +316,7 @@
 
 <nav class="main-nav">
     <a href="{{ url('/') }}" class="logo">
-        <img src="{{ asset('img/logo_pagina_general/logo_maquiteci_2_transparente.png') }}" alt="MAQUITEC - Mantenimiento de maquinaria pesada y logística">
+        <img src="{{ asset('img/logo_pagina_general/logo_maquiteci_2_transparente.jpg') }}" alt="MAQUITEC - Mantenimiento de maquinaria pesada y logística">
     </a>
 
     <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">

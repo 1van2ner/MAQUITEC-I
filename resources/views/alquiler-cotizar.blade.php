@@ -9,6 +9,28 @@
         .quote-loading{position:fixed;inset:0;z-index:10050;display:flex;align-items:center;justify-content:center;background:rgba(10,10,10,.58);backdrop-filter:blur(3px);opacity:0;visibility:hidden;pointer-events:none;transition:.18s}.quote-loading.is-visible{opacity:1;visibility:visible;pointer-events:auto}.quote-loading-box{display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:12px;background:#fff;color:#111;font-weight:800;box-shadow:0 16px 40px rgba(0,0,0,.35)}.loading-spinner{width:22px;height:22px;border:3px solid #d1d5db;border-top-color:var(--yellow);border-radius:50%;animation:quoteSpin .7s linear infinite}.submit.is-loading{opacity:.78;cursor:wait!important;pointer-events:none}@keyframes quoteSpin{to{transform:rotate(360deg)}}
         .wrap{width:min(1200px,92%);margin:28px auto 70px;display:grid;grid-template-columns:1.08fr .92fr;gap:24px}.panel{background:var(--card);border-radius:16px;border:1px solid var(--border);box-shadow:0 14px 36px rgba(0,0,0,.22);overflow:hidden;backdrop-filter:blur(10px)}.gallery{height:430px;background:#f7f7f7;border-bottom:1px solid var(--border)}.gallery img{width:100%;height:100%;object-fit:cover}.gallery-shell{background:#f7f7f7}.gallery-thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:9px;background:#151619}.gallery-thumb{height:72px;padding:0;border:1px solid transparent;border-radius:7px;background:#fff;overflow:hidden;cursor:pointer}.gallery-thumb.active{border-color:var(--yellow)}.gallery-thumb img{width:100%;height:100%;object-fit:cover}.details{padding:26px}.brand{color:var(--yellow);text-transform:uppercase;font-size:.78rem;font-weight:900;letter-spacing:.08em}.details h1{margin:7px 0 14px;font-size:2rem}.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.spec{padding:12px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.055);border-radius:10px;font-size:.78rem;color:var(--muted)}.spec strong{display:block;color:white;margin-top:4px}.description{line-height:1.65;color:#c1c7d1}.availability{display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;padding:8px 11px;border-radius:999px;background:rgba(34,197,94,.12);color:#86efac;font-size:.78rem;font-weight:900}.availability::before{content:"";width:8px;height:8px;border-radius:50%;background:#22c55e}.whatsapp-button{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;padding:13px;border-radius:10px;background:#25d366;color:white;text-decoration:none;font-weight:900}.form{padding:28px;position:sticky;top:24px;align-self:start}.form h2{margin:0 0 6px}.form>p{margin:0 0 20px;color:var(--muted);font-size:.88rem}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:.82rem;font-weight:800}.field input,.field textarea{width:100%;border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:12px;font:inherit;background:rgba(255,255,255,.06);color:white}.field textarea{min-height:115px;resize:vertical}.field input:focus,.field textarea:focus{outline:none;border-color:var(--yellow);box-shadow:0 0 0 3px rgba(247,213,71,.16)}.submit{width:100%;margin-top:16px;border:none;border-radius:10px;padding:14px;background:var(--yellow);color:#111;font-weight:900;cursor:pointer;text-transform:uppercase}.submit:hover{background:var(--yellow-hover)}.alert{grid-column:1/-1;margin-bottom:14px;padding:12px;border-radius:9px;background:rgba(34,197,94,.16);color:#86efac}.errors{grid-column:1/-1;padding:12px;border-radius:9px;background:rgba(239,68,68,.14);color:#fca5a5}@media(max-width:900px){.wrap{width:92%;grid-template-columns:1fr}.gallery{height:360px}.form{position:static}}@media(max-width:600px){.wrap{margin-top:24px}.gallery{height:260px}.gallery-thumb{height:58px}.details{padding:20px}.details h1{font-size:1.55rem}.spec-grid,.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.form{padding:20px}.quote-hero{padding-top:34px}}
     </style>
+    <style>
+        :root {
+            --muted: #c2c3ca;
+            --border: rgba(247, 213, 71, 0.18);
+        }
+
+        .panel {
+            border-color: var(--border);
+        }
+
+        .spec {
+            background: rgba(255, 255, 255, 0.075);
+            border-color: rgba(247, 213, 71, 0.12);
+            color: #c2c3ca;
+        }
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: #aeb3bc;
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
     @include('footer.top')

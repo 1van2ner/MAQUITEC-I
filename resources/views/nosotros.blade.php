@@ -519,6 +519,7 @@
             background-size: cover;
             background-position: center 58%;
             z-index: 0;
+            pointer-events: none;
         }
 
         .hero-content,
@@ -635,6 +636,7 @@
             border-top: 2px solid rgba(247,213,71,.62);
         }
         .identity-card .icon-box { color: var(--amarillo); font-size: 1.5rem; margin-bottom: 14px; }
+        .identity-card .icon-box svg { display: block; width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
         .identity-card h3 { margin: 0 0 10px; font-size: 1.15rem; text-transform: uppercase; }
         .identity-card p { margin: 0; color: var(--texto-muted); line-height: 1.65; }
 
@@ -707,10 +709,9 @@
             min-height: 620px;
             overflow: hidden;
             border-radius: 16px;
-            background: #18191c;
-            border: 1px solid rgba(247,213,71,.24);
         }
         .process-gallery-panel img {
+            display: block;
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -718,8 +719,7 @@
         .process-gallery-panel.arrival {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 4px;
-            background: #090a0b;
+            gap: 0;
         }
         .process-gallery-panel.arrival img {
             height: 100%;
@@ -963,12 +963,24 @@
             .process-gallery-panel.arrival { min-height: 360px; height: 360px; border-radius: 12px; }
             .process-gallery-panel.arrival {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                grid-template-rows: 1.2fr 1fr;
+                grid-template-rows: auto auto;
                 gap: 4px;
+                height: auto;
+                min-height: 0;
             }
-            .process-gallery-panel.arrival img { min-width: 0; min-height: 0; height: 100%; }
+            .process-gallery-panel.arrival img {
+                min-width: 0;
+                min-height: 0;
+                height: auto;
+                aspect-ratio: 758 / 1599;
+                object-fit: cover;
+            }
             .process-gallery-panel.arrival img:first-of-type { grid-column: 1 / -1; }
-            .work-gallery-section .process-gallery-panel { height: 360px; }
+            .work-gallery-section .process-gallery-panel:not(.arrival) {
+                height: auto;
+                min-height: 0;
+                aspect-ratio: 952 / 1599;
+            }
             .process-status { left: 12px; bottom: 12px; max-width: calc(100% - 24px); }
             .process-status span { font-size: .82rem; }
             .section-highlight { padding: 64px 16px; }
@@ -1036,17 +1048,33 @@
 
                 <div class="identity-grid">
                     <div class="identity-card">
-                        <div class="icon-box">M</div>
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="12" cy="12" r="8.5"></circle>
+                                <circle cx="12" cy="12" r="4.5"></circle>
+                                <circle cx="12" cy="12" r="1"></circle>
+                            </svg>
+                        </div>
                         <h3>Misión</h3>
                         <p>Devolver la maquinaria a operación con trabajo técnico responsable, piezas adecuadas y comunicación clara con el cliente.</p>
                     </div>
                     <div class="identity-card">
-                        <div class="icon-box">V</div>
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path>
+                                <circle cx="12" cy="12" r="2.8"></circle>
+                            </svg>
+                        </div>
                         <h3>Visión</h3>
                         <p>Crecer como taller de referencia en Lima, con procesos confiables y una relación de largo plazo con cada operación.</p>
                     </div>
                     <div class="identity-card">
-                        <div class="icon-box">+</div>
+                        <div class="icon-box">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 3 19 6v5c0 4.7-2.8 8-7 10-4.2-2-7-5.3-7-10V6l7-3Z"></path>
+                                <path d="m9 12 2 2 4-4"></path>
+                            </svg>
+                        </div>
                         <h3>Valores</h3>
                         <p>Decir lo necesario, cuidar al equipo y a las personas, y no entregar una máquina hasta confirmar su estado.</p>
                     </div>

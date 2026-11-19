@@ -10,7 +10,7 @@
             --amarillo-hover: #e5c338;
             --amarillo-oscuro: #caaa2b;
             --texto-claro: #ffffff;
-            --texto-muted: #a1a1aa;
+            --texto-muted: #c2c3ca;
         }
 
         * { box-sizing: border-box; }
@@ -298,7 +298,7 @@
             background: rgba(255, 255, 255, 0.03);
             border-radius: 20px;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(247, 213, 71, 0.18);
             display: flex;
             flex-direction: column;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
@@ -866,7 +866,7 @@
         .maps-card {
             overflow: hidden;
             background: rgba(26, 29, 36, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(247, 213, 71, 0.24);
             border-radius: 12px;
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
         }

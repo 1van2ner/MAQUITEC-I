@@ -265,7 +265,7 @@ Route::post('/forgot-password', function (Request $request) {
     try {
         $status = Password::sendResetLink(['email' => $email]);
     } catch (Throwable $exception) {
-        report($exception);
+        \Log::error('Error enviando correo: ' . $exception->getMessage(), ['exception' => $exception]);
         return back()->withErrors([
             'email' => 'No se pudo enviar el correo de recuperación. Verifica la configuración del servidor de correo.',
         ])->withInput(['email' => $email]);
@@ -288,7 +288,7 @@ Route::post('/perfil/password/email', function (Request $request) {
     try {
         $status = Password::sendResetLink(['email' => $email]);
     } catch (Throwable $exception) {
-        report($exception);
+        \Log::error('Error enviando correo: ' . $exception->getMessage(), ['exception' => $exception]);
         return back()->withErrors([
             'email' => 'No se pudo enviar el correo de recuperación. Verifica la configuración SMTP del servidor.',
         ]);
@@ -361,7 +361,7 @@ Route::put('/perfil/password', function (Request $request) {
     try {
         $status = Password::sendResetLink(['email' => $request->user()->email]);
     } catch (Throwable $exception) {
-        report($exception);
+        \Log::error('Error enviando correo: ' . $exception->getMessage(), ['exception' => $exception]);
         return back()->withErrors([
             'email' => 'No se pudo enviar el correo de recuperación. Verifica la configuración SMTP del servidor.',
         ]);
