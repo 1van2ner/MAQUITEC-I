@@ -13,34 +13,11 @@ class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_registration_sends_a_verification_email_without_signing_in(): void
+    public function test_registration_routes_are_disabled(): void
     {
-        Notification::fake();
-
-        $this->post('/register', [
-            'tipo_usuario' => 'persona',
-            'name' => 'Cliente nuevo',
-            'documento' => '12345678',
-            'fecha_nacimiento' => '1990-01-01',
-            'telefono' => '963727185',
-            'email' => 'cliente-nuevo@example.com',
-            'password' => 'clave-segura-123',
-            'password_confirmation' => 'clave-segura-123',
-            'legal_acceptance' => '1',
-        ])
-            ->assertRedirect(route('verification.notice'))
-            ->assertSessionHas('verification_email', 'cliente-nuevo@example.com');
-
-        $this->get(route('verification.notice'))
-            ->assertOk()
-            ->assertSee('cliente-nuevo@example.com')
-            ->assertSee('Reenviar correo de verificaciÃ³n');
-
-        $user = User::where('email', 'cliente-nuevo@example.com')->firstOrFail();
-
-        $this->assertNull($user->email_verified_at);
-        $this->assertGuest();
-        Notification::assertSentTo($user, VerifyEmail::class);
+        $this->get('/register')->assertNotFound();
+        $this->post('/register')->assertNotFound();
+        $this->assertDatabaseMissing('users', ['email' => 'cliente-nuevo@example.com']);
     }
 
     public function test_unverified_user_cannot_sign_in(): void
@@ -49,7 +26,7 @@ class EmailVerificationTest extends TestCase
             'name' => 'Cliente pendiente',
             'email' => 'cliente-pendiente@example.com',
             'password' => 'clave-segura-123',
-            'rol' => 'Cliente',
+            'rol' => 'Administrador',
         ]);
 
         $this->from('/login')->post('/login', [
@@ -68,7 +45,7 @@ class EmailVerificationTest extends TestCase
             'name' => 'Cliente verificado',
             'email' => 'cliente-verificado@example.com',
             'password' => 'clave-segura-123',
-            'rol' => 'Cliente',
+            'rol' => 'Administrador',
         ]);
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -85,7 +62,7 @@ class EmailVerificationTest extends TestCase
         $this->post('/login', [
             'email' => $user->email,
             'password' => 'clave-segura-123',
-        ])->assertRedirect('/');
+        ])->assertRedirect(route('admin.dashboard'));
 
         $this->assertAuthenticatedAs($user);
     }

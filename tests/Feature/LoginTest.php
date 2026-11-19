@@ -11,7 +11,27 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_registered_user_can_sign_in_with_their_password(): void
+    public function test_administrator_can_sign_in_with_their_password(): void
+    {
+        $user = User::create([
+            'name' => 'Administrador de prueba',
+            'email' => 'admin-login@example.com',
+            'password' => Hash::make('clave-correcta-123'),
+            'rol' => 'Administrador',
+        ]);
+        $user->markEmailAsVerified();
+
+        $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'clave-correcta-123',
+        ])
+            ->assertRedirect(route('admin.dashboard'))
+            ->assertSessionHasNoErrors();
+
+        $this->assertAuthenticatedAs($user);
+    }
+
+    public function test_regular_user_cannot_sign_in(): void
     {
         $user = User::create([
             'name' => 'Cliente de prueba',
@@ -21,14 +41,14 @@ class LoginTest extends TestCase
         ]);
         $user->markEmailAsVerified();
 
-        $this->post('/login', [
+        $this->from('/login')->post('/login', [
             'email' => $user->email,
             'password' => 'clave-correcta-123',
         ])
-            ->assertRedirect('/')
-            ->assertSessionHasNoErrors();
+            ->assertRedirect('/login')
+            ->assertSessionHasErrors('email');
 
-        $this->assertAuthenticatedAs($user);
+        $this->assertGuest();
     }
 
     public function test_failed_sign_in_shows_an_error_and_keeps_the_email(): void
@@ -37,7 +57,7 @@ class LoginTest extends TestCase
             'name' => 'Cliente de prueba',
             'email' => 'cliente-login-error@example.com',
             'password' => Hash::make('clave-correcta-123'),
-            'rol' => 'Cliente',
+            'rol' => 'Administrador',
         ]);
         $user->markEmailAsVerified();
 

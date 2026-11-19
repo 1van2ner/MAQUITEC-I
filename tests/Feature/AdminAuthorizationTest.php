@@ -12,9 +12,13 @@ class AdminAuthorizationTest extends TestCase
 
     public function test_regular_user_cannot_access_administration_or_promote_their_own_role(): void
     {
-        $user = User::factory()->create(['rol' => 'Cliente']);
+        $user = User::factory()->create([
+            'email' => 'ventas@maquitec.com',
+            'rol' => 'Cliente',
+        ]);
         $this->actingAs($user);
 
+        $this->get(route('admin.dashboard'))->assertForbidden();
         $this->get(route('admin.usuarios.index'))->assertForbidden();
         $this->get(route('admin.productos.index'))->assertForbidden();
         $this->put(route('admin.usuarios.update', $user), [

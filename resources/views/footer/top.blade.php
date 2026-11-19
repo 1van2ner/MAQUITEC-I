@@ -108,43 +108,6 @@
         align-items: center;
         gap: 12px;
     }
-    .btn-login {
-        background: var(--negro);
-        color: var(--amarillo) !important;
-        border: 2px solid var(--amarillo);
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        font-weight: 700;
-        border-radius: 12px;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        font-size: 0.9rem;
-    }
-    .btn-login:hover {
-        background: var(--amarillo);
-        color: var(--negro) !important;
-    }
-    .btn-register {
-        background: var(--amarillo);
-        color: var(--negro) !important;
-        border: 2px solid var(--amarillo);
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        font-weight: 700;
-        border-radius: 12px;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        font-size: 0.9rem;
-    }
-    .btn-register:hover {
-        background: #e5c100;
-        border-color: #e5c100;
-    }
-
     /* Dropdown de usuario autenticado */
     .user-dropdown-container { position: relative; display: inline-block; }
     .user-menu-btn {
@@ -258,7 +221,6 @@
         .user-dropdown-container { width: 100%; }
         .user-menu-btn { width: 100%; justify-content: center; }
         .user-dropdown-menu { left: 0; right: 0; width: 100%; }
-        .btn-login, .btn-register { width: 100%; justify-content: center; box-sizing: border-box; }
     }
 
     @media (max-width: 680px) {
@@ -302,15 +264,6 @@
             right: 0;
             width: min(240px, calc(100vw - 24px));
         }
-        .nav-auth-guest {
-            grid-column: 1 / -1;
-            grid-row: 3;
-            width: 100%;
-            margin: 0;
-            flex-direction: row;
-        }
-        .nav-auth-guest .btn-login,
-        .nav-auth-guest .btn-register { width: auto; flex: 1; }
     }
 </style>
 
@@ -331,9 +284,8 @@
         <a href="{{ url('/alquileres') }}" class="{{ request()->is('alquileres') || request()->is('alquileres/*') ? 'active' : '' }}">Alquileres</a>
     </div>
 
-    <!-- Sección de Autenticación Condicional -->
-    <div class="nav-auth {{ Auth::check() ? 'nav-auth-user' : 'nav-auth-guest' }}">
-        @auth
+    @auth
+        <div class="nav-auth nav-auth-user">
             <div class="user-dropdown-container">
                 <button type="button" class="user-menu-btn" id="userMenuToggle" aria-label="Cuenta de {{ Auth::user()->name }}" aria-expanded="false" aria-controls="userDropdownMenu">
                     <span class="user-avatar-icon">{{ strtoupper(substr(Auth::user()->name, 0, 1)) }}</span>
@@ -354,7 +306,7 @@
                         Ver perfil
                     </a>
 
-                    @if(Auth::user()->rol === 'Administrador' || Auth::user()->email === 'ventas@maquitec.com')
+                    @if(Auth::user()->rol === 'Administrador')
                         <a href="{{ url('/admin/dashboard') }}" class="dropdown-item admin-item">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                             Panel de administración
@@ -372,17 +324,8 @@
                     </form>
                 </div>
             </div>
-        @else
-            <a href="{{ route('login') }}" class="btn-login {{ request()->is('login') ? 'active' : '' }}">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
-                Ingresar
-            </a>
-            <a href="{{ route('register') }}" class="btn-register {{ request()->is('register') ? 'active' : '' }}">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-                Registrarse
-            </a>
-        @endauth
-    </div>
+        </div>
+    @endauth
 </nav>
 
 <script>

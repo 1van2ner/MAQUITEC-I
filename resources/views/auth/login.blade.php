@@ -254,7 +254,7 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h2>Iniciar Sesión</h2>
-                <p class="subtitle">Accede a tu cuenta de MAQUITEC I.S.A.C.</p>
+                <p class="subtitle">Acceso reservado al panel de administración.</p>
             </div>
 
             @if (session('status'))
@@ -292,9 +292,7 @@
                 <button type="submit" class="btn-submit">Ingresar al Sistema</button>
             </form>
 
-            <div class="auth-footer-links">
-                ¿Aún no tienes una cuenta? <a href="{{ url('/register') }}">Regístrate aquí</a>
-            </div>
+            <div class="auth-footer-links">Acceso exclusivo para administradores.</div>
         </div>
     </div>
 

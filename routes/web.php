@@ -263,7 +263,10 @@ Route::post('/forgot-password', function (Request $request) {
         : $request->string('email')->toString();
     
     try {
-        $status = Password::sendResetLink(['email' => $email]);
+        $status = Password::sendResetLink([
+            'email' => $email,
+            'rol' => 'Administrador',
+        ]);
     } catch (Throwable $exception) {
         \Log::error('Error enviando correo: ' . $exception->getMessage(), ['exception' => $exception]);
         return back()->withErrors([
@@ -324,7 +327,9 @@ Route::post('/reset-password', function (Request $request) {
     ]);
 
     $status = Password::reset(
-        $request->only('email', 'password', 'password_confirmation', 'token'),
+        $request->only('email', 'password', 'password_confirmation', 'token') + [
+            'rol' => 'Administrador',
+        ],
         function (User $user, string $password) {
             $user->forceFill([
                 'password' => Hash::make($password),
@@ -359,7 +364,10 @@ Route::get('/perfil', function () {
 
 Route::put('/perfil/password', function (Request $request) {
     try {
-        $status = Password::sendResetLink(['email' => $request->user()->email]);
+        $status = Password::sendResetLink([
+            'email' => $request->user()->email,
+            'rol' => 'Administrador',
+        ]);
     } catch (Throwable $exception) {
         \Log::error('Error enviando correo: ' . $exception->getMessage(), ['exception' => $exception]);
         return back()->withErrors([
@@ -404,7 +412,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     if (! $user || $user->hasVerifiedEmail()) {
         return redirect()->route('login')->withErrors([
-            'email' => 'No hay una cuenta pendiente de verificación en esta sesión. Inicia sesión o regístrate nuevamente.',
+            'email' => 'No hay una cuenta pendiente de verificación para esta sesión. Contacta al administrador si necesitas ayuda.',
         ]);
     }
 
@@ -424,11 +432,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware('throttle:6,1')->name('verification.send');
 
 Route::get('/admin/dashboard', function (Request $request) {
-    abort_unless(
-        Auth::user()->rol === 'Administrador' || Auth::user()->email === 'ventas@maquitec.com',
-        403
-    );
-
     $totalProductos = Producto::count();
     $totalCategorias = Categoria::count();
     $totalBanners = Banner::count();
@@ -568,7 +571,7 @@ Route::get('/admin/dashboard', function (Request $request) {
         'totalSemana',
         'itemsDisponibles'
     ));
-})->middleware('auth')->name('admin.dashboard');
+})->middleware(['auth', 'can:manage-admin'])->name('admin.dashboard');
 
 
 // ==========================================
@@ -637,64 +640,12 @@ Route::middleware(['guest'])->group(function () {
     // Vistas de Autenticación (GET)
     Route::get('/login', function () {
         return view('auth.login');
-    })->name('login');
-
-    Route::get('/register', function () {
-        return view('auth.register');
-    })->name('register');
-
-    // Procesar Registro (POST)
-    Route::post('/register', function (Request $request) {
-        $validated = $request->validate([
-            'tipo_usuario' => ['required', 'in:persona,empresa'],
-            'name' => 'required|string|max:255',
-            'documento' => [
-                'required',
-                'digits:' . ($request->input('tipo_usuario') === 'empresa' ? 11 : 8),
-                'unique:users,documento',
-            ],
-            'fecha_nacimiento' => ['exclude_if:tipo_usuario,empresa', 'required_if:tipo_usuario,persona', 'date', 'before:today'],
-            'telefono' => 'required|string|max:20',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'legal_acceptance' => ['required', 'accepted'],
-        ], [
-            'documento.digits' => $request->input('tipo_usuario') === 'empresa'
-                ? 'El RUC debe contener exactamente 11 dígitos.'
-                : 'El DNI debe contener exactamente 8 dígitos.',
-            'documento.unique' => 'Este documento ya está registrado.',
-            'fecha_nacimiento.required_if' => 'La fecha de nacimiento es obligatoria para personas.',
-        ]);
-
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-            'rol' => 'Cliente',
-            'tipo_usuario' => $validated['tipo_usuario'],
-            'documento' => $validated['documento'],
-            'fecha_nacimiento' => $validated['fecha_nacimiento'] ?? null,
-            'telefono' => $validated['telefono'],
-        ]);
-
-        try {
-            $user->sendEmailVerificationNotification();
-        } catch (\Throwable $exception) {
-            report($exception);
-
-            return redirect()->route('verification.notice')
-                ->with('verification_email', $user->email)
-                ->with('verification_error', 'Tu cuenta fue registrada, pero no se pudo enviar el correo. Puedes intentarlo nuevamente.');
-        }
-
-        return redirect()->route('verification.notice')
-            ->with('verification_email', $user->email)
-            ->with('status', 'Cuenta creada. Revisa tu correo y confirma la dirección para poder iniciar sesión.');
-    })->middleware('throttle:3,1');
+    })->middleware('throttle:10,1')->name('login');
 
     // Procesar Login (POST)
     Route::post('/login', function (Request $request) {
         $credentials = $request->only('email', 'password');
+        $credentials['rol'] = 'Administrador';
 
         if (Auth::attempt($credentials)) {
             if (! Auth::user()->hasVerifiedEmail()) {
@@ -706,7 +657,7 @@ Route::middleware(['guest'])->group(function () {
             }
 
             $request->session()->regenerate();
-            return redirect()->intended('/'); 
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         return back()->withErrors([
