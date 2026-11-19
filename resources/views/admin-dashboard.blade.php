@@ -80,11 +80,13 @@
             padding: 32px;
             flex: 1;
             width: 100%;
+            min-width: 0;
         }
 
         .admin-card {
             background: var(--blanco);
             width: 100%;
+            min-width: 0;
             max-width: 1580px;
             padding: 36px 40px;
             border-radius: 24px;
@@ -186,6 +188,8 @@
             grid-template-columns: minmax(0, 1.75fr) minmax(320px, 0.75fr);
             gap: 20px;
             margin-bottom: 20px;
+            min-width: 0;
+            transition: opacity 0.2s ease;
         }
 
         .analytics-card {
@@ -193,6 +197,25 @@
             border: 1px solid var(--gris-borde);
             border-radius: 16px;
             padding: 20px;
+            min-width: 0;
+        }
+
+        .analytics-grid.is-loading { opacity: 0.62; }
+        .week-loading-indicator {
+            position: fixed;
+            z-index: 10001;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
+            padding: 7px 10px;
+            border: 1px solid var(--gris-borde);
+            border-radius: 999px;
+            background: var(--blanco);
+            color: var(--texto-muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            white-space: nowrap;
         }
 
         .analytics-card h2 {
@@ -461,13 +484,13 @@
         }
 
         @media (max-width: 900px) {
-            .analytics-grid { grid-template-columns: 1fr; }
-            .top-consultados-card .top-consultados-grid { grid-template-columns: 1fr; }
+            .analytics-grid { grid-template-columns: minmax(0, 1fr); align-items: start; }
+            .top-consultados-card .top-consultados-grid { grid-template-columns: 1fr; flex: none; }
+            .top-consultados-card .top-scroll { flex: none; height: auto; max-height: 190px; }
         }
 
         @media (max-width: 1200px) {
             .kpi-row { grid-template-columns: repeat(3, 1fr); }
-            .analytics-grid { grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.8fr); }
             .modules-grid { grid-template-columns: repeat(2, 1fr); }
             .filter-form { grid-template-columns: repeat(3, minmax(150px, 1fr)) auto; }
         }
@@ -576,10 +599,22 @@
         }
 
         @media (max-width: 768px) {
-            .admin-card { padding: 25px 20px; }
-            .admin-container { padding: 20px 12px; }
-            .kpi-row { grid-template-columns: repeat(2, 1fr); }
+            .admin-card { padding: 25px 14px; }
+            .admin-container { padding: 20px 8px; }
+            .kpi-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             .modules-grid { grid-template-columns: 1fr; }
+            .analytics-grid { grid-template-columns: minmax(0, 1fr); }
+            .daily-chart { gap: 4px; }
+            .daily-bar-wrap small {
+                height: auto;
+                min-height: 18px;
+                width: 100%;
+                font-size: 0.55rem;
+                line-height: 1.2;
+                text-align: center;
+                white-space: normal;
+                overflow-wrap: anywhere;
+            }
             .header-flex { flex-direction: column; align-items: flex-start; }
             .header-actions { width: 100%; justify-content: space-between; }
             .btn-home { flex: 1; justify-content: center; }
@@ -685,7 +720,7 @@
                 </div>
             </section>
 
-            <section class="analytics-grid">
+            <section class="analytics-grid" aria-live="polite" aria-busy="false">
                 <div class="analytics-card">
                     <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;">
                         <div>
@@ -939,6 +974,86 @@
         © 2026 MAQUITEC I.S.A.C. — Todos los derechos reservados.
     </footer>
 
+    <script>
+        (() => {
+            let requestSequence = 0;
+            let activeController = null;
+
+            async function updateWeek(url, updateHistory) {
+                const grid = document.querySelector('.analytics-grid');
+                if (!grid) return;
+                if (activeController) activeController.abort();
+
+                const requestId = ++requestSequence;
+                const controller = new AbortController();
+                activeController = controller;
+
+                grid.classList.add('is-loading');
+                grid.setAttribute('aria-busy', 'true');
+                grid.querySelectorAll('.week-nav-btn').forEach((link) => {
+                    link.setAttribute('aria-disabled', 'true');
+                });
+
+                const indicator = document.createElement('div');
+                indicator.className = 'week-loading-indicator';
+                indicator.setAttribute('role', 'status');
+                indicator.textContent = 'Actualizando semana...';
+                document.body.append(indicator);
+
+                try {
+                    const response = await fetch(url.href, {
+                        credentials: 'same-origin',
+                        cache: 'no-store',
+                        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'text/html' },
+                        signal: controller.signal
+                    });
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                    const responseDocument = new DOMParser().parseFromString(await response.text(), 'text/html');
+                    const updatedGrid = responseDocument.querySelector('.analytics-grid');
+                    const currentGrid = document.querySelector('.analytics-grid');
+                    if (!updatedGrid || !currentGrid) throw new Error('No se encontró el panel de movimientos en la respuesta.');
+
+                    currentGrid.replaceWith(updatedGrid);
+                    if (updateHistory) window.history.pushState({ dashboardWeek: true }, '', url.href);
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        console.error('No se pudo actualizar la semana del panel.', error);
+                        window.location.assign(url.href);
+                    }
+                } finally {
+                    indicator.remove();
+                    if (requestId === requestSequence) {
+                        activeController = null;
+                        const currentGrid = document.querySelector('.analytics-grid');
+                        if (currentGrid) {
+                            currentGrid.classList.remove('is-loading');
+                            currentGrid.setAttribute('aria-busy', 'false');
+                            currentGrid.querySelectorAll('.week-nav-btn').forEach((link) => {
+                                link.removeAttribute('aria-disabled');
+                            });
+                        }
+                    }
+                }
+            }
+
+            document.addEventListener('click', (event) => {
+                const link = event.target.closest('a.week-nav-btn[href]');
+                if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+                const url = new URL(link.href, window.location.href);
+                if (url.origin !== window.location.origin) return;
+
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                if (!activeController) updateWeek(url, true);
+            });
+
+            window.addEventListener('popstate', () => {
+                updateWeek(new URL(window.location.href), false);
+            });
+        })();
+    </script>
     @include('admin-loading')
 </body>
 </html>
