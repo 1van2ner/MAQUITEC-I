@@ -1019,7 +1019,7 @@
 
     <section class="static-banner-section" aria-label="Banner principal de servicios especializados">
         <div class="static-banner">
-            <img src="{{ asset('img/logo_pagina_general/fondo_servicios_2.jpg') }}" alt="Servicios especializados para maquinaria pesada">
+            <img src="{{ asset('img/logo_pagina_general/fondo_servicios_mejorado.jpg') }}" alt="Servicios especializados para maquinaria pesada">
         </div>
     </section>
 
